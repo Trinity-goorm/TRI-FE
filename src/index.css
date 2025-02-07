@@ -1,0 +1,10 @@
+body * {
+  font-family: "NanumPenScript", sans-serif;
+}
+
+html, body {
+  margin: 0px;
+  width: 400px;
+  background-color: white;
+  display: flex;
+}
