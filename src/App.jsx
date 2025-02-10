@@ -5,7 +5,6 @@ import MyDiningPage from "./pages/mydining/MyDiningPage.main.jsx";
 import MyPage from "./pages/mypage/MyPage.main.jsx";
 
 function App() {
-
   return (
       <Router>
           <Routes>
@@ -19,4 +18,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
