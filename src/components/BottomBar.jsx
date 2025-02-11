@@ -1,5 +1,5 @@
 import * as style from "./style/BottomBar.js";
-import { FaHome, FaUser, FaCalendar } from "react-icons/fa";
+import { GoHome, GoCalendar, GoPerson} from "react-icons/go";
 import { Link } from "react-router-dom";
 
 const BottomBar = () => {
@@ -8,17 +8,17 @@ const BottomBar = () => {
             <style.BarContainer>
                 <style.ButtonContainer>
                     <Link to="/" >
-                        <FaHome size={33} color={"black"}/>
+                        <GoHome size={28} color={"gray"}/>
                     </Link>
                 </style.ButtonContainer>
                 <style.ButtonContainer>
                     <Link to="/mydining">
-                        <FaCalendar size={27} color={"black"}/>
+                        <GoCalendar size={27} color={"gray"}/>
                     </Link>
                 </style.ButtonContainer>
                 <style.ButtonContainer>
                     <Link to="/mypage">
-                        <FaUser size={27} color={"black"}/>
+                        <GoPerson size={27} color={"gray"}/>
                     </Link>
                 </style.ButtonContainer>
             </style.BarContainer>

@@ -1,11 +1,12 @@
 import styled from "styled-components";
 
 export const BottomBarContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid #f3f3f3; ;
 `;
 
 export const BarContainer = styled.div`
@@ -16,9 +17,10 @@ export const BarContainer = styled.div`
 `;
 
 export const ButtonContainer = styled.div`
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    width:60px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
 `;
+

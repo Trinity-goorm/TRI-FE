@@ -18,6 +18,7 @@ function App() {
         <Route path="/onboarding" element={<Onboarding />} />
         <Route path="/mydining" element={<MyDiningPage />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/detail/:id" element={<DetailPage />} />
       </Routes>
     </Router>
   );
