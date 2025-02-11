@@ -5,7 +5,9 @@ import MyDiningPage from "./pages/mydining/MyDiningPage.main.jsx";
 import MyPage from "./pages/mypage/MyPage.main.jsx";
 import KakaoLogin from "./pages/login/KakaoLogin.jsx";
 import KakaoCallback from "./pages/login/KakaoCallback.jsx";
-import Onboarding from "./pages/onboarding/Onboarding.jsx";
+import OnboardingUserInfo from "./pages/onboarding/OnboardingUserInfo.jsx";
+import OnboardingCategory from "./pages/onboarding/OnboardingCategory.jsx";
+import OnboardingPrefPrice from "./pages/onboarding/OnboardingPrefPrice.jsx";
 
 function App() {
   return (
@@ -15,7 +17,9 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<KakaoLogin />} />
         <Route path="/auth/kakao/callback" element={<KakaoCallback />} />
-        <Route path="/onboarding" element={<Onboarding />} />
+        <Route path="/onboarding/1" element={<OnboardingUserInfo />} />
+        <Route path="/onboarding/2" element={<OnboardingCategory />} />
+        <Route path="/onboarding/3" element={<OnboardingPrefPrice />} />
         <Route path="/mydining" element={<MyDiningPage />} />
         <Route path="/mypage" element={<MyPage />} />
       </Routes>
