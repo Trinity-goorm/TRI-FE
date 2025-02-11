@@ -6,6 +6,7 @@ export const BottomBarContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    border-top: 1px solid #f3f3f3; ;
 `;
 
 export const BarContainer = styled.div`
@@ -17,10 +18,8 @@ export const BarContainer = styled.div`
 `;
 
 export const ButtonContainer = styled.div`
-    width:50px;
-    height:50px;
+    width:60px;
     display:flex;
     align-items:center;
     justify-content:center;
-    
 `
