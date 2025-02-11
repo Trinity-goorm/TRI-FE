@@ -10,11 +10,10 @@ export const BottomBarContainer = styled.div`
 `;
 
 export const BarContainer = styled.div`
-    width: 75%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    
+  width: 75%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 export const ButtonContainer = styled.div`
@@ -22,4 +21,6 @@ export const ButtonContainer = styled.div`
     display:flex;
     align-items:center;
     justify-content:center;
-`
+
+`;
+
