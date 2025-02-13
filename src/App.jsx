@@ -8,6 +8,7 @@ import KakaoCallback from "./pages/login/KakaoCallback.jsx";
 import OnboardingUserInfo from "./pages/onboarding/OnboardingUserInfo.jsx";
 import OnboardingCategory from "./pages/onboarding/OnboardingCategory.jsx";
 import OnboardingPrefPrice from "./pages/onboarding/OnboardingPrefPrice.jsx";
+import DetailPage from "./pages/detail/DetailPage.main.jsx";
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
         <Route path="*" element={<HomePage />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<KakaoLogin />} />
-        <Route path="/auth/kakao/callback" element={<KakaoCallback />} />
+        <Route path="/kakao/callback" element={<KakaoCallback />} />
         <Route path="/onboarding/1" element={<OnboardingUserInfo />} />
         <Route path="/onboarding/2" element={<OnboardingCategory />} />
         <Route path="/onboarding/3" element={<OnboardingPrefPrice />} />

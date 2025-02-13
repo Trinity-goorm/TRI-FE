@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ProgressBar from "../../components/onbording/ProgressBar";
+import ProgressInfo from "../../components/onbording/ProgressInfo";
 import OnboardingButton from "../../components/onbording/OnboardingButton";
 
 const fixedMinPrice = 10000;
@@ -35,7 +35,7 @@ const OnboardingPrefPrice = () => {
 
   return (
     <>
-      <ProgressBar />
+      <ProgressInfo step={3} />
       <OnboardingContainer>
         <TitleContainer>
           <Title>선호 가격대 선택</Title>
@@ -44,43 +44,57 @@ const OnboardingPrefPrice = () => {
           </div>
         </TitleContainer>
 
-        <SliderWrapper>
-          <FilterPriceSlide>
-            <FilterPriceSlideInner
-              $rangeMinPercent={rangeMinPercent}
-              $rangeMaxPercent={rangeMaxPercent}
-            />
-          </FilterPriceSlide>
+        <PriceComContainer>
+          <PriceWrapper>
+            {rangeMinValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
+            &nbsp; ~ &nbsp;{" "}
+            {rangeMaxValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
+          </PriceWrapper>
 
-          <FilterPriceRangeMin
-            type="range"
-            min={fixedMinPrice}
-            max={fixedMaxPrice - priceGap}
-            step="10000"
-            value={rangeMinValue}
-            onChange={(e) => {
-              priceRangeMinValueHandler(e);
-              twoRangeHandler();
-            }}
-          />
-          <FilterPriceRangeMax
-            type="range"
-            min={fixedMinPrice + priceGap}
-            max={fixedMaxPrice}
-            step="10000"
-            value={rangeMaxValue}
-            onChange={(e) => {
-              priceRangeMaxValueHandler(e);
-              twoRangeHandler();
-            }}
-          />
-        </SliderWrapper>
+          <div>
+            <CommentContainer>
+              <p>10,000원 ~</p>
+              <p>~ 500,000원</p>
+            </CommentContainer>
+            <SliderWrapper>
+              <FilterPriceSlide>
+                <FilterPriceSlideInner
+                  $rangeMinPercent={rangeMinPercent}
+                  $rangeMaxPercent={rangeMaxPercent}
+                />
+              </FilterPriceSlide>
+
+              <FilterPriceRangeMin
+                type="range"
+                min={fixedMinPrice}
+                max={fixedMaxPrice - priceGap}
+                step="10000"
+                value={rangeMinValue}
+                onChange={(e) => {
+                  priceRangeMinValueHandler(e);
+                  twoRangeHandler();
+                }}
+              />
+              <FilterPriceRangeMax
+                type="range"
+                min={fixedMinPrice + priceGap}
+                max={fixedMaxPrice}
+                step="10000"
+                value={rangeMaxValue}
+                onChange={(e) => {
+                  priceRangeMaxValueHandler(e);
+                  twoRangeHandler();
+                }}
+              />
+            </SliderWrapper>
+          </div>
+        </PriceComContainer>
 
         <OnboardingButton
-          text={"다음"}
-          isFormValid={false}
+          text={"완료"}
+          isFormValid={true}
           handleClickButton={() => {
-            nav("/");
+            nav("/", { replace: true });
           }}
         />
       </OnboardingContainer>
@@ -90,20 +104,41 @@ const OnboardingPrefPrice = () => {
 const OnboardingContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: calc(100vh - 50px);
-  padding: 80px 30px;
+  height: calc(100vh - 90px);
+  padding: 30px 30px;
   box-sizing: border-box;
   background-color: #fcfcfc;
+  gap: 167px;
 `;
 const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 10px;
 `;
 const Title = styled.div`
   font-weight: 500;
   font-size: 20px;
+`;
+
+const PriceComContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  font-weight: 700;
+  gap: 50px;
+  margin-bottom: 50px;
+`;
+
+const PriceWrapper = styled.div`
+  font-size: 25px;
+  font-weight: 900;
+  text-align: center;
+`;
+
+const CommentContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  bottom: 10px;
+  margin-bottom: 10px;
 `;
 
 const SliderWrapper = styled.div`
@@ -112,7 +147,7 @@ const SliderWrapper = styled.div`
 
 const FilterPriceSlide = styled.div`
   position: relative;
-  height: 4px;
+  height: 10px;
   width: 100%;
   border-radius: 10px;
   background-color: #dddddd;
@@ -121,22 +156,22 @@ const FilterPriceSlideInner = styled.div`
   position: absolute;
   left: ${({ $rangeMinPercent }) => $rangeMinPercent}%;
   right: ${({ $rangeMaxPercent }) => $rangeMaxPercent}%;
-  height: 4px;
+  height: 10px;
   border-radius: 10px;
-  background-color: #b0b0b0;
+  background-color: #fc8383;
 `;
 
 const FilterPriceRangeMin = styled.input`
   pointer-events: none;
   position: absolute;
-  top: -15px;
+  top: -10px;
   right: 1px;
   width: 100%;
   -webkit-appearance: none;
   background: none;
   &::-webkit-slider-thumb {
-    height: 30px;
-    width: 30px;
+    height: 25px;
+    width: 25px;
     border-radius: 50%;
     border: 2px solid #b0b0b0;
     background-color: white;
@@ -148,13 +183,14 @@ const FilterPriceRangeMin = styled.input`
 const FilterPriceRangeMax = styled.input`
   pointer-events: none;
   position: absolute;
-  top: -15px;
+  top: -10px;
+  left: 3px;
   width: 100%;
   -webkit-appearance: none;
   background: none;
   &::-webkit-slider-thumb {
-    height: 30px;
-    width: 30px;
+    height: 25px;
+    width: 25px;
     border-radius: 50%;
     border: 2px solid #b0b0b0;
     background-color: white;

@@ -1,17 +1,14 @@
 import styled from "styled-components";
 import kakaoIcon from "../../public/kakaoIcon.png";
 
-const SocialKakaoButton = () => {
-  const Rest_api_key = import.meta.env.VITE_APP_API_KEY;
-  const redirect_uri = "http://localhost:5173/auth/kakao/callback";
-  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`;
-  const handleLogin = () => {
-    window.location.href = kakaoURL;
-  };
-
+const SocialKakaoButton = ({ handleLogin }) => {
   return (
     <>
-      <KakaoBtn onClick={handleLogin}>
+      <KakaoBtn
+        onClick={() => {
+          handleLogin();
+        }}
+      >
         <KakaoImg src={kakaoIcon} />
         카카오 로그인
       </KakaoBtn>

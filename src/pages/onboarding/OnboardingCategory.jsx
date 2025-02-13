@@ -1,14 +1,25 @@
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import ProgressBar from "../../components/onbording/ProgressBar";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ProgressInfo from "../../components/onbording/ProgressInfo";
 import OnboardingButton from "../../components/onbording/OnboardingButton";
+import CategoryList from "../../components/onbording/CategoryList";
 
 const OnboardingCategory = () => {
   const nav = useNavigate();
+  const [category, setCategory] = useState([]);
+
+  const addCategory = (id) => {
+    setCategory([...category, id]);
+  };
+
+  const deleteCategory = (id) => {
+    setCategory(category.filter((item) => item !== id));
+  };
 
   return (
     <>
-      <ProgressBar />
+      <ProgressInfo step={2} />
       <OnboardingContainer>
         <TitleContainer>
           <Title>음식 카테고리 선택</Title>
@@ -17,11 +28,15 @@ const OnboardingCategory = () => {
             최소 3개는 선택해주세요!
           </div>
         </TitleContainer>
+        <CategoryList
+          addCategory={addCategory}
+          deleteCategory={deleteCategory}
+        />
         <OnboardingButton
           text={"다음"}
-          isFormValid={false}
+          isFormValid={category.length >= 3}
           handleClickButton={() => {
-            nav("/");
+            nav("/onboarding/3");
           }}
         />
       </OnboardingContainer>
@@ -32,17 +47,17 @@ const OnboardingCategory = () => {
 const OnboardingContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: calc(100vh - 50px);
-  padding: 80px 30px;
+  height: calc(100vh - 90px);
+  padding: 30px 30px;
   box-sizing: border-box;
   background-color: #fcfcfc;
+  gap: 60px;
 `;
 
 const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 10px;
 `;
 const Title = styled.div`
   font-weight: 500;
