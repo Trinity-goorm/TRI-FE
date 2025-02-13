@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { IoCheckmarkDoneOutline } from "react-icons/io5";
 import OnboardingButton from "../../components/onbording/OnboardingButton";
-import ProgressBar from "../../components/onbording/ProgressBar";
+import ProgressInfo from "../../components/onbording/ProgressInfo";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -30,7 +30,7 @@ const OnboardingUserInfo = () => {
 
   return (
     <>
-      <ProgressBar />
+      <ProgressInfo step={1} />
       <OnboardingContainer>
         <TitleContainer>
           <Title>환영합니다!</Title>
@@ -89,7 +89,7 @@ const OnboardingUserInfo = () => {
           </InputContainer>
         </div>
 
-        <div>
+        <div style={{ marginBottom: "30px" }}>
           <Coment>고객님의 전화번호를 입력해주세요!</Coment>
           <InputContainer>
             <OnBoardingInput
@@ -124,17 +124,17 @@ const OnboardingUserInfo = () => {
 const OnboardingContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: calc(100vh - 50px);
-  padding: 80px 30px;
+  height: calc(100vh - 90px);
+  padding: 30px 30px;
   box-sizing: border-box;
   background-color: #fcfcfc;
+  gap: 60px;
 `;
 
 const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 10px;
 `;
 const Title = styled.div`
   font-weight: 500;
@@ -142,7 +142,7 @@ const Title = styled.div`
 `;
 
 const Coment = styled.div`
-  font-size: 14px;
+  font-size: 15px;
   color: #595c62;
 `;
 
@@ -157,7 +157,7 @@ const OnBoardingInput = styled.input`
       if ($isGreen === null) {
         return "#bfbfbf";
       } else {
-        return $isGreen ? "#22B379" : "#fc8383";
+        return $isGreen ? "#22B379" : "#ff0000";
       }
     }};
   width: 100%;
