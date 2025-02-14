@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import * as style from "./style/Banner.js";
-import banner1 from "../assets/img/banner1.webp";
-import banner2 from "../assets/img/banner2.webp";
-import banner3 from "../assets/img/banner3.webp";
-import banner4 from "../assets/img/banner4.webp";
-import banner5 from "../assets/img/banner5.webp";
-import banner6 from "../assets/img/banner6.webp";
-import banner7 from "../assets/img/banner7.webp";
+import banner1 from "../../assets/img/banner1.webp";
+import banner2 from "../../assets/img/banner2.webp";
+import banner3 from "../../assets/img/banner3.webp";
+import banner4 from "../../assets/img/banner4.webp";
+import banner5 from "../../assets/img/banner5.webp";
+import banner6 from "../../assets/img/banner6.webp";
+import banner7 from "../../assets/img/banner7.webp";
 
 const banners = [
     banner1,

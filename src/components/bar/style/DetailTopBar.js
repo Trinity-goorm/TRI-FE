@@ -48,8 +48,6 @@ export const TitleContainer = styled.div`
 `;
 
 export const SaveButtonContainer = styled.div`
-    width: 35px;
-    height: 35px;
     border-radius: 50px;
     margin-left: 20px;
     display: flex;

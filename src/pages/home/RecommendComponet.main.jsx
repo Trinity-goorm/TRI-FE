@@ -1,5 +1,5 @@
 import * as style from "./style/RecommendComponent.main.js"
-import RecommendFeed from "../../components/RecommendFeed.jsx";
+import RecommendFeed from "../../components/recommend/RecommendFeed.jsx";
 import RecommendedList from "../../assets/dummydata/RecommendedList.js";
 
 const RecommendComponent = () => {
