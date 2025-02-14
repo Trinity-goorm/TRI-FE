@@ -1,12 +1,23 @@
+import { BiSolidHandLeft } from "react-icons/bi";
 import styled from "styled-components";
 
-const OnboardingButton = ({ text }) => {
-  return <ButtonContainer>{text}</ButtonContainer>;
+const OnboardingButton = ({ text, isFormValid, handleClickButton }) => {
+  const hadleButtonClick = () => {
+    if (isFormValid) {
+      handleClickButton();
+    }
+  };
+
+  return (
+    <ButtonContainer $isFormValid={isFormValid} onClick={hadleButtonClick}>
+      {text}
+    </ButtonContainer>
+  );
 };
 
-// #fc8383
 const ButtonContainer = styled.button`
-  background-color: #ffd4d4;
+  background-color: ${({ $isFormValid }) =>
+    $isFormValid ? "#fc8383" : "#ffd4d4"};
   color: white;
   border: none;
   border-radius: 11px;

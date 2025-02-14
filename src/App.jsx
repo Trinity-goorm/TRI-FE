@@ -9,6 +9,10 @@ import Onboarding from "./pages/onboarding/Onboarding.jsx";
 import DetailPage from "./pages/detail/DetailPage.main.jsx";
 import ReservationMainPage from "./pages/reservation/Reservation.modal.jsx";
 import ReservationConfirm from "./pages/reservation/Reservation.modal.confirm.jsx";
+import OnboardingUserInfo from "./pages/onboarding/OnboardingUserInfo.jsx";
+import OnboardingCategory from "./pages/onboarding/OnboardingCategory.jsx";
+import OnboardingPrefPrice from "./pages/onboarding/OnboardingPrefPrice.jsx";
+
 
 function App() {
   return (
@@ -17,8 +21,10 @@ function App() {
         <Route path="*" element={<HomePage />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<KakaoLogin />} />
-        <Route path="/auth/kakao/callback" element={<KakaoCallback />} />
-        <Route path="/onboarding" element={<Onboarding />} />
+        <Route path="/kakao/callback" element={<KakaoCallback />} />
+        <Route path="/onboarding/1" element={<OnboardingUserInfo />} />
+        <Route path="/onboarding/2" element={<OnboardingCategory />} />
+        <Route path="/onboarding/3" element={<OnboardingPrefPrice />} />
         <Route path="/mydining" element={<MyDiningPage />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/detail/:id" element={<DetailPage />} />
