@@ -14,9 +14,16 @@ const DetailRestaurant  = {
     star: 4.4,
     category:"중식",
     location: "잠실",
-    address: "서울 송파구 백제고분로7길 8-12 승현빌딩 1층",
+    latitude: 37.40066449887131,
+    longitude: 127.0950109129372,
+    address: "경기 성남시 분당구 판교역로 230 삼환하이펙스 B동 1층 120-1호 (우)13493",
     caution: "10년 맛집 입니다!!!",
-    convenience:["wi-if","주차 가능"],
+    convenience:"WIFI\n" +
+        "동물출입\n" +
+        "주차\n" +
+        "휠체어사용\n" +
+        "놀이방\n" +
+        "흡연실\n",
     phone_number:"02-417-8868",
     average_price: "1-2 만원",
     operating_hour: "월-토 : 11:00 ~ 23:00",

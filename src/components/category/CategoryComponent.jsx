@@ -1,6 +1,6 @@
 import * as style from "./style/CategoryComponent.js"
 import CategoryButton from "./CategoryButton.jsx";
-import CategoryDummy from "../assets/dummydata/Category.js";
+import CategoryDummy from "../../assets/dummydata/Category.js";
 
 const CategoryComponent = () => {
     return (

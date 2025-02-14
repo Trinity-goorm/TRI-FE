@@ -19,6 +19,7 @@ const RecommendedList = [
         star: 4.4,
         category: "중식",
         location: "잠실",
+        isSaved: false,
     },
     {
         id: 2,
@@ -27,6 +28,7 @@ const RecommendedList = [
         star: 4.7,
         category: "한식",
         location: "종로",
+        isSaved: false,
     },
     {
         id: 3,
@@ -35,6 +37,7 @@ const RecommendedList = [
         star: 4.5,
         category: "브런치",
         location: "강남",
+        isSaved: false,
     },
     {
         id: 4,
@@ -43,6 +46,7 @@ const RecommendedList = [
         star: 4.8,
         category: "프렌치",
         location: "이태원",
+        isSaved: true,
     },
     {
         id: 5,
@@ -51,6 +55,7 @@ const RecommendedList = [
         star: 4.9,
         category: "한우 오마카세",
         location: "청담",
+        isSaved: true,
     },
     {
         id: 6,
@@ -59,6 +64,7 @@ const RecommendedList = [
         star: 4.6,
         category: "이탈리안",
         location: "홍대",
+        isSaved: false,
     },
     {
         id: 7,
@@ -67,6 +73,7 @@ const RecommendedList = [
         star: 4.3,
         category: "일식",
         location: "서초",
+        isSaved: false,
     },
     {
         id: 8,
@@ -75,6 +82,7 @@ const RecommendedList = [
         star: 4.5,
         category: "파스타",
         location: "분당",
+        isSaved: false,
     },
     {
         id: 9,
@@ -83,6 +91,7 @@ const RecommendedList = [
         star: 4.7,
         category: "스테이크",
         location: "여의도",
+        isSaved: false,
     },
     {
         id: 10,
@@ -91,6 +100,7 @@ const RecommendedList = [
         star: 4.9,
         category: "와인바",
         location: "강남",
+        isSaved: true,
     },
     {
         id: 11,
@@ -99,6 +109,7 @@ const RecommendedList = [
         star: 4.6,
         category: "일식",
         location: "명동",
+        isSaved: true,
     },
     {
         id: 12,
@@ -107,6 +118,7 @@ const RecommendedList = [
         star: 4.5,
         category: "소고기 구이",
         location: "성수",
+        isSaved: false,
     }
 ];
 
