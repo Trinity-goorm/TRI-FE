@@ -36,5 +36,10 @@ export default [
       "no-unused-vars": "off",
       "react/prop-types": "off",
     },
+    env: {
+      browser: true,
+      es2021: true,
+      serviceworker: true,
+    },
   },
 ];
