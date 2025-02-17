@@ -44,9 +44,9 @@ const ReservationConfirm = () => {
                 <style.ButtonContainer>
                     <style.ButtonEachContainer onClick={onCancel}>
                         <ReservationButton
-                            name={"취소"} width={"200px"} height={"65px"} backcolor={"white"} namecolor={"lightgray"} border={"1px solid lightgray"}/>
+                            name={"취소"} width={"200px"} height={"60px"} backcolor={"white"} namecolor={"lightgray"} border={"1px solid lightgray"}/>
                     </style.ButtonEachContainer>
-                    <ReservationButton name={"확인"} width={"200px"} height={"65px"} backcolor={"#FF6868"} namecolor={"white"} />
+                    <ReservationButton name={"확인"} width={"200px"} height={"60px"} backcolor={"#FF6868"} namecolor={"white"} />
                 </style.ButtonContainer>
             </style.TotalContainer>
         </style.Background>

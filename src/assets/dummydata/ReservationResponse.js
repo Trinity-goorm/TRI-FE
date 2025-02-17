@@ -6,7 +6,7 @@ const ReservationResponse = {
     "selectedDate": "2025-02-15",
     "groupedTimeSlotResponse": [
         {
-            "timeSlot": "10:30",
+            "timeSlot": "13:30",
             "groupedSeats": [
                 {
                     "seatTypeId": 1,
@@ -18,7 +18,7 @@ const ReservationResponse = {
                     "seatTypeId": 2,
                     "minCapacity": 3,
                     "maxCapacity": 4,
-                    "availableSeats": 0
+                    "availableSeats":2
                 },
                 {
                     "seatTypeId": 3,
@@ -54,7 +54,7 @@ const ReservationResponse = {
             "available": true
         },
         {
-            "timeSlot": "11:00",
+            "timeSlot": "13:00",
             "groupedSeats": [
                 {
                     "seatTypeId": 1,
@@ -78,7 +78,7 @@ const ReservationResponse = {
             "available": true
         },
         {
-            "timeSlot": "09:00",
+            "timeSlot": "14:00",
             "groupedSeats": [
                 {
                     "seatTypeId": 1,
@@ -102,7 +102,7 @@ const ReservationResponse = {
             "available": true
         },
         {
-            "timeSlot": "10:00",
+            "timeSlot": "14:30",
             "groupedSeats": [
                 {
                     "seatTypeId": 1,
@@ -126,7 +126,7 @@ const ReservationResponse = {
             "available": true
         },
         {
-            "timeSlot": "11:30",
+            "timeSlot": "15:00",
             "groupedSeats": [
                 {
                     "seatTypeId": 1,

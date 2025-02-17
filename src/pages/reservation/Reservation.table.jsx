@@ -3,10 +3,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaBell } from "react-icons/fa";
 
-const ReservationTable = ({dataList, onSelectTimeChange, onSelectSeatChange, openConfirmModal}) => {
-
+const ReservationTable = ({dataList, onSelectTimeChange, onSelectSeatChange, openConfirmModal, isToday}) => {
     const [selectTime, setSelectTime] = useState(null);
     const [selectSeat, setSelectSeat] = useState(null);
+    const currentTime = new Date();
+    const currentHour = currentTime.getHours();
+    const currentMinute = currentTime.getMinutes();
 
     const navigate = useNavigate();
 
@@ -18,6 +20,18 @@ const ReservationTable = ({dataList, onSelectTimeChange, onSelectSeatChange, ope
     };
     const groupedDataList = processDataList(dataList);
 
+    console.log(groupedDataList);
+
+    const filteredTimeList = Object.keys(groupedDataList).filter(item => {
+        if (!isToday) return true;
+
+        const [hour, minute] = item.split(":").map(Number);
+
+        return hour > currentHour || (hour === currentHour && minute > currentMinute);
+    });
+
+    console.log("오늘 선택", filteredTimeList);
+
     const handleSelectTimeChange = (newTime) => {
         setSelectTime(newTime);
         onSelectTimeChange(newTime);
@@ -25,7 +39,9 @@ const ReservationTable = ({dataList, onSelectTimeChange, onSelectSeatChange, ope
     const handleSelectSeatChange = (newSeat) => {
         setSelectSeat(newSeat);
         onSelectSeatChange(newSeat);
-        openConfirmModal();
+        if (newSeat && selectTime ) {
+            openConfirmModal();
+        }
 
     };
 
@@ -34,11 +50,19 @@ const ReservationTable = ({dataList, onSelectTimeChange, onSelectSeatChange, ope
     return(
         <style.TotalContainer>
             <style.TimeSlotTotalContainer>
-                {Object.keys(groupedDataList).map((time, index) => (
-                    <style.TimeSlotEachContainer key={index} isSelect={time === selectTime} onClick={() => handleSelectTimeChange(time)}>
-                        {time}
-                    </style.TimeSlotEachContainer>
-                ))}
+                {filteredTimeList.length > 0  ? (
+                    filteredTimeList.map((time, index) => (
+                        <style.TimeSlotEachContainer
+                            key={index}
+                            isSelect={time === selectTime}
+                            onClick = {() => handleSelectTimeChange(time)}
+                        >
+                            {time}
+                        </style.TimeSlotEachContainer>
+                    ))
+                ):(
+                    <div>예약 가능한 시간이 없습니다!</div>
+                )}
             </style.TimeSlotTotalContainer>
             <style.SeatTotalContainer>
                 {selectTime && groupedDataList[selectTime]?.map((seat, index) => (
