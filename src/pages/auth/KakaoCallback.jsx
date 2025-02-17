@@ -11,6 +11,7 @@ const KakaoCallback = () => {
       if (!code) throw new Error("인가 코드가 없습니다.");
 
       const fcmToken = localStorage.getItem("FCM_TOKEN");
+      console.log(fcmToken);
       if (!fcmToken) throw new Error("fcm 토큰이 없습니다.");
 
       const response = await axios.post(

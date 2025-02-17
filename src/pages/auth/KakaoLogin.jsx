@@ -25,6 +25,12 @@ const Login = () => {
   useEffect(() => {
     const getPermission = async () => {
       permission = await Notification.requestPermission();
+
+      if (permission === "denied") {
+        alert(
+          "캐치핑은 예약과 빈자리 정보를 알림으로 안내해드려요.\n알림을 받으시려면 설정 > 개인 정보 보호 및 보안 > 사이트 설정에서 알림을 허용해주세요."
+        );
+      }
     };
     getPermission();
   }, []);
@@ -50,27 +56,27 @@ const Login = () => {
   };
 
   return (
-    <>
-      <LoginContainer>
-        <LogoWrapper>
-          <h1>Logo</h1>
-          <Info>편안한 식사 문화를 위한 새로운 시작</Info>
-        </LogoWrapper>
-        <SocialKakaoButton handleLogin={handleLogin} />
-      </LoginContainer>
-    </>
+    <LoginContainer>
+      <LogoWrapper>
+        <h1>Logo</h1>
+        <Info>편안한 식사 문화를 위한 새로운 시작</Info>
+      </LogoWrapper>
+      <SocialKakaoButton handleLogin={handleLogin} />
+    </LoginContainer>
   );
 };
 
 const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
-  padding: 20px;
-  justify-content: space-around;
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 80px 20px;
+  justify-content: space-between;
 `;
 
 const LogoWrapper = styled.div`
+  margin-top: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;

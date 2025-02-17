@@ -1,4 +1,6 @@
 import "./App.css";
+import { useEffect } from "react";
+import { setupMessageListener } from "./service/foregroundMessage.js";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/home/HomePage.main.jsx";
 import MyDiningPage from "./pages/mydining/MyDiningPage.main.jsx";
@@ -9,9 +11,14 @@ import OnboardingUserInfo from "./pages/onboarding/OnboardingUserInfo.jsx";
 import OnboardingCategory from "./pages/onboarding/OnboardingCategory.jsx";
 import OnboardingPrefPrice from "./pages/onboarding/OnboardingPrefPrice.jsx";
 import DetailPage from "./pages/detail/DetailPage.main.jsx";
+import Search from "./pages/search/Search.jsx";
 import SearchTotal from "./pages/search/SearchTotal.jsx";
 
 function App() {
+  useEffect(() => {
+    setupMessageListener();
+  }, []);
+
   return (
     <Router>
       <Routes>
@@ -25,7 +32,8 @@ function App() {
         <Route path="/mydining" element={<MyDiningPage />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/detail/:id" element={<DetailPage />} />
-        <Route path="/searchTotal" element={<SearchTotal />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/search/total" element={<SearchTotal />} />
       </Routes>
     </Router>
   );
