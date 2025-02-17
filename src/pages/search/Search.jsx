@@ -3,7 +3,7 @@ import { GoArrowLeft } from "react-icons/go";
 import { FiSearch } from "react-icons/fi";
 import { ImSpoonKnife } from "react-icons/im";
 import { IoCloseCircle } from "react-icons/io5";
-import RecommendFeed from "../../components/RecommendFeed";
+import RecommendFeed from "../../components/recommend/RecommendFeed";
 import RecommendedList from "../../assets/dummydata/RecommendedList";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
