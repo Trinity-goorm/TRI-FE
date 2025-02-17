@@ -55,7 +55,7 @@ const Search = () => {
         <SearchBarContainer>
           <GoArrowLeft size={22} color="black" onClick={() => nav("/")} />
           <SearchInput
-            placeholder="발렌타인 맛집을 찾고 있나요?"
+            placeholder="어떤 맛집을 찾으세요?"
             value={searchQuery}
             onChange={handleChangeQuery}
           ></SearchInput>
