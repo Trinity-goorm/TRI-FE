@@ -4,7 +4,7 @@ export const ButtonContainer = styled.div`
     width: ${props => props.width || "350px"};
     height: ${props => props.height || "55px"};
     border-radius: 10px;
-    background-color: ${props => props.backcolor || "gold"};
+    background-color: ${props => props.backcolor || "#FF6868"};
     font-size: 16px;
     font-weight: bold;
     display: flex;

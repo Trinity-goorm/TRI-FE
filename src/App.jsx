@@ -5,7 +5,6 @@ import MyDiningPage from "./pages/mydining/MyDiningPage.main.jsx";
 import MyPage from "./pages/mypage/MyPage.main.jsx";
 import KakaoLogin from "./pages/login/KakaoLogin.jsx";
 import KakaoCallback from "./pages/login/KakaoCallback.jsx";
-import Onboarding from "./pages/onboarding/Onboarding.jsx";
 import DetailPage from "./pages/detail/DetailPage.main.jsx";
 import ReservationMainPage from "./pages/reservation/Reservation.modal.jsx";
 import ReservationConfirm from "./pages/reservation/Reservation.modal.confirm.jsx";

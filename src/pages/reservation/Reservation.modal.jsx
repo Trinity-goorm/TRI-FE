@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as style from "./style/Reservation.modal.js";
 import ReservationButton from "../../components/button/ReservationButton.jsx";
@@ -11,6 +11,7 @@ import ReservationReservation from "../../assets/dummydata/ReservationResponse.j
 
 const ReservationModal = ({isOpen, closeModal, children, restaurantId}) => {
     const [selectDate, setSelectDate] = useState(new Date());
+    const [isToday, setIsToday] = useState(true);
     const [reservation, setReservation] = useState({
         date: selectDate,
         time: null,
@@ -19,13 +20,22 @@ const ReservationModal = ({isOpen, closeModal, children, restaurantId}) => {
     const navigate = useNavigate();
     const reservationData = ReservationReservation.groupedTimeSlotResponse;
 
+
+    useEffect(() => {
+        if (reservation.seatType) {
+            console.log("🚀 seatType이 설정됨, 화면 전환 실행!");
+            openConfirmModal();
+        }
+    }, [reservation.seatType]);
+
     const onSelectDateChange = (date) => {
         setReservation((prev) => (
             {
                 ...prev,
                 date: date,
             }
-        ))
+        ));
+        setIsToday(date.toDateString() === new Date().toDateString());
     };
 
     const onSelectTimeChange = (time) => {
@@ -55,6 +65,7 @@ const ReservationModal = ({isOpen, closeModal, children, restaurantId}) => {
     const onClickClose = () => {
         closeModal();
     }
+
     console.log("예약정보", reservation);
 
 
@@ -65,9 +76,12 @@ const ReservationModal = ({isOpen, closeModal, children, restaurantId}) => {
                     <CustomCalendar onSelectDate={onSelectDateChange} />
                 </style.CalendarContainer>
                 <style.ReservationContainer>
-                    <ReservationTable dataList = {reservationData} onSelectTimeChange={onSelectTimeChange} onSelectSeatChange={onSelectSeatChange} openConfirmModal={openConfirmModal} />
+                    <ReservationTable dataList = {reservationData} onSelectTimeChange={onSelectTimeChange}
+                                      onSelectSeatChange={onSelectSeatChange} openConfirmModal={openConfirmModal}
+                                      isToday={isToday}
+                    />
                 </style.ReservationContainer>
-                <ReservationButton onClick={onClickClose} name={"닫기"} backcolor={"white"} width={"100%"} height={"45px"}  border={"1.5px solid lightgray"} namecolor={"lightgray"} />
+                <ReservationButton onClick={onClickClose} name={"닫기"} backcolor={"white"} width={"100%"} height={"50px"}  border={"1.5px solid lightgray"} namecolor={"lightgray"} />
             </style.TotalContainer>
         </style.Background>
 
