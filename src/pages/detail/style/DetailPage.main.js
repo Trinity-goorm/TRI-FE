@@ -24,10 +24,11 @@ export const TopBarContainer = styled.div`
 export const BottomBarContainer = styled.div`
     max-width: 480px;
     width: 100%;
-    height: 50px;
+    height: 70px;
     position:fixed;
     bottom: 0;
-  background-color: pink;
+  z-index: 1000;
+  background-color: white;
 
 `;
 export const InnerContentContainer = styled.div`
@@ -38,9 +39,8 @@ export const InnerContentContainer = styled.div`
     flex: 1;
     width: 100%;
     max-width: 480px;
-
     
-    padding-bottom: 50px;
+    padding-bottom: 80px;
     overflow-y: auto;
 `;
 
@@ -74,6 +74,7 @@ export const MainInfoContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  border-bottom: 1px solid #f3f3f3;
 
 
 
@@ -133,7 +134,6 @@ export const MainInfoSecondContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   margin-top: 20px;
 
 `;
@@ -169,17 +169,40 @@ export const TimeContainer = styled.div`
 
 export const MenuContainer = styled.div`
     width: 100%;
-    height:630px;
-    background-color: lightskyblue;
+  margin-top: 10px;
+`;
+
+export const MenuTitle = styled.div`
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  font-size: 22px;
+  font-weight: 500;
+`;
+
+export const MenuButton = styled.div`
+  width: 40px;
+  height: 25px;
+  border-radius: 20px;
+  border: 1px solid gray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: gray;
+  margin-left: 290px;
 `;
 export const LocationContainer = styled.div`
     width: 100%;
-    height: 350px;
-    background-color: lightyellow;
+    max-height: 360px;
+  margin-top: 20px;
+ 
+
 `;
 
 export const DetailInfoContainer = styled.div`
     width: 100%;
-    height: 300px;
-    background-color: lightgreen;
 `;

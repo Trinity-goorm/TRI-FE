@@ -1,9 +1,9 @@
 import * as style from "./style/HomePage.main.js"
-import TopBar from "../../components/TopBar.jsx";
-import BottomBar from "../../components/BottomBar.jsx";
-import CategoryComponent from "../../components/CategoryComponent.jsx";
+import TopBar from "../../components/bar/TopBar.jsx";
+import BottomBar from "../../components/bar/BottomBar.jsx";
+import CategoryComponent from "../../components/category/CategoryComponent.jsx";
 import RecommendComponent from "../home/RecommendComponet.main.jsx";
-import Banner from "../../components/Banner.jsx";
+import Banner from "../../components/banner/Banner.jsx";
 
 
 const HomePage = () => {

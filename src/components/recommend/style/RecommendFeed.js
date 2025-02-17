@@ -29,6 +29,9 @@ export const Image = styled.img`
 export const SubContainer = styled.div`
     width:93%;
     margin-top: 7px;
+    display: flex;
+    flex-direction: row;
+
 
 `;
 
@@ -40,6 +43,7 @@ export const InfoContainer = styled.div`
     align-items: flex-start;
 
     margin-top: 5px;
+    background-color: white;
 `;
 
 export const NameContainer = styled.div`
@@ -76,5 +80,10 @@ export const CategoryLocation = styled.div`
 `;
 
 export const LikeContainer = styled.div`
-    background-color: gold;
+
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 `
