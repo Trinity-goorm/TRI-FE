@@ -19,7 +19,7 @@ const DetailBottomBar = ({isClick, restaurantId, onClickSave, openModal}) => {
                 </style.SaveCountContainer>
             </style.SaveContainer>
             <style.RerservationButtonContainer onClick={openModal}>
-                <ReservationButton  name={"예약하기"} />
+                <ReservationButton  name={"예약하기"}  />
             </style.RerservationButtonContainer>
         </style.BottomBarContainer>
     )

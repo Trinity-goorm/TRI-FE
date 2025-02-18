@@ -6,7 +6,8 @@ export const BottomBarContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    border-top: 1px solid #f3f3f3; ;
+    border-top: 1px solid #f3f3f3 ;
+
 
 `;
 
@@ -31,6 +32,7 @@ export const RerservationButtonContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-left: 10px;
 
 
 `;
