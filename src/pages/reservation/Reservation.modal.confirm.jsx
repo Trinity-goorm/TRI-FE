@@ -7,12 +7,19 @@ const ReservationConfirm = () => {
 
     const location = useLocation();
     const reservation = location.state;
-    console.log("전달된 데이터",reservation);
+    console.log("전달된 예약 내용",reservation);
     const navigate = useNavigate();
 
     const onCancel = () => {
-        console.log("Cancel");
         navigate("/");
+    }
+    const onMovetoPayment = () => {
+
+        navigate("/reservation/payment",
+            {
+                state: reservation
+            }
+        );
     }
     return (
         <style.Background>
@@ -46,7 +53,9 @@ const ReservationConfirm = () => {
                         <ReservationButton
                             name={"취소"} width={"200px"} height={"60px"} backcolor={"white"} namecolor={"lightgray"} border={"1px solid lightgray"}/>
                     </style.ButtonEachContainer>
-                    <ReservationButton name={"확인"} width={"200px"} height={"60px"} backcolor={"#FF6868"} namecolor={"white"} />
+                    <style.ButtonEachContainer onClick={onMovetoPayment}>
+                        <ReservationButton name={"확인"} width={"200px"} height={"60px"} backcolor={"#FF6868"} namecolor={"white"} />
+                    </style.ButtonEachContainer>
                 </style.ButtonContainer>
             </style.TotalContainer>
         </style.Background>

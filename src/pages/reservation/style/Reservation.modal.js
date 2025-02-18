@@ -37,4 +37,9 @@ export const ReservationContainer = styled.div`
     width: 100%;
     height: 200px;
 
+`;
+
+export const CloseButtonContainer = styled.div`
+    width: 95%;
+
 `

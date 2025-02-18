@@ -13,7 +13,6 @@ const RecommendFeed = ({item}) => {
     const id = item?.id;
     const [isSaved, setIsSaved] = useState(item?.isSaved);
 
-    console.log(name, image, star, category, location, isSaved);
 
     const onClickSave = () => {
         setIsSaved(!isSaved);
