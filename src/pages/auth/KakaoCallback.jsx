@@ -8,6 +8,7 @@ const KakaoCallback = () => {
   useEffect(() => {
     const postCode = async () => {
       const code = new URL(window.location.href).searchParams.get("code");
+      console.log(code);
       if (!code) throw new Error("인가 코드가 없습니다.");
 
       const fcmToken = localStorage.getItem("FCM_TOKEN");
@@ -35,6 +36,7 @@ const KakaoCallback = () => {
             phoneNumber: response.data.phoneNumber,
           })
         );
+        localStorage.setItem("userId", response.data.id);
 
         if (response.data.newUser) {
           nav("/onboarding/1");

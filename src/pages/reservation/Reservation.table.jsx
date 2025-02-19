@@ -1,5 +1,5 @@
 import * as style from "./style/Reservation.table.js";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { FaBell } from "react-icons/fa";
 
@@ -20,7 +20,6 @@ const ReservationTable = ({dataList, onSelectTimeChange, onSelectSeatChange, ope
     };
     const groupedDataList = processDataList(dataList);
 
-    console.log(groupedDataList);
 
     const filteredTimeList = Object.keys(groupedDataList).filter(item => {
         if (!isToday) return true;
@@ -30,7 +29,12 @@ const ReservationTable = ({dataList, onSelectTimeChange, onSelectSeatChange, ope
         return hour > currentHour || (hour === currentHour && minute > currentMinute);
     });
 
-    console.log("오늘 선택", filteredTimeList);
+    useEffect(() => {
+        if (selectSeat && selectTime) {
+            openConfirmModal();
+        }
+    },[selectSeat, setSelectTime]);
+
 
     const handleSelectTimeChange = (newTime) => {
         setSelectTime(newTime);
@@ -39,10 +43,6 @@ const ReservationTable = ({dataList, onSelectTimeChange, onSelectSeatChange, ope
     const handleSelectSeatChange = (newSeat) => {
         setSelectSeat(newSeat);
         onSelectSeatChange(newSeat);
-        if (newSeat && selectTime ) {
-            openConfirmModal();
-        }
-
     };
 
 

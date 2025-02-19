@@ -113,7 +113,7 @@ const DetailPage = () => {
 
             </style.InnerContentContainer>
             <style.BottomBarContainer >
-                <DetailBottomBar isClick={isSaved} onClickSave={onClickSave} restaurantId={DetailRestaurant.id} openModal={openModal} closeModal={closeModal} />
+                <DetailBottomBar  isClick={isSaved} onClickSave={onClickSave} restaurantId={DetailRestaurant.id} openModal={openModal} closeModal={closeModal} />
             </style.BottomBarContainer>
 
             <ReservationModal isOpen={isModalOpen} closeModal={closeModal} restaurantId={DetailRestaurant.id} />
