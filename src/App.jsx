@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/home/HomePage.main.jsx";
 import MyDiningPage from "./pages/mydining/MyDiningPage.main.jsx";
 import MyPage from "./pages/mypage/MyPage.main.jsx";
-import DetailPage from "./pages/detail/DetailPage.main.jsx";
 import ReservationMainPage from "./pages/reservation/Reservation.modal.jsx";
 import ReservationConfirm from "./pages/reservation/Reservation.modal.confirm.jsx";
 import KakaoLogin from "./pages/auth/KakaoLogin.jsx";

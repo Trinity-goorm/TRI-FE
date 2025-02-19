@@ -6,7 +6,7 @@ import { IoCloseCircle } from "react-icons/io5";
 import RecommendFeed from "../../components/recommend/RecommendFeed";
 import RecommendedList from "../../assets/dummydata/RecommendedList";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import SearchRestList from "../../components/search/SearchRestList";
 
 const category = [
@@ -26,7 +26,9 @@ const category = [
 
 const Search = () => {
   const nav = useNavigate();
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchParam] = useSearchParams();
+  const query = searchParam.get("query");
+  const [searchQuery, setSearchQuery] = useState(query || "");
   const [isFixed, setIsFixed] = useState(true);
 
   useEffect(() => {
@@ -58,6 +60,11 @@ const Search = () => {
             placeholder="어떤 맛집을 찾으세요?"
             value={searchQuery}
             onChange={handleChangeQuery}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                nav(`/search/total?keyword=${searchQuery}`);
+              }
+            }}
           ></SearchInput>
           {searchQuery === "" ? null : (
             <IoCloseCircle
