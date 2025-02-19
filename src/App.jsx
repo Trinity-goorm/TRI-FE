@@ -15,6 +15,7 @@ import OnboardingPrefPrice from "./pages/onboarding/OnboardingPrefPrice.jsx";
 import Search from "./pages/search/Search.jsx";
 import SearchTotal from "./pages/search/SearchTotal.jsx";
 import ReservationPaymentPage from "./pages/reservation/Reservation.payment.jsx";
+import DetailPage from "./pages/detail/DetailPage.main.jsx";
 
 function App() {
   useEffect(() => {
@@ -37,8 +38,14 @@ function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/search/total" element={<SearchTotal />} />
         <Route path="/reservation/:id" element={<ReservationMainPage />} />
-        <Route path="/reservation/confirm/:id" element={<ReservationConfirm />} />
-        <Route path="/reservation/payment" element={<ReservationPaymentPage />} />
+        <Route
+          path="/reservation/confirm/:id"
+          element={<ReservationConfirm />}
+        />
+        <Route
+          path="/reservation/payment"
+          element={<ReservationPaymentPage />}
+        />
       </Routes>
     </Router>
   );
