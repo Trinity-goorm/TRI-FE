@@ -5,22 +5,17 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/home/HomePage.main.jsx";
 import MyDiningPage from "./pages/mydining/MyDiningPage.main.jsx";
 import MyPage from "./pages/mypage/MyPage.main.jsx";
-import DetailPage from "./pages/detail/DetailPage.main.jsx";
 import ReservationMainPage from "./pages/reservation/Reservation.modal.jsx";
 import ReservationConfirm from "./pages/reservation/Reservation.modal.confirm.jsx";
 import KakaoLogin from "./pages/auth/KakaoLogin.jsx";
 import KakaoCallback from "./pages/auth/KakaoCallback.jsx";
-import OnboardingUserInfo from "./pages/onboarding/OnboardingUserInfo.jsx";
-import OnboardingCategory from "./pages/onboarding/OnboardingCategory.jsx";
-import OnboardingPrefPrice from "./pages/onboarding/OnboardingPrefPrice.jsx";
 import Search from "./pages/search/Search.jsx";
 import SearchTotal from "./pages/search/SearchTotal.jsx";
 import ReservationPaymentPage from "./pages/reservation/Reservation.payment.jsx";
-import MyDiningPageMain from "./pages/mydining/MyDiningPage.main.jsx";
-import MyDiningPageReservation from "./pages/mydining/MyDiningPage.reservation.jsx";
-import MyDiningPageVacancy from "./pages/mydining/MyDiningPage.vacancy.jsx";
 import MyDiningReservation from "./pages/mydining/MyDiningPage.reservation.jsx";
 import MyDiningVacancy from "./pages/mydining/MyDiningPage.vacancy.jsx";
+import DetailPage from "./pages/detail/DetailPage.main.jsx";
+import Onboarding from "./pages/onboarding/Onboarding.jsx";
 
 function App() {
   useEffect(() => {
@@ -34,9 +29,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<KakaoLogin />} />
         <Route path="/kakao/callback" element={<KakaoCallback />} />
-        <Route path="/onboarding/1" element={<OnboardingUserInfo />} />
-        <Route path="/onboarding/2" element={<OnboardingCategory />} />
-        <Route path="/onboarding/3" element={<OnboardingPrefPrice />} />
+        <Route path="/onboarding" element={<Onboarding />} />
         <Route path="/mydining" element={<MyDiningPage />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/detail/:id" element={<DetailPage />} />

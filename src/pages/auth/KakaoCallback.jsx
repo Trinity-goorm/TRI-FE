@@ -26,16 +26,6 @@ const KakaoCallback = () => {
       if (response.status === 200) {
         localStorage.setItem("ACCESS_TOKEN", response.data.accessToken);
         localStorage.setItem("REFRESH_TOKEN", response.data.refreshToken);
-        localStorage.setItem(
-          "user",
-          JSON.stringify({
-            id: response.data.id,
-            name: response.data.name,
-            normalTicketCount: response.data.normalTicketCount,
-            emptyTicketCount: response.data.emptyTicketCount,
-            phoneNumber: response.data.phoneNumber,
-          })
-        );
         localStorage.setItem("userId", response.data.id);
 
         if (response.data.newUser) {

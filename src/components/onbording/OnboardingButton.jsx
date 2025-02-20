@@ -22,8 +22,9 @@ const ButtonContainer = styled.button`
   border: none;
   border-radius: 11px;
   height: 50px;
-  font-weight: 800;
+  font-weight: 600;
   font-size: 15px;
+  margin: auto 30px 80px 30px;
 `;
 
 export default OnboardingButton;

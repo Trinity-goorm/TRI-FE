@@ -2,23 +2,22 @@ import styled from "styled-components";
 import { IoChevronBack } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
-const ProgressInfo = ({ step }) => {
-  const nav = useNavigate();
-
+const ProgressInfo = ({ step, handleBeforeStep }) => {
   return (
     <ProgressInfoWrapper>
-      {step !== 1 ? (
-        <IoChevronBack
-          size="25px"
-          style={{ position: "absolute", top: "18px", left: "9px" }}
-          onClick={() => nav(-1)}
-        />
-      ) : null}
-      <Title>정보 입력</Title>
+      <Header>
+        {step === 2 || step === 3 ? (
+          <IoChevronBack
+            size="25px"
+            style={{ position: "absolute", left: "20" }}
+            onClick={() => handleBeforeStep()}
+          />
+        ) : null}
+        {step !== 0 && <Title>CATCHPING</Title>}
+      </Header>
       <ProgressBarWrapper>
-        <ProgressBar $step={step === 1}></ProgressBar>
-        <ProgressBar $step={step === 2}></ProgressBar>
-        <ProgressBar $step={step === 3}></ProgressBar>
+        {step !== 0 && <GrayBar />}
+        <ProgressBarFill $step={step} />
       </ProgressBarWrapper>
     </ProgressInfoWrapper>
   );
@@ -31,25 +30,40 @@ const ProgressInfoWrapper = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
   height: 90px;
+`;
+
+const Header = styled.div`
   position: relative;
+  display: flex;
+  justify-content: center;
 `;
 
 const ProgressBarWrapper = styled.div`
+  position: relative;
+  width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 0px 10px;
-  gap: 15px;
+  align-items: center;
 `;
 
-const ProgressBar = styled.div`
+const GrayBar = styled.div`
+  position: absolute;
   width: 100%;
-  height: 6px;
-  background-color: ${({ $step }) => ($step ? "#fc8383" : "#C7C7C7")};
+  height: 3px;
+  background-color: #ededed;
+  border-radius: 15px;
+`;
+
+const ProgressBarFill = styled.div`
+  position: absolute;
+  height: 3px;
+  transition: width 0.5s ease-in-out;
+  background-color: #fc8383;
+  width: ${({ $step }) =>
+    $step === 1 ? "30%" : $step === 2 ? "60%" : $step === 3 ? "90%" : "0%"};
 `;
 
 const Title = styled.div`
-  font-weight: 650;
+  font-weight: 800;
   font-size: 18px;
   text-align: center;
 `;

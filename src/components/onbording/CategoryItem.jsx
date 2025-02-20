@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 
-const CategoryItem = ({ id, image, name, addCategory, deleteCategory }) => {
-  const [isSelected, setIsSelected] = useState(false);
-
-  useEffect(() => {
-    if (isSelected) {
+const CategoryItem = ({
+  id,
+  image,
+  name,
+  addCategory,
+  deleteCategory,
+  isSelected,
+}) => {
+  const handleClickItem = () => {
+    if (!isSelected) {
       addCategory(id);
     } else {
       deleteCategory(id);
     }
-  }, [isSelected]);
-
-  const handleClickItem = () => {
-    setIsSelected(!isSelected);
   };
 
   return (
@@ -25,6 +26,7 @@ const CategoryItem = ({ id, image, name, addCategory, deleteCategory }) => {
     </TotalContainer>
   );
 };
+
 export default CategoryItem;
 
 const TotalContainer = styled.div`
@@ -32,8 +34,8 @@ const TotalContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 25%;
-  height: 85px;
+  width: 29%;
+  height: 75px;
   background-color: lightgray;
   border-radius: 10px;
   position: relative;
@@ -42,11 +44,13 @@ const TotalContainer = styled.div`
   box-shadow: ${({ $isSelected }) =>
     $isSelected ? "0 0 0 3px #22b379" : "none"};
 `;
+
 const ImageContainer = styled.div`
   width: 100%;
   height: 100%;
   border-radius: 10px;
 `;
+
 const Image = styled.img`
   width: 100%;
   height: 100%;
@@ -58,20 +62,18 @@ const Title = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* 중앙 정렬 */
+  transform: translate(-50%, -50%);
   cursor: pointer;
-
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%; /* 텍스트가 긴 경우 중앙 유지 */
+  width: 100%;
   text-align: center;
-  white-space: nowrap; /* 텍스트 줄바꿈 방지 */
-
+  white-space: nowrap;
   color: white;
   border-radius: 5px;
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 600;
   background: rgba(0, 0, 0, 0.4);
   padding: 34px 8px;
 `;

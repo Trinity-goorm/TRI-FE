@@ -1,20 +1,20 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import ProgressInfo from "../../components/onbording/ProgressInfo";
-import OnboardingButton from "../../components/onbording/OnboardingButton";
 
 const fixedMinPrice = 10000;
 const fixedMaxPrice = 500000;
 const priceGap = 10000;
 
-const OnboardingPrefPrice = () => {
-  const nav = useNavigate();
-  const [rangeMinValue, setRangeMinValue] = useState(fixedMinPrice);
-  const [rangeMaxValue, setRangeMaxValue] = useState(fixedMaxPrice);
-  const [rangeMinPercent, setRangeMinPercent] = useState(0);
-  const [rangeMaxPercent, setRangeMaxPercent] = useState(0);
-
+const OnboardingPrefPrice = ({
+  rangeMinValue,
+  setRangeMinValue,
+  rangeMaxValue,
+  setRangeMaxValue,
+  rangeMinPercent,
+  setRangeMinPercent,
+  rangeMaxPercent,
+  setRangeMaxPercent,
+}) => {
   const priceRangeMinValueHandler = (e) => {
     setRangeMinValue(parseInt(e.target.value));
   };
@@ -35,14 +35,8 @@ const OnboardingPrefPrice = () => {
 
   return (
     <>
-      <ProgressInfo step={3} />
       <OnboardingContainer>
-        <TitleContainer>
-          <Title>선호 가격대 선택</Title>
-          <div style={{ lineHeight: "1.6" }}>
-            원하시는 선호 가격대를 선택해주세요!
-          </div>
-        </TitleContainer>
+        <Title>식사할 때 선호하는 가격대가 있나요?</Title>
 
         <PriceComContainer>
           <PriceWrapper>
@@ -53,8 +47,8 @@ const OnboardingPrefPrice = () => {
 
           <div>
             <CommentContainer>
-              <p>10,000원 ~</p>
-              <p>~ 500,000원</p>
+              <p>1만원</p>
+              <p>50만원</p>
             </CommentContainer>
             <SliderWrapper>
               <FilterPriceSlide>
@@ -89,43 +83,32 @@ const OnboardingPrefPrice = () => {
             </SliderWrapper>
           </div>
         </PriceComContainer>
-
-        <OnboardingButton
-          text={"완료"}
-          isFormValid={true}
-          handleClickButton={() => {
-            nav("/", { replace: true });
-          }}
-        />
       </OnboardingContainer>
     </>
   );
 };
+
 const OnboardingContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 90px);
   padding: 30px 30px;
   box-sizing: border-box;
-  background-color: #fcfcfc;
-  gap: 167px;
+  margin-top: 30px;
+  gap: 160px;
 `;
-const TitleContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;
+
 const Title = styled.div`
-  font-weight: 500;
-  font-size: 20px;
+  font-weight: 700;
+  font-size: 25px;
+  color: #333;
 `;
 
 const PriceComContainer = styled.div`
   display: flex;
   flex-direction: column;
-  font-weight: 700;
+  font-weight: 600;
+  font-size: 14.5px;
   gap: 50px;
-  margin-bottom: 50px;
 `;
 
 const PriceWrapper = styled.div`
@@ -137,8 +120,9 @@ const PriceWrapper = styled.div`
 const CommentContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  bottom: 10px;
-  margin-bottom: 10px;
+  padding: 0px 5px;
+  margin-bottom: 7px;
+  color: #646464;
 `;
 
 const SliderWrapper = styled.div`
@@ -152,6 +136,7 @@ const FilterPriceSlide = styled.div`
   border-radius: 10px;
   background-color: #dddddd;
 `;
+
 const FilterPriceSlideInner = styled.div`
   position: absolute;
   left: ${({ $rangeMinPercent }) => $rangeMinPercent}%;
@@ -173,7 +158,7 @@ const FilterPriceRangeMin = styled.input`
     height: 25px;
     width: 25px;
     border-radius: 50%;
-    border: 2px solid #b0b0b0;
+    border: 1.5px solid #c3c3c3;
     background-color: white;
     -webkit-appearance: none;
     pointer-events: auto;
@@ -192,7 +177,7 @@ const FilterPriceRangeMax = styled.input`
     height: 25px;
     width: 25px;
     border-radius: 50%;
-    border: 2px solid #b0b0b0;
+    border: 1.5px solid #c3c3c3;
     background-color: white;
     -webkit-appearance: none;
     pointer-events: auto;

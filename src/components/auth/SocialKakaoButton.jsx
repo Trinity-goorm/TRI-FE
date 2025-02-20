@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import kakaoIcon from "../../../public/kakaoIcon.png";
+import kakaoIcon from "../../assets/img/kakaoIcon.png";
 
 const SocialKakaoButton = ({ handleLogin }) => {
   return (
