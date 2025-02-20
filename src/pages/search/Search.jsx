@@ -55,7 +55,7 @@ const Search = () => {
     <>
       <SearchBar $isFixed={isFixed}>
         <SearchBarContainer>
-          <GoArrowLeft size={22} color="black" onClick={() => nav("/")} />
+          <GoArrowLeft size={22} color="black" onClick={() => nav(-1)} />
           <SearchInput
             placeholder="어떤 맛집을 찾으세요?"
             value={searchQuery}
