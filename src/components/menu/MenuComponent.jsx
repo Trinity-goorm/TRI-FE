@@ -9,7 +9,7 @@ const MenuComponent = ({name, price}) => {
                     {name}
                 </style.TitleContainer>
                 <style.PriceContainer>
-                    {price}원
+                    {price.toLocaleString()}원
                 </style.PriceContainer>
             </style.InfoContainer>
         </style.MenuContainer>

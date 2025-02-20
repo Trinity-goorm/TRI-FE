@@ -16,6 +16,11 @@ import OnboardingPrefPrice from "./pages/onboarding/OnboardingPrefPrice.jsx";
 import Search from "./pages/search/Search.jsx";
 import SearchTotal from "./pages/search/SearchTotal.jsx";
 import ReservationPaymentPage from "./pages/reservation/Reservation.payment.jsx";
+import MyDiningPageMain from "./pages/mydining/MyDiningPage.main.jsx";
+import MyDiningPageReservation from "./pages/mydining/MyDiningPage.reservation.jsx";
+import MyDiningPageVacancy from "./pages/mydining/MyDiningPage.vacancy.jsx";
+import MyDiningReservation from "./pages/mydining/MyDiningPage.reservation.jsx";
+import MyDiningVacancy from "./pages/mydining/MyDiningPage.vacancy.jsx";
 
 function App() {
   useEffect(() => {
@@ -40,6 +45,9 @@ function App() {
         <Route path="/reservation/:id" element={<ReservationMainPage />} />
         <Route path="/reservation/confirm/:id" element={<ReservationConfirm />} />
         <Route path="/reservation/payment" element={<ReservationPaymentPage />} />
+        <Route path="/mydining" element={<MyDiningPage />} />
+        <Route path="/mydining/reservation" element={<MyDiningReservation />} />
+        <Route path="/mydining/vacancy" element={<MyDiningVacancy />} />
       </Routes>
     </Router>
   );

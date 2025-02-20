@@ -4,7 +4,7 @@ import * as style from "./style/Reservation.modal.js";
 import ReservationButton from "../../components/button/ReservationButton.jsx";
 import CustomCalendar from "../../components/calendar/CustomCalendar.jsx";
 import ReservationTable from "../../pages/reservation/Reservation.table.jsx";
-import GetAvailableSeat from "../../api/GetAvailableSeat.js";
+import GetAvailableSeat from "../../api/reservation/get/GetAvailableSeat.js";
 
 import ReservationReservation from "../../assets/dummydata/ReservationResponse.js";
 

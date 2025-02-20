@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import {FaXmark} from "react-icons/fa6";
 
-const PaymentTopBar = () => {
+const PaymentTopBar = ({setIsTimeOver}) => {
 
     const navigate = useNavigate();
     const [timeLeft, setTimeLeft] = useState(120);
@@ -12,6 +12,7 @@ const PaymentTopBar = () => {
     useEffect(() => {
         if (timeLeft <= 0) {
             setIsTimeOk(false);
+            setIsTimeOver(true);
             return;
         }
         const timer = setInterval(() => {

@@ -66,7 +66,7 @@ const requestHandler = async ({
         // 요청 보내기
         const response = await axios({
             method,
-            url: `${BASE_URL}${endpoint}`,
+            url: `${BASE_URL}/api${endpoint}`,
         /*    headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,
@@ -80,7 +80,7 @@ const requestHandler = async ({
             console.log(successMessage, response.data);
         }
 
-        return response.data.data; // 성공 데이터 반환
+        return response.data; // 성공 데이터 반환
     } catch (error) {
         if (error.response?.status === 401 && !error.config._retry) {
             const originalRequest = error.config;

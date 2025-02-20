@@ -42,30 +42,36 @@ export const InnerContentContainer = styled.div`
     
     padding-bottom: 80px;
     overflow-y: auto;
+  overflow-x: hidden;
 `;
 
 export const ImageSliderContainer = styled.div`
-    width: 100%;
-    height: 250px;
-    background-color: gold;
-     overflow-x: auto;
+  width: 480px;
+  height: 260px;
+  overflow-x: auto;
   white-space: nowrap;
   display: flex;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  
-  &::-webkit-scrollbar {
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  ::-webkit-scrollbar{
     display: none;
+    background-color: transparent;
   }
-  
 `;
-export const SlideImage = styled.img`
+
+
+
+export const ImgDiv = styled.div`
   width: 480px;
-  
-  flex: 0 0 auto;
-  background-color: beige;
-  overflow-: hidden;
+  height: 260px;
+  background-image: ${({ $imgUrl }) => `url(${$imgUrl})`};
+  background-size: cover; /* 요소 크기에 맞게 비율 유지하며 확대 */
+  background-position: center; /* 중앙 정렬 */
+  background-repeat: no-repeat; /* 반복 방지 */
+  flex-shrink: 0;
 `;
+
 export const ReservationCountComponent = styled.div``;
 export const MainInfoContainer = styled.div`
     width: 100%;
@@ -104,7 +110,7 @@ export const NameContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   font-weight: 600;
-  font-size: 28px;
+  font-size: 23px;
 
 `;
 export const StarContainer = styled.div`
@@ -142,6 +148,7 @@ export const LocationFirstContainer = styled.div`
   height: 25%;
   display: flex;
   align-items: center;
+  font-size: 14px;
 `;
 export const LocationIcon = styled.div`
   margin-right: 10px;
@@ -153,6 +160,7 @@ export const AveragePriceContainer = styled.div`
   height: 25%;
   display: flex;
   align-items: center;
+  font-size: 14px;
 `;
 export const PriceIcon = styled.div`
   margin-right: 10px;
@@ -164,6 +172,7 @@ export const TimeContainer = styled.div`
   height: 30%;
   display: flex;
   align-items: center;
+  font-size: 14px;
   
 `;
 

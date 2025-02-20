@@ -29,8 +29,7 @@ export const TimeSlotTotalContainer = styled.div`
    
 `;
 export const TimeSlotEachContainer = styled.div`
-    min-width: 80px;
-    width: 100%;
+    width: 100px;
     height: 40px;
     display: flex;
     align-items: center;
@@ -42,9 +41,9 @@ export const TimeSlotEachContainer = styled.div`
     font-weight: 600;
     color: ${(props) => props.isSelect ? "#FFCBC2" : "#717171"};
     margin-right: 10px;
+    flex-shrink: 0;
     background-color: ${(props) => props.isSelect ? "#FF6868" : "" }}
-    
-    
+
 `;
 
 export const SeatTotalContainer = styled.div`

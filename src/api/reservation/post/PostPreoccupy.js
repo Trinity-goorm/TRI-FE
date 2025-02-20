@@ -1,10 +1,10 @@
-import requestHandler from "./requestHandler.js";
+import requestHandler from "../../requestHandler.js";
 
-const PostPreoccupy = async ({reservation}) => {
+const PostPreoccupy = async (reservation) => {
 
     return requestHandler({
         method: 'POST',
-        endpoint: "/api/reservations/preoccupy",
+        endpoint: "/reservations/preoccupy",
         data: reservation,
         successMessage: "선점 성공",
         errorMessage:"선점 실패"
