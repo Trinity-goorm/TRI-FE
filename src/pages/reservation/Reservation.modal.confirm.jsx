@@ -1,14 +1,34 @@
+import { useState } from "react";
 import { useLocation, useNavigate } from 'react-router-dom'
 import * as style from "./style/Reservation.modal.confirm.js";
 import ReservationButton from "../../components/button/ReservationButton.jsx";
+//API
+import postPreoccupy from "../../api/reservation/post/PostPreoccupy.js";
+import {useEffect} from "react";
 
 
 const ReservationConfirm = () => {
 
+
     const location = useLocation();
     const reservation = location.state;
-    console.log("전달된 예약 내용",reservation);
+
+    const [reservationId, setReservationId] = useState(null);
+    const [reservationData, setReservationData] = useState({
+        userId: 3,
+        restaurantId: 2,
+        seatTypeId: 2 ,
+        seatType: reservation.seatType,
+        selectedDate: "2025-02-26",
+        reservationTime: "10:00",
+        reservationId: null,
+    });
+
+
     const navigate = useNavigate();
+
+
+
 
     const onCancel = () => {
         navigate("/");
@@ -17,10 +37,40 @@ const ReservationConfirm = () => {
 
         navigate("/reservation/payment",
             {
-                state: reservation
+                state: reservationData,
             }
         );
+    };
+
+
+    //API
+    const postReservationData = async (data) => {
+        try{
+            const response = await postPreoccupy(data);
+            console.log("☕️예약 선점 성공",response);
+            setReservationData( prevData => (
+                {
+                    ...prevData,
+                    reservationId: response.reservationId,
+                })
+            );
+        }catch(e){
+            console.error("💀예약 선점 실패", e, data);
+
+        }
+    };
+
+    const handleSubmit = async () => {
+        await postReservationData(reservationData);
     }
+
+    useEffect(() => {
+        if (reservationData.reservationId) {
+            onMovetoPayment();
+        }
+    }, [reservationData.reservationId]);
+
+
     return (
         <style.Background>
             <style.TotalContainer>
@@ -53,7 +103,7 @@ const ReservationConfirm = () => {
                         <ReservationButton
                             name={"취소"} width={"200px"} height={"60px"} backcolor={"white"} namecolor={"lightgray"} border={"1px solid lightgray"}/>
                     </style.ButtonEachContainer>
-                    <style.ButtonEachContainer onClick={onMovetoPayment}>
+                    <style.ButtonEachContainer onClick={handleSubmit}>
                         <ReservationButton name={"확인"} width={"200px"} height={"60px"} backcolor={"#FF6868"} namecolor={"white"} />
                     </style.ButtonEachContainer>
                 </style.ButtonContainer>

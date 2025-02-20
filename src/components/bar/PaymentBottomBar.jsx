@@ -1,7 +1,7 @@
 import * as style from "./style/PaymentBottomBar.js";
 import ReservationButton from "../button/ReservationButton.jsx";
 
-const PaymentBottomBar = ({reservation, isReservation}) => {
+const PaymentBottomBar = ({reservation, isReservation, onClickPayment}) => {
 
 
     return (
@@ -19,7 +19,7 @@ const PaymentBottomBar = ({reservation, isReservation}) => {
                 티켓 10개
             </style.BottomBarLine>
             {isReservation ?
-                <style.ReservationButtonContainer onClick={() => {alert("예약합니다~")}}>
+                <style.ReservationButtonContainer onClick={onClickPayment}>
                     <ReservationButton height={"50px"} width={"80%"} name={"예약하기"} namecolor={"white"}/>
                 </style.ReservationButtonContainer>
                 : <style.ReservationButtonContainer>

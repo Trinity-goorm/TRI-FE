@@ -36,8 +36,9 @@ export const ConvenienceContainer = styled.div`
     width: 100%;
     height: 20%;
     display: flex;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex-wrap: wrap;
 `;
 

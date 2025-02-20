@@ -1,7 +1,9 @@
 import * as style from "./style/Reservation.table.js";
 import {useEffect, useState} from "react";
+import Modal from "../../components/modal/Modal.jsx";
 import { useNavigate } from "react-router-dom";
 import { FaBell } from "react-icons/fa";
+import {ModalContainer} from "../../components/modal/style/Modal.js";
 
 const ReservationTable = ({dataList, onSelectTimeChange, onSelectSeatChange, openConfirmModal, isToday}) => {
     const [selectTime, setSelectTime] = useState(null);
@@ -45,13 +47,16 @@ const ReservationTable = ({dataList, onSelectTimeChange, onSelectSeatChange, ope
         onSelectSeatChange(newSeat);
     };
 
+    const onClickGoBack = () => {
+        navigate(-1);
+    }
+
 
 
     return(
         <style.TotalContainer>
             <style.TimeSlotTotalContainer>
-                {filteredTimeList.length > 0  ? (
-                    filteredTimeList.map((time, index) => (
+                {filteredTimeList.map((time, index) => (
                         <style.TimeSlotEachContainer
                             key={index}
                             isSelect={time === selectTime}
@@ -59,10 +64,7 @@ const ReservationTable = ({dataList, onSelectTimeChange, onSelectSeatChange, ope
                         >
                             {time}
                         </style.TimeSlotEachContainer>
-                    ))
-                ):(
-                    <div>예약 가능한 시간이 없습니다!</div>
-                )}
+                    ))}
             </style.TimeSlotTotalContainer>
             <style.SeatTotalContainer>
                 {selectTime && groupedDataList[selectTime]?.map((seat, index) => (

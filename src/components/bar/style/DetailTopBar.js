@@ -39,7 +39,7 @@ export const TitleContainer = styled.div`
     display: flex;
     align-items: flex-end;
     justify-content: flex-start;
-    font-size: 23px;
+    font-size: 20px;
     font-weight: 600;
 
     margin-left: 15px;

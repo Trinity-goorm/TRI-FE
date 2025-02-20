@@ -2,7 +2,7 @@ import * as style from "./style/HomePage.main.js"
 import TopBar from "../../components/bar/TopBar.jsx";
 import BottomBar from "../../components/bar/BottomBar.jsx";
 import CategoryComponent from "../../components/category/CategoryComponent.jsx";
-import RecommendComponent from "../home/RecommendComponet.main.jsx";
+import RecommendComponent from "./RecommendList.main.jsx";
 import Banner from "../../components/banner/Banner.jsx";
 
 

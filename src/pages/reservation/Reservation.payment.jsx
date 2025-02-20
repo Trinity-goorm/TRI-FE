@@ -4,13 +4,26 @@ import PaymentTopBar from "../../components/bar/PaymentTopBar.jsx";
 import PaymentBottomBar from "../../components/bar/PaymentBottomBar.jsx";
 import {useEffect, useState} from "react";
 import { FaCheck } from "react-icons/fa";
+//API
+import postPreoccupyCancel from "../../api/reservation/post/PostPreoccupyCancel.js";
+import postReservationComplete from "../../api/reservation/post/PostReservationComplete.js";
+
+
 const ReservationPaymentPage = () => {
+
+    const location = useLocation();
+    const navigate = useNavigate();
+    const reservation = location.state;
+    const reservationId = reservation.reservationId;
+    const userId = reservation.userId;
+    console.log("전달된 예약 정보 🤝",reservationId, userId);
 
     const [isClick, setIsClick] = useState(false);
     const [isAllCheck, setIsAllCheck] = useState(false);
     const [isFirstCheck, setIsFirstCheck] = useState(false);
     const [isSecondCheck, setIsSecondCheck] = useState(false);
     const [isReservation, setIsReservation] = useState(false);
+    const [isTimeOver, setIsTimeOver] = useState(false);
 
     const onClickTicketUse = () => {
         setIsClick(prev => !prev);
@@ -25,23 +38,66 @@ const ReservationPaymentPage = () => {
     }
     const onClickSecondCheck = () => {
         setIsSecondCheck(prev => !prev);
-    }
+    };
+
+    //useEffect
     useEffect(() => {
         if (isAllCheck && isFirstCheck && isSecondCheck && isClick) {
             setIsReservation(true);
         }
-    })
+    },[isAllCheck, isFirstCheck, isSecondCheck, isClick]);
 
-    const location = useLocation();
-    const reservation = location.state;
+    useEffect(() => {
+        const preoccupyCancel = async () => {
+            if(!isTimeOver) return;
+            if(!reservationId || !userId) {
+                return;
+            }
 
-    console.log("예약 정보",reservation);
+            try{
+                alert("⏳ 예약 시간이 만료되었습니다! 다시 예약해 주세요!");
+                const response = await postPreoccupyCancel(reservationId, userId);
+                console.log("☕ 예약 선점 취소 성공:", response);
+
+                setTimeout(() => {
+                    navigate(-1);
+                }, 3000);
+
+            }catch(error){
+                console.error("💀예약 선점 실패", error);
+
+            }
+        }
+        preoccupyCancel();
+    },[isTimeOver, reservationId, userId]);
+
+
+    const reservationComplete = async () => {
+        if(!isReservation || !reservationId || !userId) return;
+        try{
+            const response = await postReservationComplete(reservationId, userId);
+            console.log("☕ 예약 선점 취소 성공:", response);
+            alert("예약이 확정되었습니다!");
+            navigate("/");
+
+        }catch(error){
+            console.error("💀예약 결제 실패", error);
+        }
+    }
+
+
+    const onClickPayment = () => {
+        reservationComplete();
+    }
+
+
+
 
 
     return (
         <style.TotalContainer>
            <style.TopBarContainer>
-               <PaymentTopBar/>
+               <PaymentTopBar setIsTimeOver={setIsTimeOver} />
            </style.TopBarContainer>
             <style.InnerContentContainer>
                 <style.ReservationInfoContainer>
@@ -112,7 +168,7 @@ const ReservationPaymentPage = () => {
                 </style.AgreeContainer>
             </style.InnerContentContainer>
             <style.BottomBarContainer>
-                <PaymentBottomBar reservation={reservation} isReservation={isReservation} />
+                <PaymentBottomBar reservation={reservation} isReservation={isReservation} onClickPayment={onClickPayment} />
             </style.BottomBarContainer>
         </style.TotalContainer>
     )

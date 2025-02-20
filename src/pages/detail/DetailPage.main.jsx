@@ -8,15 +8,26 @@ import DetailBottomBar from "../../components/bar/DetailBottomBar.jsx";
 import DetailLocation from "../../pages/detail/DetailPage.Location.jsx";
 import ReservationModal from "../../pages/reservation/Reservation.modal.jsx"
 import DetailRestaurant from "../../assets/dummydata/DetailRestaurant.js";
+//icon
 import {FaStar} from "react-icons/fa";
 import {GoLocation, GoClock} from "react-icons/go";
 import {AiOutlineDollarCircle} from "react-icons/ai";
+//API
+import GetRestaurantDetail from "../../api/detail/get/GetRestaurantDetail.js";
+import getRestaurantDetail from "../../api/detail/get/GetRestaurantDetail.js";
 
 const DetailPage = () => {
     const {id} = useParams();
     const [isScrolled, setIsScrolled] = useState(true);
-    const [isSaved, setIsSaved] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [restaurantDetail, setRestaurantDetail] = useState(null);
+    const [menus, setMenus] = useState([]);
+    const [images, setImages] = useState([]);
+    const [averagePrice, setAveragePrice] = useState(0);
+    const likeList = JSON.parse(localStorage.getItem("likeList") || []);
+    const likeSet = new Set(likeList);
+    const [isSaved, setIsSaved] = useState( likeSet.has(Number(id)));
+
 
 
     const onClickSave = () => {
@@ -27,6 +38,28 @@ const DetailPage = () => {
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
 
+    const makeImageUrls = (imageUrls) =>{
+        return imageUrls.map((url, index) => (
+           `https://${url}`
+        ));
+    };
+
+
+    const fetchRestaurantDetail = async (id) => {
+        try{
+            console.log("restaurantId",id);
+            const response = await getRestaurantDetail(id);
+            console.log("🖐️가져온 레스토랑 디테일 데이터", response);
+            setRestaurantDetail(response);
+            setMenus(response.menus);
+            setImages(makeImageUrls(response.imageUrls));
+            setAveragePrice(response.averagePrice.toLocaleString());
+        } catch (error) {
+            console.log("💀데이터 로드 실패",error);
+        }
+    }
+
+    //useEffect 모음
     useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 200) {
@@ -39,53 +72,62 @@ const DetailPage = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    useEffect(() => {
+        fetchRestaurantDetail(id);
+
+    },[id]);
+
+    if (!restaurantDetail) {
+        return <div>Loading...</div>;
+    }
+
+
     return (
         <style.TotalContainer>
             <style.TopBarContainer isScrolled={isScrolled} onClick={ onClickSave }>
-                <DetailTopBar name={DetailRestaurant.name} isScrolled={isScrolled} isSaved={isSaved} />
+                <DetailTopBar name={restaurantDetail.name} isScrolled={isScrolled} isSaved={isSaved} />
             </style.TopBarContainer>
             <style.InnerContentContainer>
                 <style.ImageSliderContainer>
-                    {DetailRestaurant.image_urls.map((image, index) => (
-                        <style.SlideImage src={image} key={index} />
-                    ))}
-                    <style.ReservationCountComponent>
+                    {images.map((image, index) =>
+                    {
+                        return <style.ImgDiv key={index} $imgUrl={image} />;
+                    })}
 
-                    </style.ReservationCountComponent>
                 </style.ImageSliderContainer>
                 <style.MainInfoContainer>
                     <style.MainInfoFirstContainer>
                         <style.CategoryContainer>
-                            {DetailRestaurant.category}
+                            {restaurantDetail.category}
                         </style.CategoryContainer>
                         <style.NameContainer>
-                            {DetailRestaurant.name}
+                            {restaurantDetail.name}
                         </style.NameContainer>
                         <style.StarScoreContainer>
                             <style.StarContainer>
                                 <FaStar size={17} color={"#FFBD2D"} />
                             </style.StarContainer>
-                            {DetailRestaurant.star}
+                            {restaurantDetail.rating}
                         </style.StarScoreContainer>
                     </style.MainInfoFirstContainer>
                     <style.MainInfoSecondContainer>
                         <style.LocationFirstContainer>
                             <style.LocationIcon>
-                                <GoLocation size={17} />
+                                <GoLocation size={15} />
                             </style.LocationIcon>
-                            {DetailRestaurant.location}
+                            {restaurantDetail.location}
                         </style.LocationFirstContainer>
                         <style.AveragePriceContainer>
                             <style.PriceIcon>
-                                <AiOutlineDollarCircle size={17} />
+                                <AiOutlineDollarCircle size={15} />
                             </style.PriceIcon>
-                            {DetailRestaurant.average_price}
+                            평균 가격 : {averagePrice} 원
                         </style.AveragePriceContainer>
                         <style.TimeContainer>
                             <style.PriceIcon>
-                                <GoClock size={17} />
+                                <GoClock size={15} />
                             </style.PriceIcon>
-                            {DetailRestaurant.operating_hour}
+                            {restaurantDetail.expandedDays} {restaurantDetail.timeRange}
                         </style.TimeContainer>
 
                     </style.MainInfoSecondContainer>
@@ -99,24 +141,24 @@ const DetailPage = () => {
                             메뉴판
                         </style.MenuButton>
                     </style.MenuTitle>
-                    {DetailRestaurant.menuList.map((item, index) => (
-                        <MenuComponent key={item.id} name={item.menu_name} price={item.price}/>
+                    {menus.map((item, index) => (
+                        <MenuComponent key={item.id} name={item.name} price={item.price}/>
                     ))}
                 </style.MenuContainer>
                 <style.LocationContainer>
-                    <DetailLocation address={DetailRestaurant.address} latitude={DetailRestaurant.latitude} longitude={ DetailRestaurant.longitude} />
+                    <DetailLocation address={restaurantDetail.location} />
 
                 </style.LocationContainer>
                 <style.DetailInfoContainer>
-                    <DetailInfo caution={DetailRestaurant.caution} convenience={DetailRestaurant.convenience} number={DetailRestaurant.phone_number}/>
+                    <DetailInfo cautions={restaurantDetail.cautions} convenience={restaurantDetail.facilities} number={restaurantDetail.phone_number}/>
                 </style.DetailInfoContainer>
 
             </style.InnerContentContainer>
             <style.BottomBarContainer >
-                <DetailBottomBar  isClick={isSaved} onClickSave={onClickSave} restaurantId={DetailRestaurant.id} openModal={openModal} closeModal={closeModal} />
+                <DetailBottomBar  isSaved={isSaved} onClickSave={onClickSave} restaurantId={restaurantDetail.restaurantId} openModal={openModal} closeModal={closeModal} />
             </style.BottomBarContainer>
 
-            <ReservationModal isOpen={isModalOpen} closeModal={closeModal} restaurantId={DetailRestaurant.id} />
+            <ReservationModal isOpen={isModalOpen} closeModal={closeModal} restaurantId={restaurantDetail.restaurantId} />
 
         </style.TotalContainer>
     )

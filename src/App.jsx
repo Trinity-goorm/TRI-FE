@@ -12,6 +12,8 @@ import KakaoCallback from "./pages/auth/KakaoCallback.jsx";
 import Search from "./pages/search/Search.jsx";
 import SearchTotal from "./pages/search/SearchTotal.jsx";
 import ReservationPaymentPage from "./pages/reservation/Reservation.payment.jsx";
+import MyDiningReservation from "./pages/mydining/MyDiningPage.reservation.jsx";
+import MyDiningVacancy from "./pages/mydining/MyDiningPage.vacancy.jsx";
 import DetailPage from "./pages/detail/DetailPage.main.jsx";
 import Onboarding from "./pages/onboarding/Onboarding.jsx";
 
@@ -34,22 +36,11 @@ function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/search/total" element={<SearchTotal />} />
         <Route path="/reservation/:id" element={<ReservationMainPage />} />
-        <Route
-          path="/reservation/confirm/:id"
-          element={<ReservationConfirm />}
-        />
-        <Route
-          path="/reservation/payment"
-          element={<ReservationPaymentPage />}
-        />
-        <Route
-          path="/reservation/confirm/:id"
-          element={<ReservationConfirm />}
-        />
-        <Route
-          path="/reservation/payment"
-          element={<ReservationPaymentPage />}
-        />
+        <Route path="/reservation/confirm/:id" element={<ReservationConfirm />} />
+        <Route path="/reservation/payment" element={<ReservationPaymentPage />} />
+        <Route path="/mydining" element={<MyDiningPage />} />
+        <Route path="/mydining/reservation" element={<MyDiningReservation />} />
+        <Route path="/mydining/vacancy" element={<MyDiningVacancy />} />
       </Routes>
     </Router>
   );
