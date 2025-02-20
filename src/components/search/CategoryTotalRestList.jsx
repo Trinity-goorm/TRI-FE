@@ -1,15 +1,14 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
-import SearchTotalRestItem from "./SearchTotalRestItem";
-import SearchRestaurant from "../../assets/dummydata/SearchRestaurant";
-import PostSearchRestList from "../../api/search/PostSearchRestList.js";
+import CategoryTotalRestItem from "./CategoryTotalRestItem";
+import GetCategoryRestList from "../../api/search/GetCategoryRestList.js";
 
-const SearchTotalRestList = ({ keyword, sortType }) => {
+const CategoryTotalRestList = ({ category }) => {
   const [restaurantList, setRestaurantList] = useState([]);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    fetchSearchData();
+    fetchCategoryData();
   }, [page]);
 
   useEffect(() => {
@@ -22,44 +21,50 @@ const SearchTotalRestList = ({ keyword, sortType }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const fetchSearchData = async () => {
+  const fetchCategoryData = async () => {
     try {
-      const response = await PostSearchRestList(keyword, sortType, page);
-      setRestaurantList(response.shops);
+      const response = await GetCategoryRestList(
+        category,
+        localStorage.getItem("userId"),
+        page
+      );
+
+      setRestaurantList((prevList) => [...prevList, ...response]);
     } catch (error) {
       console.error("💀데이터 로드 실패", error);
     }
   };
 
   return (
-    <SearchTotalRestListContainer>
-      {restaurantList.map((item) => (
-        <SearchTotalRestItem
-          key={item.id}
-          id={item.id}
+    <CategoryTotalRestListContainer>
+      {restaurantList?.map((item, index) => (
+        <CategoryTotalRestItem
+          key={`${item.restaurantId}-${index}`}
+          id={item.restaurantId}
           name={item.name}
-          imgUrls={item.imgUrls}
+          imgUrls={item.imageUrl}
           category={item.category}
           location={item.location}
           rating={item.rating}
-          operatingHour={item.operatingHour}
+          operatingHour={item.operatingHours}
           averagePrice={item.averagePrice}
-          isSaved={item.isSaved}
+          isSaved={item.wishlisted}
           reservation={item.reservation}
         />
       ))}
-    </SearchTotalRestListContainer>
+    </CategoryTotalRestListContainer>
   );
 };
 
-const SearchTotalRestListContainer = styled.div`
+const CategoryTotalRestListContainer = styled.div`
   background-color: #eeeeee;
   display: flex;
   flex-direction: column;
   gap: 3px;
+  margin-top: 75px;
 
   overflow-y: auto;
   scrollbar-width: none;
 `;
 
-export default SearchTotalRestList;
+export default CategoryTotalRestList;

@@ -5,6 +5,7 @@ import profileImg from "../../assets/img/profile_default.png";
 import moneyImg from "../../assets/img/money.png";
 import alarm from "../../assets/img/alarm.png";
 import SavedRestaurantList from "../../components/restaurant/SavedRestaurantList.jsx";
+import PostLogout from "../../api/auth/PostLogout.js";
 
 const name = "식도락가";
 const tellNum = "01000000000";
@@ -12,6 +13,20 @@ const ticket = 1;
 const count = 5;
 
 const MyPage = () => {
+  const handleLogout = async () => {
+    try {
+      console.log("**");
+      await PostLogout(localStorage.getItem("FCM_TOKEN"));
+
+      localStorage.removeItem("FCM_TOKEN");
+      localStorage.removeItem("ACCESS_TOKEN");
+      localStorage.removeItem("REFRESH_TOKEN");
+      localStorage.removeItem("userId");
+    } catch (error) {
+      console.error("💀데이터 로드 실패", error);
+    }
+  };
+
   return (
     <>
       <MyPageContainer>
@@ -23,7 +38,7 @@ const MyPage = () => {
             <Name>{name}</Name>
             <TellNum>{formatPhoneNumber(tellNum)}</TellNum>
           </NameTellContainer>
-          <LogoutButton>로그아웃</LogoutButton>
+          <LogoutButton onClick={handleLogout}>로그아웃</LogoutButton>
         </UserInfoContainer>
 
         <TicketContainer>

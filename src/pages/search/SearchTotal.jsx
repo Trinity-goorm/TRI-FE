@@ -4,6 +4,7 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import SearchTotalRestList from "../../components/search/SearchTotalRestList";
+import CategoryTotalRestList from "../../components/search/CategoryTotalRestList";
 import SortModal from "../../components/search/SortModal";
 
 const type = {
@@ -16,9 +17,12 @@ const type = {
 const SearchTotal = () => {
   const nav = useNavigate();
   const [searchParam] = useSearchParams();
-  const keyword = searchParam.get("keyword");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [sortType, setSortType] = useState("highest_rating");
+
+  // 쿼리파라미터
+  const category = searchParam.get("category") ?? null;
+  const keyword = searchParam.get("keyword") ?? null;
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -30,7 +34,7 @@ const SearchTotal = () => {
 
   return (
     <>
-      <SearchKeyword onClick={() => nav(`/search?query=${keyword}`)}>
+      <SearchKeyword onClick={() => nav(`/search?query=${keyword ?? ""}`)}>
         <SearchKeywordContainer>
           <GoArrowLeft
             size={22}
@@ -38,25 +42,35 @@ const SearchTotal = () => {
             style={{ position: "absolute", left: "33px", curson: "pointer" }}
             onClick={(e) => {
               e.stopPropagation();
-              nav("/search");
+              nav(-1);
             }}
           />
-          <Keyword>{keyword}</Keyword>
+          <Keyword $isExist={keyword !== null}>
+            {keyword ?? "찾고 있는 맛집이 있나요?"}
+          </Keyword>
         </SearchKeywordContainer>
       </SearchKeyword>
 
-      <SortButton onClick={openModal}>
-        {type[sortType]}
-        <MdKeyboardArrowDown size={18} style={{ marginRight: "-5" }} />
-      </SortButton>
-      <SortModal
-        isOpen={isModalOpen}
-        closeModal={closeModal}
-        sortType={sortType}
-        clickSortHandler={clickSortHandler}
-      />
+      {category === null ? (
+        <>
+          <SortButton onClick={openModal}>
+            {type[sortType]}
+            <MdKeyboardArrowDown size={18} style={{ marginRight: "-5" }} />
+          </SortButton>
+          <SortModal
+            isOpen={isModalOpen}
+            closeModal={closeModal}
+            sortType={sortType}
+            clickSortHandler={clickSortHandler}
+          />
+        </>
+      ) : null}
 
-      <SearchTotalRestList />
+      {category === null ? (
+        <SearchTotalRestList keyword={keyword} sortType={sortType} />
+      ) : (
+        <CategoryTotalRestList category={category} />
+      )}
     </>
   );
 };
@@ -88,6 +102,7 @@ const Keyword = styled.div`
   cursor: pointer;
   display: flex;
   align-items: center;
+  color: ${({ $isExist }) => ($isExist ? "none" : "#b3b3b3")};
 `;
 
 const SortButton = styled.button`
