@@ -25,6 +25,7 @@ const ButtonContainer = styled.button`
   font-weight: 600;
   font-size: 15px;
   margin: auto 30px 80px 30px;
+  transition: all 0.2s ease-in-out;
 `;
 
 export default OnboardingButton;

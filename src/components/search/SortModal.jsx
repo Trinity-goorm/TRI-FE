@@ -1,15 +1,31 @@
 import styled from "styled-components";
+import { useState, useEffect } from "react";
 import { MdClose } from "react-icons/md";
 import { IoMdCheckmark } from "react-icons/io";
 
 const SortModal = ({ isOpen, closeModal, sortType, clickSortHandler }) => {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
+
   return (
     <SortModalContainer $isOpen={isOpen}>
       <ModalBack onClick={closeModal} />
       <ModalContentContainer $isOpen={isOpen}>
         <SortText>
           정렬
-          <MdClose onClick={closeModal} size={18} />
+          <MdClose
+            onClick={closeModal}
+            size={18}
+            style={{ cursor: "pointer" }}
+          />
         </SortText>
         <SortComment
           $sortType={sortType === "highest_rating"}
@@ -23,23 +39,23 @@ const SortModal = ({ isOpen, closeModal, sortType, clickSortHandler }) => {
           별점순
         </SortComment>
         <SortComment
-          $sortType={sortType === "highest_price"}
+          $sortType={sortType === "highest_average_price"}
           onClick={() => {
-            clickSortHandler("highest_price");
+            clickSortHandler("highest_average_price");
           }}
         >
-          {sortType === "highest_price" ? (
+          {sortType === "highest_average_price" ? (
             <IoMdCheckmark strokeWidth={15} />
           ) : null}
           가격 높은순
         </SortComment>
         <SortComment
-          $sortType={sortType === "lowest_price"}
+          $sortType={sortType === "lowest_average_price"}
           onClick={() => {
-            clickSortHandler("lowest_price");
+            clickSortHandler("lowest_average_price");
           }}
         >
-          {sortType === "lowest_price" ? (
+          {sortType === "lowest_average_price" ? (
             <IoMdCheckmark strokeWidth={15} />
           ) : null}
           가격 낮은순
@@ -50,7 +66,9 @@ const SortModal = ({ isOpen, closeModal, sortType, clickSortHandler }) => {
 };
 
 const SortModalContainer = styled.div`
-  display: ${({ $isOpen }) => ($isOpen ? "block" : "none")};
+  opacity: ${({ $isOpen }) => ($isOpen ? "1" : "0")};
+  visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
+  transition: opacity 0.2s ease, visibility 0.2s ease;
 `;
 
 const ModalBack = styled.div`
@@ -69,6 +87,7 @@ const SortText = styled.div`
 
   font-weight: 600;
   font-size: 17px;
+  height: 100%;
 `;
 
 const SortComment = styled.div`
@@ -79,6 +98,7 @@ const SortComment = styled.div`
   gap: 15px;
   cursor: pointer;
   font-weight: ${({ $sortType }) => ($sortType ? "700" : "none")};
+  height: 100%;
 `;
 
 const ModalContentContainer = styled.div`
@@ -91,11 +111,10 @@ const ModalContentContainer = styled.div`
 
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  padding: 0px 20px;
+  padding: 0px 22px 13px 22px;
   box-sizing: border-box;
 
-  animation: ${({ $isOpen }) => ($isOpen ? "fade_up 0.3s" : "fade_down 0.3s")};
+  animation: ${({ $isOpen }) => ($isOpen ? "fade_up 0.2s" : "fade_down 0.2s")};
 
   @keyframes fade_up {
     0% {

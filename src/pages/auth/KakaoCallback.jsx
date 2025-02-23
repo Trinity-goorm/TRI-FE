@@ -16,7 +16,7 @@ const KakaoCallback = () => {
       if (!fcmToken) throw new Error("fcm 토큰이 없습니다.");
 
       const response = await axios.post(
-        `http://localhost:8080/users/kakao/login?code=${code}`,
+        `http://localhost:8080/api/users/kakao/login?code=${code}`,
         {
           fcmToken: fcmToken,
           timestamp: Date.now(),
