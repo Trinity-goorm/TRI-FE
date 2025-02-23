@@ -1,21 +1,27 @@
 import BottomBar from "../../components/bar/BottomBar";
 import styled from "styled-components";
-import { formatPhoneNumber } from "../../util/formatPhoneNumber.js";
 import profileImg from "../../assets/img/profile_default.png";
-import moneyImg from "../../assets/img/money.png";
-import alarm from "../../assets/img/alarm.png";
 import SavedRestaurantList from "../../components/restaurant/SavedRestaurantList.jsx";
 import PostLogout from "../../api/auth/PostLogout.js";
-
-const name = "식도락가";
-const tellNum = "01000000000";
-const ticket = 1;
-const count = 5;
+import { useState, useEffect } from "react";
+import GetUserDetail from "../../api/userInfo/GetUserDetail.js";
+import NoSavedRestaurant from "../../components/restaurant/NoSavedRestuarant.jsx";
+import GetMyLikeList from "../../api/userInfo/GetMyLikeList.js";
 
 const MyPage = () => {
+  const [name, setName] = useState("");
+  const [tellNum, setTellNum] = useState("");
+  const [emptyTicketCount, setEmptyTicketCount] = useState(0);
+  const [normalTicketCount, setNormalTicketCount] = useState(0);
+  const [savedRestList, setSavedRestList] = useState([]);
+
+  useEffect(() => {
+    fetchUserDetail();
+    fetchMyLikeList();
+  }, []);
+
   const handleLogout = async () => {
     try {
-      console.log("**");
       await PostLogout(localStorage.getItem("FCM_TOKEN"));
 
       localStorage.removeItem("FCM_TOKEN");
@@ -27,8 +33,35 @@ const MyPage = () => {
     }
   };
 
+  const fetchMyLikeList = async () => {
+    try {
+      const response = await GetMyLikeList(localStorage.getItem("userId"));
+      setSavedRestList(response);
+    } catch (error) {
+      console.error("💀데이터 로드 실패", error);
+    }
+  };
+
+  const deleteLikeItem = (deleteId) => {
+    setSavedRestList((prev) =>
+      prev.filter((item) => item.restaurantId !== deleteId)
+    );
+  };
+
+  const fetchUserDetail = async () => {
+    try {
+      const response = await GetUserDetail(localStorage.getItem("userId"));
+      setName(response.username);
+      setTellNum(response.userId);
+      setNormalTicketCount(response.normalTicketCount);
+      setEmptyTicketCount(response.emptyTicketCount);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <>
+    <MyPageTotalContainer $haveList={savedRestList.length !== 0}>
       <MyPageContainer>
         <Title>마이페이지</Title>
 
@@ -36,7 +69,7 @@ const MyPage = () => {
           <ProfileImg src={profileImg} />
           <NameTellContainer>
             <Name>{name}</Name>
-            <TellNum>{formatPhoneNumber(tellNum)}</TellNum>
+            <TellNum>{tellNum}</TellNum>
           </NameTellContainer>
           <LogoutButton onClick={handleLogout}>로그아웃</LogoutButton>
         </UserInfoContainer>
@@ -45,29 +78,18 @@ const MyPage = () => {
           <Comment>보유티켓</Comment>
           <TickContentContainer>
             <TicketItemContainer>
-              <MoneyImg src={moneyImg} />
-              <TicketNum>{ticket} 장</TicketNum>
+              <IconWrapper>💵</IconWrapper>
+              <TicketNum>{normalTicketCount} 장</TicketNum>
               <TicketInfo>결제 티켓</TicketInfo>
             </TicketItemContainer>
 
-            <Divider />
+            <VerticalDivider />
 
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: "15px",
-              }}
-            >
-              <AlarmImg
-                src={alarm}
-                style={{ marginTop: "-9px", marginBottom: "14px" }}
-              />
-              <TicketNum style={{ marginBottom: "6px" }}>{ticket} 장</TicketNum>
+            <TicketItemContainer>
+              <IconWrapper>⏰</IconWrapper>
+              <TicketNum>{emptyTicketCount} 장</TicketNum>
               <TicketInfo>빈자리 티켓</TicketInfo>
-            </div>
+            </TicketItemContainer>
           </TickContentContainer>
         </TicketContainer>
 
@@ -75,28 +97,46 @@ const MyPage = () => {
           <SavedRestCommetWrapper>
             <Comment>저장한 레스토랑</Comment>
             <div style={{ color: "#7b7b7b", marginBottom: "20px" }}>
-              {count}
+              {savedRestList.length}
             </div>
           </SavedRestCommetWrapper>
-          <SavedRestaurantList />
+          {savedRestList.length === 0 ? (
+            <NoSavedRestaurant />
+          ) : (
+            <SavedRestaurantList
+              savedRestList={savedRestList}
+              deleteLikeItem={deleteLikeItem}
+            />
+          )}
         </SavedRestList>
       </MyPageContainer>
 
       <BottomBarWrapper>
         <BottomBar />
       </BottomBarWrapper>
-    </>
+    </MyPageTotalContainer>
   );
 };
 export default MyPage;
 
+const VerticalDivider = styled.div`
+  width: 1px;
+  height: 60%;
+  background-color: #ccc;
+`;
+
+const MyPageTotalContainer = styled.div`
+  height: ${({ $haveList }) => ($haveList ? "none" : "100vh")};
+`;
+
 const MyPageContainer = styled.div`
-  min-height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   padding: 0px 20px;
-  gap: 35px;
-  margin-bottom: 80px;
+  gap: 40px;
+  padding-bottom: 80px;
+  box-sizing: border-box;
 `;
 
 const Title = styled.div`
@@ -152,12 +192,6 @@ const Comment = styled.div`
   margin-bottom: 20px;
 `;
 
-const Divider = styled.div`
-  width: 1px;
-  height: 60%;
-  background-color: #ccc;
-`;
-
 const TicketContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -169,6 +203,10 @@ const TicketItemContainer = styled.div`
   height: 100%;
   justify-content: space-between;
   align-items: center;
+`;
+
+const IconWrapper = styled.div`
+  font-size: 26px;
 `;
 
 const TickContentContainer = styled.div`
@@ -185,7 +223,7 @@ const TickContentContainer = styled.div`
 `;
 
 const TicketNum = styled.div`
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
 `;
 
@@ -194,25 +232,15 @@ const TicketInfo = styled.div`
   color: #494949;
 `;
 
-const MoneyImg = styled.img`
-  width: 45px;
-  height: 45px;
-  opacity: 0.6;
-`;
-
-const AlarmImg = styled.img`
-  width: 30px;
-  height: 30px;
-  opacity: 0.6;
-`;
-
 const SavedRestCommetWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
 `;
 
-const SavedRestList = styled.div``;
+const SavedRestList = styled.div`
+  flex: 1;
+`;
 
 const BottomBarWrapper = styled.div`
   max-width: 480px;

@@ -1,71 +1,90 @@
-import styled from "styled-components";
+import * as style from "./style/Search.js";
 import { GoArrowLeft } from "react-icons/go";
 import { FiSearch } from "react-icons/fi";
-import { ImSpoonKnife } from "react-icons/im";
+import { FaRegClock } from "react-icons/fa6";
 import { IoCloseCircle } from "react-icons/io5";
-import RecommendFeed from "../../components/recommend/RecommendFeed";
-import RecommendedList from "../../assets/dummydata/RecommendedList";
+import sushi from "../../assets/img/sushi.png";
+import meat from "../../assets/img/meat.png";
+import cake from "../../assets/img/cake.png";
+import star from "../../assets/img/star.png";
+
+// React
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import SearchRestList from "../../components/search/SearchRestList";
 
-const category = [
-  "중식",
-  "일식",
-  "브런치",
-  "파스타",
-  "이탈리안",
-  "이자카야",
-  "한식",
-  "치킨",
-  "스테이크",
-  "고깃집",
-  "다이닝바",
-  "오마카세",
+// Componenet
+import RecommendFeed from "../../components/recommend/RecommendFeed";
+import RecommendedList from "../../assets/dummydata/RecommendedList";
+import HistoryList from "../../components/search/HistoryList";
+import GetHistoryList from "../../api/search/GetHistoryList";
+import RecommendCatItem from "../../components/search/RecommendCatItem";
+
+const recomCatList = [
+  {
+    img: sushi,
+    title: "일식",
+    subTitle: "신선한",
+    categoryId: 2,
+  },
+  {
+    img: meat,
+    title: "스테이크",
+    subTitle: "육즙 가득한",
+    categoryId: 9,
+  },
+  {
+    img: cake,
+    title: "브런치카페",
+    subTitle: "여유로운",
+    categoryId: 3,
+  },
+  {
+    img: star,
+    title: "별점 높은",
+    subTitle: "인정받은",
+    categoryId: 13, // 공백
+  },
 ];
 
 const Search = () => {
   const nav = useNavigate();
   const [searchParam] = useSearchParams();
-  const query = searchParam.get("query");
+  const query = searchParam.get("keyword");
   const [searchQuery, setSearchQuery] = useState(query || "");
-  const [isFixed, setIsFixed] = useState(true);
-
-  useEffect(() => {
-    const handScroll = () => {
-      const scrollTop = document.documentElement.scrollTop;
-      const threshold = 700;
-
-      if (scrollTop > threshold) {
-        setIsFixed(false);
-      } else {
-        setIsFixed(true);
-      }
-    };
-
-    window.addEventListener("scroll", handScroll);
-    return () => window.removeEventListener("scroll", handScroll);
-  }, []);
+  const [histroyList, setHistoryList] = useState([]);
 
   const handleChangeQuery = (e) => {
     setSearchQuery(e.target.value);
   };
 
+  useEffect(() => {
+    fetchHistoryData();
+  }, []);
+
+  const fetchHistoryData = async () => {
+    try {
+      const response = await GetHistoryList(localStorage.getItem("userId"));
+      setHistoryList(response);
+    } catch (error) {
+      console.error("💀데이터 로드 실패", error);
+    }
+  };
+
   return (
-    <>
-      <SearchBar $isFixed={isFixed}>
-        <SearchBarContainer>
-          <GoArrowLeft size={22} color="black" onClick={() => nav(-1)} />
-          <SearchInput
+    <style.SearchContainer>
+      <style.SearchBar>
+        <style.SearchBarContainer>
+          <GoArrowLeft size={22} color="black" onClick={() => nav("/")} />
+          <style.SearchInput
             placeholder="어떤 맛집을 찾으세요?"
             value={searchQuery}
             onChange={handleChangeQuery}
             onKeyDown={(e) => {
-              if (e.key === "Enter") {
+              if (searchQuery !== "" && e.key === "Enter") {
                 nav(`/search/total?keyword=${searchQuery}`);
               }
             }}
-          ></SearchInput>
+          ></style.SearchInput>
           {searchQuery === "" ? null : (
             <IoCloseCircle
               size={18.5}
@@ -76,113 +95,48 @@ const Search = () => {
               }}
             />
           )}
-        </SearchBarContainer>
-      </SearchBar>
+        </style.SearchBarContainer>
+      </style.SearchBar>
 
-      <SearchListContainer>
-        {searchQuery === "" ? (
-          <RecomFeedContainer>
-            이런 레스토랑은 어때요?
-            <ContentSlider>
-              {RecommendedList.map((item, index) => (
-                <RecommendFeed item={item} key={index} />
-              ))}
-            </ContentSlider>
-          </RecomFeedContainer>
+      <style.HistoryContainer>
+        <style.Comment>최근에 검색한</style.Comment>
+        {histroyList.length === 0 ? (
+          <style.HistoryNoResultComment>
+            <FiSearch />
+            최근 검색어가 없어요.
+          </style.HistoryNoResultComment>
         ) : (
-          <>
-            <QueryContainer>
-              <QueryWrapper>
-                <FiSearch size={19} color="#b3b3b3" />
-                <Query>{searchQuery}</Query>
-              </QueryWrapper>
-            </QueryContainer>
-            <SearchRestList searchQuery={searchQuery} />
-          </>
+          <style.HistoryListWrapper>
+            <HistoryList histroyList={histroyList} />
+          </style.HistoryListWrapper>
         )}
-      </SearchListContainer>
-    </>
+      </style.HistoryContainer>
+
+      <style.CategoryFeedContainer>
+        <style.Comment>이런 종류는 어떠세요?</style.Comment>
+        <style.RecomCatListWrapper>
+          {recomCatList.map((item, index) => (
+            <RecommendCatItem
+              key={index}
+              img={item.img}
+              title={item.title}
+              subTitle={item.subTitle}
+              categoryId={item.categoryId}
+            />
+          ))}
+        </style.RecomCatListWrapper>
+      </style.CategoryFeedContainer>
+
+      <style.RecomFeedContainer>
+        <style.Comment>OOO 님을 위한 레스토랑</style.Comment>
+        <style.ContentSlider>
+          {RecommendedList.map((item, index) => (
+            <RecommendFeed item={item} key={index} />
+          ))}
+        </style.ContentSlider>
+      </style.RecomFeedContainer>
+    </style.SearchContainer>
   );
 };
-
-const SearchBar = styled.div`
-  position: ${({ $isFixed }) => ($isFixed ? "fixed" : "static")};
-  width: 480px;
-  height: 65px;
-  background-color: white;
-`;
-
-const SearchBarContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  position: relative;
-  height: 100%;
-`;
-
-const SearchInput = styled.input`
-  width: 84%;
-  height: 48px;
-  border-radius: 12px;
-  font-size: 16px;
-  box-sizing: border-box;
-  padding: 0 40px 0 15px;
-  outline: none;
-  border: 1px solid;
-
-  &::placeholder {
-    color: #bfbfbf;
-  }
-`;
-
-const QueryContainer = styled.div`
-  padding: 10px 25px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 30px;
-`;
-
-const QueryWrapper = styled.div`
-  display: flex;
-  gap: 8px;
-`;
-
-const Query = styled.div`
-  font-size: 15.5px;
-  color: #808080;
-`;
-
-const SearchListContainer = styled.div`
-  padding-top: 65px;
-`;
-
-const RecomFeedContainer = styled.div`
-  font-size: 14px;
-  font-weight: 650;
-  padding: 20px 0px 20px 25px;
-  color: #666;
-`;
-
-const ContentSlider = styled.div`
-  transform: scale(0.8);
-  transform-origin: top left;
-
-  display: flex;
-  flex-direction: row;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  white-space: nowrap;
-  width: calc(100% / 0.8);
-
-  box-sizing: border-box;
-  padding-top: 20px;
-  padding-right: 20px;
-  margin-left: -3px;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
 
 export default Search;

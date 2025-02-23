@@ -5,7 +5,9 @@ const CategoryButton = ({ id, image, name }) => {
   const nav = useNavigate();
 
   return (
-    <style.TotalContainer onClick={() => nav(`/search/total?category=${id}`)}>
+    <style.TotalContainer
+      onClick={() => nav(`/search/total/category?categoryId=${id}`)}
+    >
       <style.ImageContainer>
         <style.Image src={image} alt={name} />
       </style.ImageContainer>
