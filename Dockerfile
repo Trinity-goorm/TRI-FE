@@ -1,5 +1,5 @@
-# Node.js 기반 이미지 사용
-FROM node:18-alpine
+# Node.js 기반 이미지 사용 - React Router v7 (Node.js 20 버전 이상 요구)
+FROM node:20-alpine
 
 # 작업 디렉토리 설정
 WORKDIR /app
