@@ -1,11 +1,16 @@
 import styled from "styled-components";
 import HistoryItem from "./HistoryItem";
 
-const HistoryList = ({ histroyList }) => {
+const HistoryList = ({ histroyList, deleteHistory }) => {
   return (
     <HistoryListContainer>
       {histroyList.map((item, index) => (
-        <HistoryItem key={index} keyword={item} />
+        <HistoryItem
+          key={index}
+          id={item.id}
+          keyword={item.keyword}
+          deleteHistory={deleteHistory}
+        />
       ))}
     </HistoryListContainer>
   );

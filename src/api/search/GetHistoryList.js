@@ -5,7 +5,7 @@ const GetHistoryList = (userId) => {
     method: "GET",
     endpoint: `/search/history/${userId}`,
     successMessage: "유저 검색 히스토리 가져오기 성공",
-    errorMessage: "검유저 검색 히스토리 가져오기 실패",
+    errorMessage: "유저 검색 히스토리 가져오기 실패",
   });
 };
 

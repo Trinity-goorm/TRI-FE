@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import axios from "axios";
+import PostLogin from "../../api/auth/PostLogin";
 
 const KakaoCallback = () => {
   const nav = useNavigate();
@@ -15,24 +15,16 @@ const KakaoCallback = () => {
       console.log(fcmToken);
       if (!fcmToken) throw new Error("fcm 토큰이 없습니다.");
 
-      const response = await axios.post(
-        `http://localhost:8080/api/users/kakao/login?code=${code}`,
-        {
-          fcmToken: fcmToken,
-          timestamp: Date.now(),
-        }
-      );
+      const response = await PostLogin(code, fcmToken, Date.now());
 
-      if (response.status === 200) {
-        localStorage.setItem("ACCESS_TOKEN", response.data.accessToken);
-        localStorage.setItem("REFRESH_TOKEN", response.data.refreshToken);
-        localStorage.setItem("userId", response.data.id);
+      localStorage.setItem("ACCESS_TOKEN", response.accessToken);
+      localStorage.setItem("REFRESH_TOKEN", response.refreshToken);
+      localStorage.setItem("userId", response.id);
 
-        if (response.data.newUser) {
-          nav("/onboarding/1");
-        } else {
-          nav("/");
-        }
+      if (response.data.newUser) {
+        nav("/onboarding");
+      } else {
+        nav("/");
       }
     };
 
