@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams} from "react-router-dom";
+import { useLocation, useParams} from "react-router-dom";
 import * as style from "./style/DetailPage.main.js";
 import DetailTopBar from "../../components/bar/DetailTopBar.jsx";
 import MenuComponent from "../../components/menu/MenuComponent.jsx";
@@ -13,12 +13,15 @@ import {FaStar} from "react-icons/fa";
 import {GoLocation, GoClock} from "react-icons/go";
 import {AiOutlineDollarCircle} from "react-icons/ai";
 //API
-import GetRestaurantDetail from "../../api/detail/get/GetRestaurantDetail.js";
 import getRestaurantDetail from "../../api/detail/get/GetRestaurantDetail.js";
+import DeleteLike from "../../api/save/delete/DeleteLike.js";
+import PostLike from "../../api/save/post/PostLike.js";
+
 
 const DetailPage = () => {
     const {id} = useParams();
-    const [isScrolled, setIsScrolled] = useState(true);
+    const location = useLocation();
+    const [isScrolled, setIsScrolled] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [restaurantDetail, setRestaurantDetail] = useState(null);
     const [menus, setMenus] = useState([]);
@@ -27,6 +30,8 @@ const DetailPage = () => {
     const likeList = JSON.parse(localStorage.getItem("likeList") || []);
     const likeSet = new Set(likeList);
     const [isSaved, setIsSaved] = useState( likeSet.has(Number(id)));
+    const userId = localStorage.getItem("userId");
+    const [remoteSelectDate, setRemoteSelectDate] = useState(null);
 
 
 
@@ -40,7 +45,7 @@ const DetailPage = () => {
 
     const makeImageUrls = (imageUrls) =>{
         return imageUrls.map((url, index) => (
-           `https://${url}`
+                `https://${url}`
         ));
     };
 
@@ -56,6 +61,22 @@ const DetailPage = () => {
             setAveragePrice(response.averagePrice.toLocaleString());
         } catch (error) {
             console.log("💀데이터 로드 실패",error);
+        }
+    };
+    const handleLike = async () => {
+        try{
+            if(!isSaved){
+                await PostLike(userId, restaurantDetail.restaurantId);
+                setIsSaved(true);
+                console.log("상세페이지에서 좋아요 성공!")
+            }else {
+                await DeleteLike(userId, restaurantDetail.restaurantId);
+                setIsSaved(false);
+                console.log("상세페이지에서 좋아요 실패!")
+            }
+
+        }catch(e){
+            console.log("👎좋아요 실패",e);
         }
     }
 
@@ -77,6 +98,17 @@ const DetailPage = () => {
 
     },[id]);
 
+    useEffect(() => {
+
+        if(location.state?.openModal){
+            setIsModalOpen(true);
+        }
+        if(location.state?.date){
+            setRemoteSelectDate(location.state.date);
+        }
+    },[location.state]);
+
+
     if (!restaurantDetail) {
         return <div>Loading...</div>;
     }
@@ -84,14 +116,14 @@ const DetailPage = () => {
 
     return (
         <style.TotalContainer>
-            <style.TopBarContainer isScrolled={isScrolled} onClick={ onClickSave }>
-                <DetailTopBar name={restaurantDetail.name} isScrolled={isScrolled} isSaved={isSaved} />
+            <style.TopBarContainer isScrolled={isScrolled} >
+                <DetailTopBar name={restaurantDetail.name} isScrolled={isScrolled} isSaved={isSaved} onClickSave={handleLike} />
             </style.TopBarContainer>
             <style.InnerContentContainer>
                 <style.ImageSliderContainer>
                     {images.map((image, index) =>
                     {
-                        return <style.ImgDiv key={index} $imgUrl={image} />;
+                        return <style.ImgDiv  key={index} $imgUrl={image} />;
                     })}
 
                 </style.ImageSliderContainer>
@@ -127,7 +159,8 @@ const DetailPage = () => {
                             <style.PriceIcon>
                                 <GoClock size={15} />
                             </style.PriceIcon>
-                            {restaurantDetail.expandedDays} {restaurantDetail.timeRange}
+                            {restaurantDetail.expandedDays === "null" ? "운영일 제공 x" : restaurantDetail.expandedDays }{'\u00A0\u00A0\u00A0'}
+                            {restaurantDetail.timeRange === "null" ? "운영시간 제공 x" : restaurantDetail.timeRange}
                         </style.TimeContainer>
 
                     </style.MainInfoSecondContainer>
@@ -155,10 +188,10 @@ const DetailPage = () => {
 
             </style.InnerContentContainer>
             <style.BottomBarContainer >
-                <DetailBottomBar  isSaved={isSaved} onClickSave={onClickSave} restaurantId={restaurantDetail.restaurantId} openModal={openModal} closeModal={closeModal} />
+                <DetailBottomBar  isSaved={isSaved} onClickSave={handleLike} restaurantId={restaurantDetail.restaurantId} openModal={openModal} closeModal={closeModal} wishCount={restaurantDetail.wishCount} />
             </style.BottomBarContainer>
 
-            <ReservationModal isOpen={isModalOpen} closeModal={closeModal} restaurantId={restaurantDetail.restaurantId} />
+            <ReservationModal isOpen={isModalOpen} closeModal={closeModal} restaurantId={restaurantDetail.restaurantId} remoteSelectDate={remoteSelectDate}/>
 
         </style.TotalContainer>
     )

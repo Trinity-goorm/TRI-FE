@@ -48,7 +48,7 @@ const DetailLocation = ({address}) => {
         }
 
         const script = document.createElement("script");
-        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_JS_KEY}&autoload=false`;
+        script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_JS_KEY}&autoload=false`;
         script.async = true;
         document.head.appendChild(script);
 
@@ -57,10 +57,11 @@ const DetailLocation = ({address}) => {
         };
 
         return () => document.head.removeChild(script);
-    }, [coords.latitude, coords.longitude, KAKAO_JS_KEY]);
+    }, [coords.latitude, coords.longitude]);
 
     const initializeMap = (lat, lng) => {
         const mapContainer = document.getElementById("map");
+        if(!mapContainer) return;
         const mapOptions = {
             center: new window.kakao.maps.LatLng(lat, lng),
             level: 3,

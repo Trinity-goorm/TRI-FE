@@ -1,12 +1,14 @@
 import SearchReservationItem from "./SearchReservationItem";
 import styled from "styled-components";
 
-const SearchResevationList = ({ reservation }) => {
+const SearchResevationList = ({ id, reservation }) => {
+
   return (
     <ReservationListContainer>
       {reservation.map((item, index) => (
         <SearchReservationItem
           key={index}
+          id={id}
           date={item.date}
           available={item.available}
         />

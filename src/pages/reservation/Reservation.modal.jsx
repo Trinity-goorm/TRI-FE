@@ -16,7 +16,9 @@ const formatDate = (date) => {
 };
 const userId = localStorage.getItem("userId");
 
-const ReservationModal = ({name, isOpen, closeModal, children, restaurantId}) => {
+const ReservationModal = ({name, isOpen, closeModal, children, restaurantId, remoteSelectDate}) => {
+    console.log("🤥",remoteSelectDate)
+
     const [selectDate, setSelectDate] = useState(formatDate(new Date()));
     const [isToday, setIsToday] = useState(true);
     const [reservation, setReservation] = useState({
@@ -28,24 +30,27 @@ const ReservationModal = ({name, isOpen, closeModal, children, restaurantId}) =>
         seatType: null,
 
     });
+    const [availableSeats, setAvailableSeats] = useState([]);
+
     const navigate = useNavigate();
 
-    //dummyData
-    const reservationData = ReservationReservation.groupedTimeSlotResponse;
 
     //API 호출
     const fetchReservationData = async (restaurantId, selectDate) => {
         try {
             console.log(restaurantId, selectDate);
-            const reservationDataList = await GetAvailableSeat(restaurantId, selectDate);
-            console.log("🖐️가져온 예약 가능 좌석",reservationDataList);
+            const response = await GetAvailableSeat(restaurantId, selectDate);
+            console.log("🖐️가져온 예약 가능 좌석",response);
+            setAvailableSeats(response.groupedTimeSlotResponse);
+
 
         } catch(error) {
             console.error("💀데이터 로드 실패",error);
 
         }
-    }
-   //useEffect 모음
+    };
+
+    //useEffect 모음
     useEffect(() => {
         console.log("🍎예약 정보", reservation);
         if (reservation.seatType) {
@@ -57,6 +62,12 @@ const ReservationModal = ({name, isOpen, closeModal, children, restaurantId}) =>
     useEffect(() => {
         fetchReservationData(restaurantId, selectDate);
     },[restaurantId, selectDate]);
+
+    useEffect(() => {
+        if(remoteSelectDate) {
+            setSelectDate(remoteSelectDate);
+        }
+    }, [remoteSelectDate]);
 
 
     const onSelectDateChange = (date) => {
@@ -105,10 +116,10 @@ const ReservationModal = ({name, isOpen, closeModal, children, restaurantId}) =>
         <style.Background>
             <style.TotalContainer>
                 <style.CalendarContainer>
-                    <CustomCalendar onSelectDate={onSelectDateChange} />
+                    <CustomCalendar onSelectDate={onSelectDateChange} selectedDate={selectDate} />
                 </style.CalendarContainer>
                 <style.ReservationContainer>
-                    <ReservationTable dataList = {reservationData} onSelectTimeChange={onSelectTimeChange}
+                    <ReservationTable dataList = {availableSeats} onSelectTimeChange={onSelectTimeChange}
                                       onSelectSeatChange={onSelectSeatChange} openConfirmModal={openConfirmModal}
                                       isToday={isToday}
                     />

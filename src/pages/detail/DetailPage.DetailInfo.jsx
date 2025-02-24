@@ -20,7 +20,7 @@ const DetailInfo = ({cautions, convenience, number}) => {
             </style.InfoGroupContainer>
             <style.InfoGroupContainer>
                 <style.DetailInfoTitle>
-                    상세정보
+                    유의사항
                 </style.DetailInfoTitle>
                 <style.InfoContainer>
                     {cautions.map((item, index) => (

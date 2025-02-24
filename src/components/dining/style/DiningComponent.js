@@ -2,12 +2,13 @@ import styled from 'styled-components';
 
 export const TotalContainer = styled.div`
     width: 90%;
-    height: 160px;
+    height: 140px;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
     
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1),
     0 5px 15px 0 rgba(0, 0, 0, 0.1);
@@ -22,18 +23,19 @@ export const TopContainer = styled.div`
     align-items: center;
     justify-content: space-between;
 
+
 `;
 
 export const TopTagContainer = styled.div`
-    width: 72px;
-    height: 30px;
+    
     border-radius: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 13px;
+    font-size: 10px;
     color: gray;
     background-color: #f3f3f3;
+    padding: 7px;
 `;
 
 export const CancelContainer = styled.div`
@@ -78,19 +80,19 @@ export const ContentInfoContainer = styled.div`
 
 export const ContentInfoTitle = styled.div`
     width: 100%;
-    font-size: 20px;
+    font-size: 17px;
     font-weight: bold;
 `;
 
 export const ContentInfoCategory = styled.div`
     width: 100%;
-    font-size: 15px;
+    font-size: 13px;
     color: gray;
 `;
 
 export const ContentInfoReservation = styled.div`
     width: 100%;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 500;
     color: #FF6868;
 `;

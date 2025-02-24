@@ -4,7 +4,7 @@ import SaveButton from "../save/SaveButton.jsx";
 import {GoArrowLeft, GoHome, GoBookmark} from "react-icons/go";
 
 // eslint-disable-next-line react/prop-types
-const DetailTopBar = ({name, isScrolled, isSaved}) => {
+const DetailTopBar = ({name, isScrolled, isSaved, onClickSave}) => {
     const nav = useNavigate();
 
     return (
@@ -18,8 +18,8 @@ const DetailTopBar = ({name, isScrolled, isSaved}) => {
             <style.TitleContainer>
                 {isScrolled ? name : null}
             </style.TitleContainer>
-            <style.SaveButtonContainer>
-                <SaveButton color={"white"} width={"35px"} height={"35px"} size={20} isClick={isSaved}/>
+            <style.SaveButtonContainer onClick={onClickSave}>
+                <SaveButton color={"white"} width={"35px"} height={"35px"} size={20} isLiked={isSaved}/>
             </style.SaveButtonContainer>
         </style.TopBarContainer>
     )

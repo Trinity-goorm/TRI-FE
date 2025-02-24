@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import SaveButton from "../save/SaveButton.jsx";
 import ReservationButton from "../button/ReservationButton.jsx";
 
-const DetailBottomBar = ({isClick, restaurantId, onClickSave, openModal}) => {
+const DetailBottomBar = ({isSaved, restaurantId, onClickSave, openModal, wishCount}) => {
 
     const navigate = useNavigate();
     const onClickMove = () => {
@@ -13,9 +13,9 @@ const DetailBottomBar = ({isClick, restaurantId, onClickSave, openModal}) => {
     return (
         <style.BottomBarContainer>
             <style.SaveContainer onClick={onClickSave} >
-                <SaveButton color={"white"} isClick={isClick} />
+                <SaveButton color={"white"} isLiked={isSaved} />
                 <style.SaveCountContainer>
-                    {100}
+                    {wishCount}
                 </style.SaveCountContainer>
             </style.SaveContainer>
             <style.RerservationButtonContainer onClick={openModal}>

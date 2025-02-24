@@ -47,7 +47,7 @@ export const InfoContainer = styled.div`
 `;
 
 export const NameContainer = styled.div`
-    font-weight: 400;
+    font-weight: 600;
     font-size: 15px;
 `;
 

@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import "./style/CustomCalendar.css"; // 기본 스타일 추가
 
-const CustomCalendar = ({ onSelectDate }) => {
-    const [date, setDate] = useState(new Date());
+const CustomCalendar = ({ onSelectDate, selectedDate }) => {
+    const [date, setDate] = useState(selectedDate ? new Date(selectedDate) : new Date());
 
+    useEffect(() => {
+        if (selectedDate) {
+            setDate(new Date(selectedDate));
+        }
+    }, [selectedDate]);
 
     const handleDateChange = (newDate) => {
         setDate(newDate);

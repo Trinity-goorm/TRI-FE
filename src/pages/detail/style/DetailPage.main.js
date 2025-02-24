@@ -47,12 +47,13 @@ export const InnerContentContainer = styled.div`
 
 export const ImageSliderContainer = styled.div`
   width: 480px;
-  height: 260px;
+  height: 270px;
   overflow-x: auto;
   white-space: nowrap;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
   position: relative;
   ::-webkit-scrollbar{
     display: none;
@@ -64,7 +65,9 @@ export const ImageSliderContainer = styled.div`
 
 export const ImgDiv = styled.div`
   width: 480px;
-  height: 260px;
+  min-width: 480px;
+  max-width: 480px;
+  height: 270px;
   background-image: ${({ $imgUrl }) => `url(${$imgUrl})`};
   background-size: cover; /* 요소 크기에 맞게 비율 유지하며 확대 */
   background-position: center; /* 중앙 정렬 */

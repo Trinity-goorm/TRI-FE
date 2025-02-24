@@ -9,6 +9,7 @@ import { formatPrice } from "../../util/formatPrice.js";
 import { useState } from "react";
 
 const CategoryTotalRestItem = ({
+    id,
   name,
   imgUrls,
   category,
@@ -97,7 +98,7 @@ const CategoryTotalRestItem = ({
         </PriceContainer>
       </BottomContainer>
 
-      <SearchResevationList reservation={reservation} />
+      <SearchResevationList id={id} reservation={reservation} />
     </CategoryTotalRestItemContainer>
   );
 };

@@ -1,9 +1,15 @@
 import { formatDate } from "../../util/formatDate";
 import styled from "styled-components";
+import {useNavigate} from "react-router-dom";
 
-const SearchReservationItem = ({ date, available }) => {
+const SearchReservationItem = ({ date, available, id }) => {
+
+    const navigate = useNavigate();
+    const onClickDate = () => {
+        navigate(`/detail/${id}`,{ state: { openModal: true, date: date } });
+    }
   return (
-    <ReservationItemContainer $available={available}>
+    <ReservationItemContainer $available={available} onClick={onClickDate}>
       <DateWrapper $available={available}>{formatDate(date)}</DateWrapper>
       <AvailableWrapper $available={available}>
         {available ? "예약 가능" : "예약 마감"}

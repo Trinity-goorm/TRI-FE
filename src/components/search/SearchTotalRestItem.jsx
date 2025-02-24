@@ -6,6 +6,7 @@ import SaveButton from "../save/SaveButton";
 import SearchResevationList from "./SearchReservationList";
 
 const SearchTotalRestItem = ({
+    id,
   name,
   imgUrls,
   category,
@@ -88,7 +89,7 @@ const SearchTotalRestItem = ({
         </PriceContainer>
       </BottomContainer>
 
-      <SearchResevationList reservation={reservation} />
+      <SearchResevationList id={id} reservation={reservation} />
     </SearchTotalRestItemContainer>
   );
 };
