@@ -9,6 +9,7 @@ import GetUserDetail from "./api/userInfo/GetUserDetail.js";
 
 // fcm 알림
 import PostFcmRenew from "./api/fcm/PostFcmRenew.js";
+import { formatLocalDate } from "./util/formatLocalDate.js";
 import NotificationHandler from "./service/foregroundMessage.js";
 import NotificationModal from "./components/notification/NotificationModal.jsx";
 
@@ -32,22 +33,29 @@ import Modal from "./components/modal/Modal.jsx";
 
 function App() {
   const nav = useNavigate();
-  // const setUser = useSetRecoilState(userState);
-  // const [isDataLoaded, setIsDataLoaded] = useState(true);
+  const setUser = useSetRecoilState(userState);
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
 
-  // 초기 세팅
-  // useEffect(() => {
-  //   const userId = localStorage.getItem("userId");
-  //   const fcmToken = localStorage.getItem("FCM_TOKEN");
+  useEffect(() => {
+    if (
+      location.pathname === "/kakao/callback" ||
+      location.pathname === "/onboarding"
+    ) {
+      setIsDataLoaded(true); // 렌더링 허용
+      return;
+    }
 
-  //   if (userId) {
-  //     getUserInfo(userId).then(() => setIsDataLoaded(true));
-  //     PostFcmRenew(fcmToken, Date.now());
-  //   } else {
-  //     setIsDataLoaded(true);
-  //     nav("/login");
-  //   }
-  // }, [nav]);
+    const userId = localStorage.getItem("userId");
+    const fcmToken = localStorage.getItem("FCM_TOKEN");
+
+    if (userId) {
+      getUserInfo(userId).then(() => setIsDataLoaded(true));
+      PostFcmRenew(fcmToken, formatLocalDate(new Date()));
+    } else {
+      setIsDataLoaded(true);
+      nav("/login");
+    }
+  }, []);
 
   const getUserInfo = async (userId) => {
     try {
@@ -61,14 +69,14 @@ function App() {
     }
   };
 
-  // if (!isDataLoaded) {
-  //   return <div>로딩 중...!</div>;
-  // }
+  if (!isDataLoaded) {
+    return <div>로딩 중...!</div>;
+  }
 
   return (
     <>
-      {/* <NotificationHandler />
-      <NotificationModal /> */}
+      <NotificationHandler />
+      <NotificationModal />
       <Routes>
         <Route path="*" element={<HomePage />} />
         <Route path="/" element={<HomePage />} />
