@@ -11,9 +11,9 @@ const OnboardingUserInfo = ({
   setPhoneNum,
   setIsFormValid,
 }) => {
-  const isGreenAge = age === null ? null : !isNaN(age) && age !== "";
-  const isGreenPhone =
-    phoneNum === null ? null : !isNaN(phoneNum) && phoneNum.length === 11;
+  const isGreenAge = age === null ? null : !isNaN(age) && age.length === 8;
+
+  const isGreenPhone = phoneNum === null ? null : phoneNum.length === 13;
 
   useEffect(() => {
     setIsFormValid(isGreenAge && isGreenPhone);
@@ -27,23 +27,23 @@ const OnboardingUserInfo = ({
         <ComentInputWrapper>
           <Coment>성별</Coment>
           <GenderContainer>
-            <GenderLabel $checked={gender === "male"}>
+            <GenderLabel $checked={gender === "MALE"}>
               <HiddenRadio
                 type="radio"
                 name="gender"
-                value="male"
-                checked={gender === "male"}
-                onChange={() => setGender("male")}
+                value="MALE"
+                checked={gender === "MALE"}
+                onChange={() => setGender("MALE")}
               />
               남성
             </GenderLabel>
-            <GenderLabel $checked={gender === "female"}>
+            <GenderLabel $checked={gender === "FEMALE"}>
               <HiddenRadio
                 type="radio"
                 name="gender"
-                value="female"
-                checked={gender === "female"}
-                onChange={() => setGender("female")}
+                value="FEMALE"
+                checked={gender === "FEMALE"}
+                onChange={() => setGender("FEMALE")}
               />
               여성
             </GenderLabel>
@@ -51,21 +51,15 @@ const OnboardingUserInfo = ({
         </ComentInputWrapper>
 
         <ComentInputWrapper>
-          <Coment>나이</Coment>
+          <Coment>생년월일</Coment>
           <InputContainer>
             <OnBoardingInput
               value={age ?? ""}
               onChange={(e) => setAge(e.target.value)}
               $isGreen={isGreenAge}
-              placeholder="나이를 입력해주세요"
+              placeholder="생년월일 8자리 (YYYYMMDD)"
             />
-            {isGreenAge ? (
-              <IoCheckmarkDoneOutline
-                size="25"
-                color="#22B379"
-                style={{ position: "absolute", right: "20px", top: "10px" }}
-              />
-            ) : null}
+            <CheckIcon $isGreen={isGreenAge} />
           </InputContainer>
         </ComentInputWrapper>
 
@@ -76,15 +70,9 @@ const OnboardingUserInfo = ({
               value={phoneNum ?? ""}
               onChange={(e) => setPhoneNum(e.target.value)}
               $isGreen={isGreenPhone}
-              placeholder="숫자만 입력해주세요"
+              placeholder="010-1234-5678"
             />
-            {isGreenPhone ? (
-              <IoCheckmarkDoneOutline
-                size="25"
-                color="#22B379"
-                style={{ position: "absolute", right: "20px", top: "10px" }}
-              />
-            ) : null}
+            <CheckIcon $isGreen={isGreenPhone} />
           </InputContainer>
         </ComentInputWrapper>
       </OnboardingContainer>
@@ -117,8 +105,6 @@ const Coment = styled.div`
   border-radius: 8px;
   display: inline-block;
   margin-bottom: 2px;
-  /* background-color: #f8f8f8; */
-  /* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); */
 `;
 
 const InputContainer = styled.div`
@@ -168,6 +154,17 @@ const GenderLabel = styled.label`
 
 const HiddenRadio = styled.input`
   display: none;
+`;
+
+const CheckIcon = styled(IoCheckmarkDoneOutline)`
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  color: #22b379;
+  font-size: 25px;
+  opacity: ${({ $isGreen }) => ($isGreen ? 1 : 0)};
+  transform: ${({ $isGreen }) => ($isGreen ? "scale(1)" : "scale(0.5)")};
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 `;
 
 export default OnboardingUserInfo;

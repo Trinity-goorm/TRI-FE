@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import OnboardingInfo from "../../components/onbording/OnboardingInfo";
@@ -7,6 +7,8 @@ import OnboardingCategory from "../../components/onbording/OnboardingCategory";
 import OnboardingPrefPrice from "../../components/onbording/OnboardingPrefPrice";
 import OnboardingButton from "../../components/onbording/OnboardingButton";
 import ProgressInfo from "../../components/onbording/ProgressInfo";
+import PostOnboarding from "../../api/onboarding/PostOnboarding";
+import { formatBirth } from "../../util/formatBirth.js";
 
 const fixedMinPrice = 10000;
 const fixedMaxPrice = 500000;
@@ -17,7 +19,7 @@ const Onboarding = () => {
   const [isFormValid, setIsFormValid] = useState(true);
 
   // step 1
-  const [gender, setGender] = useState("male");
+  const [gender, setGender] = useState("MALE");
   const [age, setAge] = useState(null);
   const [phoneNum, setPhoneNum] = useState(null);
 
@@ -32,6 +34,7 @@ const Onboarding = () => {
 
   const handleNextStep = () => {
     if (step === 3) {
+      postOnboardingData();
       nav("/");
     } else {
       setStep((prev) => prev + 1);
@@ -40,6 +43,22 @@ const Onboarding = () => {
 
   const handleBeforeStep = () => {
     setStep((prev) => prev - 1);
+  };
+
+  const postOnboardingData = async () => {
+    try {
+      await PostOnboarding(
+        localStorage.getItem("userId"),
+        gender,
+        formatBirth(age),
+        phoneNum,
+        rangeMinValue,
+        rangeMaxValue,
+        category
+      );
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

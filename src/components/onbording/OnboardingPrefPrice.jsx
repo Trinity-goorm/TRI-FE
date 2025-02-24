@@ -122,7 +122,7 @@ const CommentContainer = styled.div`
   justify-content: space-between;
   padding: 0px 5px;
   margin-bottom: 7px;
-  color: #646464;
+  color: #232323;
 `;
 
 const SliderWrapper = styled.div`
