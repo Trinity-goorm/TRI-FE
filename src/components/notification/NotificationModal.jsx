@@ -24,41 +24,31 @@ const NotificationModal = () => {
     }
   };
 
-  // useEffect(() => {
-  //   const modal = modalRef.current;
-  //   if (!notification.isModalOpen && modal) {
-  //     modal.addEventListener("animationend", () => {});
-  //     return () => modal.removeEventListener("animationend", () => {});
-  //   }
-  // }, [notification.isModalOpen]);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      handleClose();
+    }, 3000);
 
-  if (!notification.isModalOpen) return null;
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [notification.isModalOpen]);
 
   return (
-    <Overlay onClick={handleOverlayClick}>
+    <Overlay onClick={handleOverlayClick} $isOpen={notification.isModalOpen}>
       <NotificationModalContainer
         ref={modalRef}
         $isOpen={notification.isModalOpen}
         onClick={(e) => {
           e.stopPropagation();
           nav(notification.redirectUrl);
+          handleClose();
         }}
       >
         <LogoIcon src={logo_test} />
         <ContentContainer>
-          {/* <TitleWrapper> */}
-          {/* {notification.title}
-            [캐치핑] 김민철님, 1시간 후 역전우동에서의 맛있는 식사가 기다리고
-            있어요! */}
-          {/* </TitleWrapper> */}
-          <TitleWrapper>
-            [캐치핑] 김민철님, 오늘 12:00에 예약이 있어요!
-          </TitleWrapper>
-          <BodyWrapper>
-            {notification.body}
-            식당: 역전우동 <br /> 날짜: 2024-11-12 <br />
-            시간: 12:00
-          </BodyWrapper>
+          <TitleWrapper>{notification.title}</TitleWrapper>
+          <BodyWrapper>{notification.body}</BodyWrapper>
           <IoClose
             size={20}
             style={{ position: "absolute", right: "0", top: "-1" }}
@@ -83,6 +73,9 @@ const Overlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  opacity: ${({ $isOpen }) => ($isOpen ? "1" : "0")};
+  transition: opacity 0.3s ease-out;
+  pointer-events: ${({ $isOpen }) => ($isOpen ? "auto" : "none")};
 `;
 
 const NotificationModalContainer = styled.div`
@@ -92,7 +85,6 @@ const NotificationModalContainer = styled.div`
   color: white;
   width: 470px;
   border-radius: 15px;
-  margin-left: 5px;
   margin-top: 3px;
   z-index: 100;
 
@@ -103,11 +95,7 @@ const NotificationModalContainer = styled.div`
 
   // 애니메이션
   animation: ${({ $isOpen }) =>
-    $isOpen
-      ? "slideDown 0.3s ease-out forwards"
-      : "slideUp 0.3s ease-in forwards"};
-  opacity: ${({ $isOpen }) => ($isOpen ? "1" : "0")};
-  visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
+    $isOpen ? "slideDown 0.3s ease-out" : "slideUp 0.3s ease-in"};
 
   @keyframes slideDown {
     from {

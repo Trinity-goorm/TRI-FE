@@ -14,10 +14,10 @@ import { userState } from "../../atoms/userState.js";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 // Componenet
-import RecommendFeed from "../../components/recommend/RecommendFeed";
-import RecommendedList from "../../assets/dummydata/RecommendedList";
+import RecommendFeedItem from "../../components/search/RecommendFeedItem.jsx";
 import HistoryList from "../../components/search/HistoryList";
 import GetHistoryList from "../../api/search/GetHistoryList";
+import GetRecommendList from "../../api/recommend/get/GetRecommendList.js";
 import RecommendCatItem from "../../components/search/RecommendCatItem";
 
 const recomCatList = [
@@ -53,6 +53,7 @@ const Search = () => {
   const query = searchParam.get("keyword");
   const [searchQuery, setSearchQuery] = useState(query || "");
   const [histroyList, setHistoryList] = useState([]);
+  const [recommendList, setRecommendList] = useState([]);
   const user = useRecoilValue(userState);
 
   const handleChangeQuery = (e) => {
@@ -62,6 +63,7 @@ const Search = () => {
   useEffect(() => {
     if (user) {
       fetchHistoryData();
+      fetchRecommendList();
     }
   }, [user]);
 
@@ -71,6 +73,15 @@ const Search = () => {
       setHistoryList(response);
     } catch (error) {
       console.error("💀데이터 로드 실패", error);
+    }
+  };
+
+  const fetchRecommendList = async () => {
+    try {
+      const response = await GetRecommendList(user.userId);
+      setRecommendList(response);
+    } catch (e) {
+      console.error("💀찜한 리스트 가져오기 실패", e);
     }
   };
 
@@ -139,10 +150,10 @@ const Search = () => {
       </style.CategoryFeedContainer>
 
       <style.RecomFeedContainer>
-        <style.Comment>OOO 님을 위한 레스토랑</style.Comment>
+        <style.Comment>{user.userName} 님을 위한 레스토랑</style.Comment>
         <style.ContentSlider>
-          {RecommendedList.map((item, index) => (
-            <RecommendFeed item={item} key={index} />
+          {recommendList.map((item, index) => (
+            <RecommendFeedItem item={item} key={index} />
           ))}
         </style.ContentSlider>
       </style.RecomFeedContainer>

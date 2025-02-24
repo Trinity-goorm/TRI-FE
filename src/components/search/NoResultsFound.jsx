@@ -17,10 +17,10 @@ const NoResultsFound = () => {
 };
 
 const NoResultsFoundContainer = styled.div`
-  display: flex;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const InfoContainer = styled.div`

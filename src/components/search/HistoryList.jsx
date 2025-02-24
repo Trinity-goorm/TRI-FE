@@ -4,14 +4,18 @@ import HistoryItem from "./HistoryItem";
 const HistoryList = ({ histroyList, deleteHistory }) => {
   return (
     <HistoryListContainer>
-      {histroyList.map((item, index) => (
-        <HistoryItem
-          key={index}
-          id={item.id}
-          keyword={item.keyword}
-          deleteHistory={deleteHistory}
-        />
-      ))}
+      {histroyList.map((item, index) => {
+        if (item.keyword === "") return null;
+        else
+          return (
+            <HistoryItem
+              key={index}
+              id={item.id}
+              keyword={item.keyword}
+              deleteHistory={deleteHistory}
+            />
+          );
+      })}
     </HistoryListContainer>
   );
 };

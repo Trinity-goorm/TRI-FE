@@ -9,6 +9,8 @@ import OnboardingButton from "../../components/onbording/OnboardingButton";
 import ProgressInfo from "../../components/onbording/ProgressInfo";
 import PostOnboarding from "../../api/onboarding/PostOnboarding";
 import { formatBirth } from "../../util/formatBirth.js";
+import { userState } from "../../atoms/userState.js";
+import { useRecoilState } from "recoil";
 
 const fixedMinPrice = 10000;
 const fixedMaxPrice = 500000;
@@ -17,11 +19,13 @@ const Onboarding = () => {
   const nav = useNavigate();
   const [step, setStep] = useState(0);
   const [isFormValid, setIsFormValid] = useState(true);
+  const [user, setUser] = useRecoilState(userState);
 
   // step 1
   const [gender, setGender] = useState("MALE");
   const [age, setAge] = useState(null);
   const [phoneNum, setPhoneNum] = useState(null);
+  const [name, setName] = useState(null);
 
   // step 2
   const [category, setCategory] = useState([]);
@@ -35,6 +39,7 @@ const Onboarding = () => {
   const handleNextStep = () => {
     if (step === 3) {
       postOnboardingData();
+      setUser({ ...user, userName: name });
       nav("/");
     } else {
       setStep((prev) => prev + 1);
@@ -50,6 +55,7 @@ const Onboarding = () => {
       await PostOnboarding(
         localStorage.getItem("userId"),
         gender,
+        name,
         formatBirth(age),
         phoneNum,
         rangeMinValue,
@@ -74,6 +80,8 @@ const Onboarding = () => {
           setAge={setAge}
           phoneNum={phoneNum}
           setPhoneNum={setPhoneNum}
+          name={name}
+          setName={setName}
           setIsFormValid={setIsFormValid}
         />
       )}
