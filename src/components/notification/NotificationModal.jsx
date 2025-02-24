@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { notificationState } from "../../atoms/notificationState";
-import logo_test from "../../../public/logo_test.png";
+import logo_test from "/logo_test.png";
 import { IoClose } from "react-icons/io5";
 import { useEffect, useRef } from "react";
 
