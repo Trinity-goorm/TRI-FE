@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useLocation, useNavigate } from 'react-router-dom'
 import * as style from "./style/Reservation.modal.confirm.js";
 import ReservationButton from "../../components/button/ReservationButton.jsx";
-import Modal from "../../components/Modal/Modal";
+import Modal from "../../../components/Modal/Modal" // CI/CD중 경로 오류가 있어서 고쳤습니다. (24-21:50. by toby)
 //API
 import postPreoccupy from "../../api/reservation/post/PostPreoccupy.js";
 import {useEffect} from "react";
