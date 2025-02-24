@@ -42,6 +42,7 @@ const Login = () => {
         const token = await getToken(messaging, {
           vapidKey: import.meta.env.VITE_VAPID_KEY,
         });
+
         localStorage.setItem("FCM_TOKEN", token); // 토큰을 localStorage에 저장
       }
     } catch (err) {
