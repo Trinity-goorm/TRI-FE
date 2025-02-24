@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 import TotalRestList from "../../components/search/TotalRestList";
 import GetCategoryRestList from "../../api/search/GetCategoryRestList";
 import SortModal from "../../components/search/SortModal";
+import LoadingBar from "../../components/loadingBar/LoadingBar";
+import LoadingMoreBar from "../../components/loadingBar/LoadingMoreBar";
 
 const type = {
   highest_rating: "별점순",
@@ -21,6 +23,7 @@ const SearchCategoryTotal = () => {
   const [sortType, setSortType] = useState("highest_rating");
   const [restaurantList, setRestaurantList] = useState([]);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   // 쿼리파라미터
   const category = searchParam.get("categoryId");
@@ -38,6 +41,7 @@ const SearchCategoryTotal = () => {
   }, [page, sortType]);
 
   useEffect(() => {
+    if (loading) return;
     const handleScroll = () => {
       if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
         setPage((prevPage) => prevPage + 1);
@@ -45,10 +49,11 @@ const SearchCategoryTotal = () => {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [loading]);
 
   // api 호출
   const fetchCategoryData = async () => {
+    setLoading(true);
     try {
       const response = await GetCategoryRestList(
         category,
@@ -62,6 +67,8 @@ const SearchCategoryTotal = () => {
       );
     } catch (error) {
       console.error("💀데이터 로드 실패", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -93,13 +100,21 @@ const SearchCategoryTotal = () => {
         clickSortHandler={clickSortHandler}
       />
 
-      <TotalRestList restaurantList={restaurantList} category={category} />
+      {loading && page === 1 ? (
+        <LoadingBar />
+      ) : (
+        <>
+          <TotalRestList restaurantList={restaurantList} category={category} />
+          {loading && page > 1 && <LoadingMoreBar />}
+        </>
+      )}
     </>
   );
 };
 
 const SearchKeyword = styled.div`
   position: fixed;
+  top: 0;
   width: 480px;
   height: 70px;
   background-color: white;

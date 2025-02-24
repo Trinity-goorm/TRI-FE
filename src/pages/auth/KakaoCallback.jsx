@@ -3,9 +3,12 @@ import { useEffect } from "react";
 import PostLogin from "../../api/auth/PostLogin";
 import { formatLocalDate } from "../../util/formatLocalDate";
 import { userState } from "../../atoms/userState";
+import { useRecoilState } from "recoil";
+import LoadingBar from "../../components/loadingBar/LoadingBar";
 
 const KakaoCallback = () => {
   const nav = useNavigate();
+  const [user, setUser] = useRecoilState(userState);
 
   useEffect(() => {
     const postCode = async () => {
@@ -28,9 +31,9 @@ const KakaoCallback = () => {
       localStorage.setItem("userId", response.id);
 
       // 전역으로 저장
-      setUser({ userId: response.id, userName: response.name });
+      setUser({ ...user, userId: response.id });
 
-      if (response.data.newUser) {
+      if (response.newUser) {
         nav("/onboarding");
       } else {
         nav("/");
@@ -40,7 +43,7 @@ const KakaoCallback = () => {
     postCode();
   }, []);
 
-  return <div>로그인 중입니다.</div>;
+  return <LoadingBar />;
 };
 
 export default KakaoCallback;
