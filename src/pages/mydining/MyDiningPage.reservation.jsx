@@ -1,8 +1,12 @@
-const MyDiningReservation = () => {
+import * as style from "./style/MyDiningPage.sub.js";
+import DiningComponent from "../../components/dining/DiningComponent.jsx";
+const MyDiningReservation = ({myReservation}) => {
     return (
-        <div>
-            MyDiningReservation!
-        </div>
+        <style.TotalWrapper>
+            {myReservation.map((reservation, index) => (
+                <DiningComponent key={index} tagText={"방문 예정"} reservation={reservation} />
+            ))}
+        </style.TotalWrapper>
     )
 }
 

@@ -4,15 +4,20 @@ import Modal from "../../components/modal/Modal.jsx";
 import { useNavigate } from "react-router-dom";
 import { FaBell } from "react-icons/fa";
 import {ModalContainer} from "../../components/modal/style/Modal.js";
+//API
+import PostVacancySeat from "../../api/vacancy/post/PostVacancySeat.js";
 
 const ReservationTable = ({dataList, onSelectTimeChange, onSelectSeatChange, openConfirmModal, isToday}) => {
     const [selectTime, setSelectTime] = useState(null);
     const [selectSeat, setSelectSeat] = useState(null);
+    const [vacancySeatId, setVacancySeatId] = useState(null);
+
+
     const currentTime = new Date();
     const currentHour = currentTime.getHours();
     const currentMinute = currentTime.getMinutes();
-
     const navigate = useNavigate();
+    const userId = localStorage.getItem("userId");
 
     const processDataList = (dataList) => {
         return dataList.reduce((acc, item) => {
@@ -28,7 +33,7 @@ const ReservationTable = ({dataList, onSelectTimeChange, onSelectSeatChange, ope
 
         const [hour, minute] = item.split(":").map(Number);
 
-        return hour > currentHour || (hour === currentHour && minute > currentMinute);
+        return hour > (currentHour+1);
     });
 
     useEffect(() => {
@@ -36,6 +41,19 @@ const ReservationTable = ({dataList, onSelectTimeChange, onSelectSeatChange, ope
             openConfirmModal();
         }
     },[selectSeat, setSelectTime]);
+
+    useEffect(() => {
+        if (vacancySeatId) {
+            (async () => {
+                try {
+                    const response = await PostVacancySeat(vacancySeatId, userId);
+                    console.log("⭐️ 빈자리 알림 신청 성공:", response);
+                } catch (error) {
+                    console.error("👻 빈자리 알림 신청 실패:", error);
+                }
+            })();
+        }
+    }, [vacancySeatId]);
 
 
     const handleSelectTimeChange = (newTime) => {
@@ -47,10 +65,9 @@ const ReservationTable = ({dataList, onSelectTimeChange, onSelectSeatChange, ope
         onSelectSeatChange(newSeat);
     };
 
-    const onClickGoBack = () => {
-        navigate(-1);
-    }
-
+    const handleSelectVacancySeat = (seatId) => {
+        setVacancySeatId(seatId);
+    };
 
 
     return(
@@ -78,7 +95,7 @@ const ReservationTable = ({dataList, onSelectTimeChange, onSelectSeatChange, ope
                             </style.SeatCountContainer>
                         </style.SeatEachContainer>
                     ) : (
-                        <style.NoSeatEachContainer key={index}>
+                        <style.NoSeatEachContainer key={index}  onClick={() => handleSelectVacancySeat(seat.seatId)}>
                             <style.NoSeatEachTitle>
                                 {seat.minCapacity}~{seat.maxCapacity}인 좌석
                             </style.NoSeatEachTitle>

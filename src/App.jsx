@@ -21,6 +21,7 @@ import MyDiningReservation from "./pages/mydining/MyDiningPage.reservation.jsx";
 import MyDiningVacancy from "./pages/mydining/MyDiningPage.vacancy.jsx";
 import DetailPage from "./pages/detail/DetailPage.main.jsx";
 import Onboarding from "./pages/onboarding/Onboarding.jsx";
+import Modal from "./components/modal/Modal.jsx";
 
 function App() {
   const nav = useNavigate();

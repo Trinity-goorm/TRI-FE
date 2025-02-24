@@ -15,6 +15,8 @@ const ConvenienceIcon = ({convenience}) => {
         return <FaSmoking size={30} />;
     } else if (convenience === "놀이방"){
         return <FaChild size={30} />
+    } else{
+        return null;
     }
 
 }

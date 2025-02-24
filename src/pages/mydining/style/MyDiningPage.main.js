@@ -7,6 +7,7 @@ export const TotalContainer = styled.div`
     justify-content: center;
     width: 100%;
   background-color: white;
+  overflow: hidden;
   `;
 
 
@@ -39,12 +40,10 @@ export const InnerContainer = styled.div`
     justify-content: center;
     align-items: center;
     flex: 1;
-    width: 100%;
-    max-width: 480px;
+    width: 480px;
 
     padding-top: 100px;
     padding-bottom: 100px;
-    overflow-y: auto;
 
 `;
 

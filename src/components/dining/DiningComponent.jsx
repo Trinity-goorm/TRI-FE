@@ -1,9 +1,7 @@
 import * as style from "./style/DiningComponent.js";
 import {FaXmark} from "react-icons/fa6";
 
-const DiningComponent = ({tagText, reservationInfo}) => {
-
-    console.log(reservationInfo);
+const DiningComponent = ({tagText, reservation, onClickFunction}) => {
 
     return (
         <style.TotalContainer>
@@ -11,23 +9,23 @@ const DiningComponent = ({tagText, reservationInfo}) => {
                 <style.TopTagContainer>
                     {tagText}
                 </style.TopTagContainer>
-                <style.CancelContainer>
+                <style.CancelContainer onClick={onClickFunction}>
                     <FaXmark size={15} />
                 </style.CancelContainer>
             </style.TopContainer>
             <style.ContentContainer>
-                <style.ContentImageContainer src={reservationInfo.imageUrl} />
+                <style.ContentImageContainer src={reservation.imageUrl} />
 
                 <style.ContentInfoContainer>
                     <style.ContentInfoTitle>
-                        {reservationInfo.title}
+                        {reservation.restaurantName}
                     </style.ContentInfoTitle>
                     <style.ContentInfoCategory>
-                        {reservationInfo.category}
+                        {reservation.category}
                     </style.ContentInfoCategory>
                     <style.ContentInfoReservation>
-                        {reservationInfo.date} -
-                        {reservationInfo.time} - {reservationInfo.seatMinCapacity}~{reservationInfo.seatMaxCapacity} 인석
+                        {reservation.date} -
+                        {reservation.timeSlot} - {reservation.minCapacity}~{reservation.maxCapacity} 인석
                     </style.ContentInfoReservation>
 
                 </style.ContentInfoContainer>

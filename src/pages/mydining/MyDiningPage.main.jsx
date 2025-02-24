@@ -1,23 +1,19 @@
 import * as style from "./style/MyDiningPage.main.js";
 import BottomBar from "../../components/bar/BottomBar.jsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import DiningComponent from "../../components/dining/DiningComponent.jsx";
 import sampleImage from "../../assets/img/realJapanese.jpg"
+import MyDiningReservation from "../../pages/mydining/MyDiningPage.reservation.jsx";
+import MyDiningVacancy from "./MyDiningPage.vacancy.jsx";
+import GetVacancySeats from "../../api/vacancy/get/GetVacancySeats.js";
+import myReservation from "../../assets/dummydata/MyReservation.js";
+import getVacancySeats from "../../api/vacancy/get/GetVacancySeats.js";
 
 const MyDiningPage = () => {
     const [isReservationClick, setIsReservationClick] = useState(true);
     const [isVacancyClick, setIsVacancyClick] = useState(false);
-    const reservationInfo = {
-        title: "펑즈",
-        category: "중식",
-        date: "2018-05-01",
-        time: "09:00",
-        seatType: null,
-        seatMinCapacity: 1,
-        seatMaxCapacity: 2,
-        imageUrl: sampleImage,
-
-    }
+    const [vacancySeats, setVacancySeats] = useState([]);
+    const userId = localStorage.getItem("userId");
 
     const onClickTopBar = (type) => {
         if (type === "left") {
@@ -28,6 +24,22 @@ const MyDiningPage = () => {
             setIsVacancyClick(true);
         }
     }
+
+    useEffect(() => {
+
+        const fetchVacancySeats = async () => {
+            try{
+                const response = await getVacancySeats(userId);
+                setVacancySeats(response);
+                console.log("빈자리 불러오기 성공", response);
+
+            }catch(e){
+                console.log("👻빈자리 불러오기 실패", e);
+            }
+        }
+
+        fetchVacancySeats();
+    },[]);
 
     return (
         <style.TotalContainer>
@@ -47,7 +59,11 @@ const MyDiningPage = () => {
                 </style.TopMoveBarContainer>
             </style.TopBarContainer>
             <style.InnerContainer>
-                <DiningComponent tagText={"방문 여부"} reservationInfo={reservationInfo} />
+                {isReservationClick ? (
+                    <MyDiningReservation myReservation={myReservation} />
+                ): (
+                    <MyDiningVacancy myVacancy={vacancySeats} />
+                )}
 
             </style.InnerContainer>
             <style.BottomBarContainer>

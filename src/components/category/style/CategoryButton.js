@@ -41,8 +41,8 @@ export const Title = styled.div`
 
   color: white;
   border-radius: 5px;
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 600;
   background: rgba(0, 0, 0, 0.4);
   padding: 34px 8px;
 `;
