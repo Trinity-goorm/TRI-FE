@@ -98,7 +98,7 @@ export const HistoryContainer = styled.div`
 export const HistoryNoResultComment = styled.div`
   display: flex;
   color: #c6c6c6;
-  font-size: 14px;
+  font-size: 15px;
   margin-left: 20px;
   margin-top: 5px;
   gap: 7px;

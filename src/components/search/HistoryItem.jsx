@@ -1,15 +1,31 @@
 import styled from "styled-components";
-
 import { IoClose } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import DeleteHistoryItem from "../../api/search/DeleteHistoryItem";
 
-const HistoryItem = ({ keyword }) => {
+const HistoryItem = ({ id, keyword, deleteHistory }) => {
   const nav = useNavigate();
+
+  const handleDelete = async (event) => {
+    event.stopPropagation();
+
+    try {
+      await DeleteHistoryItem(localStorage.getItem("userId"), id);
+      deleteHistory(id);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <ItemContainer onClick={() => nav(`/search/total?keyword=${keyword}`)}>
       <Keyword>{keyword}</Keyword>
-      <IoClose color={"#a1a1a1"} size={15} style={{ marginBottom: "1px" }} />
+      <IoClose
+        color={"#a1a1a1"}
+        size={15}
+        style={{ marginBottom: "1px" }}
+        onClick={handleDelete}
+      />
     </ItemContainer>
   );
 };

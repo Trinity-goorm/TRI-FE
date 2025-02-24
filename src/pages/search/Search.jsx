@@ -1,7 +1,6 @@
 import * as style from "./style/Search.js";
 import { GoArrowLeft } from "react-icons/go";
 import { FiSearch } from "react-icons/fi";
-import { FaRegClock } from "react-icons/fa6";
 import { IoCloseCircle } from "react-icons/io5";
 import sushi from "../../assets/img/sushi.png";
 import meat from "../../assets/img/meat.png";
@@ -10,6 +9,8 @@ import star from "../../assets/img/star.png";
 
 // React
 import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../atoms/userState.js";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 // Componenet
@@ -52,22 +53,29 @@ const Search = () => {
   const query = searchParam.get("keyword");
   const [searchQuery, setSearchQuery] = useState(query || "");
   const [histroyList, setHistoryList] = useState([]);
+  const user = useRecoilValue(userState);
 
   const handleChangeQuery = (e) => {
     setSearchQuery(e.target.value);
   };
 
   useEffect(() => {
-    fetchHistoryData();
-  }, []);
+    if (user) {
+      fetchHistoryData();
+    }
+  }, [user]);
 
   const fetchHistoryData = async () => {
     try {
-      const response = await GetHistoryList(localStorage.getItem("userId"));
+      const response = await GetHistoryList(user.userId);
       setHistoryList(response);
     } catch (error) {
       console.error("💀데이터 로드 실패", error);
     }
+  };
+
+  const deleteHistory = (id) => {
+    setHistoryList(histroyList.filter((item) => item.id !== id));
   };
 
   return (
@@ -107,7 +115,10 @@ const Search = () => {
           </style.HistoryNoResultComment>
         ) : (
           <style.HistoryListWrapper>
-            <HistoryList histroyList={histroyList} />
+            <HistoryList
+              histroyList={histroyList}
+              deleteHistory={deleteHistory}
+            />
           </style.HistoryListWrapper>
         )}
       </style.HistoryContainer>
