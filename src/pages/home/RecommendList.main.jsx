@@ -4,6 +4,7 @@ import RecommendFeed from "../../components/recommend/RecommendFeed.jsx";
 import RecommendedList from "../../assets/dummydata/RecommendedList.js";
 //API
 import GetLikeRestaurants from "../../api/save/get/GetLikeRestaurants.js";
+import GetRecommendList from "../../api/recommend/get/GetRecommendList.js";
 import PostLike from "../../api/save/post/PostLike.js";
 import DeleteLike from "../../api/save/delete/DeleteLike.js";
 
@@ -12,8 +13,8 @@ const RecommendComponent = () => {
 
     const userId = localStorage.getItem("userId");
     const [likeList, setLikeList] = useState([]);
-
-
+    const [recommendList, setRecommendList] = useState([]);
+    //API
     const fetchLikeRestaurants = async () => {
         try{
             const response = await GetLikeRestaurants(userId);
@@ -27,7 +28,21 @@ const RecommendComponent = () => {
     };
     const likeSet = new Set( likeList?.map((item) => item.restaurantId));
 
+    //API
+    const fetchRecommendList = async () => {
+        try{
+            const response = await GetRecommendList(userId);
+            console.log("👀 추천 리스트 가져오기 성공", response);
+            setRecommendList(response);
+
+        }catch(e){
+            console.error("💀찜한 리스트 가져오기 실패",e);
+        }
+    }
+
+
     useEffect(() => {
+        fetchRecommendList();
         fetchLikeRestaurants();
 
     },[userId]);
@@ -74,11 +89,11 @@ const RecommendComponent = () => {
                 <style.TitleExplain>마음에 들 만한 곳을 모아봤어요!</style.TitleExplain>
             </style.TitleContainer>
             <style.ContentSlider>
-                {RecommendedList.map((item, index) => (
+                {recommendList.map((item, index) => (
                     <RecommendFeed
                         item={item} key={index}
-                        isLiked={likeSet.has(item.id)}
-                    onToggleLike={()=>handleLike(item.id)}/>
+                        isLiked={likeSet.has(item.restaurantId)}
+                    onToggleLike={()=>handleLike(item.restaurantId)}/>
                 ))}
             </style.ContentSlider>
         </style.TotalContainer>

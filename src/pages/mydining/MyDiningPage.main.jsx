@@ -1,18 +1,14 @@
 import * as style from "./style/MyDiningPage.main.js";
 import BottomBar from "../../components/bar/BottomBar.jsx";
 import {useEffect, useState} from "react";
-import DiningComponent from "../../components/dining/DiningComponent.jsx";
-import sampleImage from "../../assets/img/realJapanese.jpg"
 import MyDiningReservation from "../../pages/mydining/MyDiningPage.reservation.jsx";
 import MyDiningVacancy from "./MyDiningPage.vacancy.jsx";
-import GetVacancySeats from "../../api/vacancy/get/GetVacancySeats.js";
 import myReservation from "../../assets/dummydata/MyReservation.js";
-import getVacancySeats from "../../api/vacancy/get/GetVacancySeats.js";
+
 
 const MyDiningPage = () => {
     const [isReservationClick, setIsReservationClick] = useState(true);
     const [isVacancyClick, setIsVacancyClick] = useState(false);
-    const [vacancySeats, setVacancySeats] = useState([]);
     const userId = localStorage.getItem("userId");
 
     const onClickTopBar = (type) => {
@@ -25,21 +21,7 @@ const MyDiningPage = () => {
         }
     }
 
-    useEffect(() => {
 
-        const fetchVacancySeats = async () => {
-            try{
-                const response = await getVacancySeats(userId);
-                setVacancySeats(response);
-                console.log("빈자리 불러오기 성공", response);
-
-            }catch(e){
-                console.log("👻빈자리 불러오기 실패", e);
-            }
-        }
-
-        fetchVacancySeats();
-    },[]);
 
     return (
         <style.TotalContainer>
@@ -60,9 +42,9 @@ const MyDiningPage = () => {
             </style.TopBarContainer>
             <style.InnerContainer>
                 {isReservationClick ? (
-                    <MyDiningReservation myReservation={myReservation} />
+                    <MyDiningReservation />
                 ): (
-                    <MyDiningVacancy myVacancy={vacancySeats} />
+                    <MyDiningVacancy />
                 )}
 
             </style.InnerContainer>

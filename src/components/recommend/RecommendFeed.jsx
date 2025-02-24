@@ -3,27 +3,35 @@ import { FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import SaveButton from "../save/SaveButton.jsx";
 import {useState} from "react";
+import wine from "../../assets/img/wineBar.jpg";
 
 
 const RecommendFeed = ({item, isLiked, onToggleLike}) => {
     const name = item?.name;
-    const image = item?.image;
-    const star = item?.star;
+    const images = item?.imageUrls || [];
+    const mainImage = images.length === 0 || images[0] == null ? wine : images[0];
+    const star = item?.rating;
     const category = item?.category;
     const location = item?.location;
-    const id = item?.id;
-
+    const id = item?.restaurantId;
+    const formatLocation = (location) => {
+        return location.length > 9 ? `${location.slice(0, 10)}...` : location;
+    }
 
 
     const nav = useNavigate();
     const onClickToDetail = () => {
         nav(`detail/${id}`);
     };
+    const makeImageUrls = (image) =>{
+        if (!image || image === wine) return image;
+        return image.startsWith("http") ? image : `https://${image}`;
+    };
 
     return (
         <style.TotalContainer >
             <style.ImageContainer onClick={onClickToDetail}>
-                <style.Image src={image} />
+                <style.Image src={makeImageUrls(mainImage)} />
 
 
             </style.ImageContainer>
@@ -40,7 +48,7 @@ const RecommendFeed = ({item, isLiked, onToggleLike}) => {
                             </style.StarScore>
                         </style.StarContainer>
                         <style.CategoryLocation>
-                            {category} - {location}
+                            {formatLocation(location)}
                         </style.CategoryLocation>
                     </style.SubInfoContainer>
                 </style.InfoContainer>
