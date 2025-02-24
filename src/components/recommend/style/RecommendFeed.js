@@ -69,7 +69,7 @@ export const StarScore = styled.span`
 `;
 
 export const CategoryLocation = styled.div`
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 400;
     color: grey;
 
