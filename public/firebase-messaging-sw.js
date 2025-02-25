@@ -4,18 +4,11 @@ importScripts(
 importScripts(
   "https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging-compat.js"
 );
+importScripts("/firebase-config.js");
 
 console.log("✅ Service Worker 실행됨");
 
-const config = {
-  apiKey: "AIzaSyAHpQFkV6TfhI3Ej2neyWMIVSQegHAxHDM",
-  authDomain: "catchping-fcmserver.firebaseapp.com",
-  projectId: "catchping-fcmserver",
-  storageBucket: "catchping-fcmserver.firebasestorage.app",
-  messagingSenderId: "502059574661",
-  appId: "1:502059574661:web:5e52a72c28988d1a2410ec",
-};
-
+const config = self.FIREBASE_CONFIG;
 const app = firebase.initializeApp(config);
 
 self.addEventListener("install", function () {
