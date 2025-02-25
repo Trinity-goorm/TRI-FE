@@ -32,8 +32,8 @@ const KakaoCallback = () => {
     }
     const registration = await navigator.serviceWorker.ready;
     console.log(
-      "서비스 워커 준비 완료:",
-      registration.active ? "활성화됨" : "비활성화됨"
+        "서비스 워커 준비 완료:",
+        registration.active ? "활성화됨" : "비활성화됨"
     );
     return registration;
   };
@@ -65,9 +65,9 @@ const KakaoCallback = () => {
       if (!fcmToken) throw new Error("fcm 토큰이 없습니다.");
 
       const response = await PostLogin(
-        code,
-        fcmToken,
-        formatLocalDate(new Date())
+          code,
+          fcmToken,
+          formatLocalDate(new Date())
       );
 
       // 로컬 스토리지 저장
