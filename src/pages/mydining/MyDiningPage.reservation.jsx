@@ -17,7 +17,9 @@ const MyDiningReservation = () => {
         try{
             const response = await GetUserReservations(userId);
             console.log("사용자 예약 정보 불러오기 성공", response);
-            setReservations(response.reservations);
+            setReservations(response.reservations?.filter((res) =>
+                res.status === "COMPLETED"
+            ));
 
         }catch(error){
             console.log("사용자 예약 정보 불러오기 실패",error);
@@ -30,7 +32,6 @@ const MyDiningReservation = () => {
 
     const cancelReservation = async () => {
 
-        console.log("Cancel", selectedReservation);
 
         if (!selectedReservation) {
             console.log('아이디 없음!');
@@ -72,6 +73,7 @@ const MyDiningReservation = () => {
                     onClose={() => setIsCancel(false)}
                     onConfirm = { () => cancelReservation()}
                     message={"정말로 예약을 취소하시겠습니까?"}
+                    innerMessage={""}
 
                 />
             )}

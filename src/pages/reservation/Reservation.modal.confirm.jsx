@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useLocation, useNavigate } from 'react-router-dom'
 import * as style from "./style/Reservation.modal.confirm.js";
 import ReservationButton from "../../components/button/ReservationButton.jsx";
-import Modal from "../../components/Modal/Modal";
+import Modal from "../../components/modal/Modal.jsx";
 //API
 import postPreoccupy from "../../api/reservation/post/PostPreoccupy.js";
 import {useEffect} from "react";
