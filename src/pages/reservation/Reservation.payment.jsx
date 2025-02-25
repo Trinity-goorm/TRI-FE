@@ -76,8 +76,7 @@ const ReservationPaymentPage = () => {
         if(!isReservation || !reservationId || !userId) return;
         try{
             const response = await postReservationComplete(reservationId, userId);
-            console.log("☕ 예약 선점 취소 성공:", response);
-            alert("예약이 확정되었습니다!");
+            console.log("☕ 예약 결제 성공:", response);
             navigate("/");
 
         }catch(error){
