@@ -48,6 +48,7 @@ const ReservationTable = ({dataList, onSelectTimeChange, onSelectSeatChange, ope
                 try {
                     const response = await PostVacancySeat(vacancySeatId, userId);
                     console.log("⭐️ 빈자리 알림 신청 성공:", response);
+                    alert("빈자리 알림이 신청되었습니다!")
                 } catch (error) {
                     console.error("👻 빈자리 알림 신청 실패:", error);
                 }
