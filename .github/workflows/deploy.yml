@@ -1,4 +1,4 @@
-name: Build and Deploy Frontend to ECR
+name: Build and Deploy FE to ECR
 
 on:
  push:
