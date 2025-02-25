@@ -37,7 +37,7 @@ jobs:
          VITE_MESSAGING_SENDID: ${{ secrets.VITE_MESSAGING_SENDID }}
          VITE_APP_ID: ${{ secrets.VITE_APP_ID }}
          VITE_VAPID_KEY: ${{ secrets.VITE_VAPID_KEY }}
-         VITE_BASE_URL: "https://catch-ping.com"
+         VITE_BASE_URL: "https://internal-trinity-be-alb-619775524.ap-northeast-2.elb.amazonaws.com"
        run: |
          docker build \
            --build-arg VITE_APP_API_KEY="${VITE_APP_API_KEY}" \
@@ -48,7 +48,7 @@ jobs:
            --build-arg VITE_MESSAGING_SENDID="${VITE_MESSAGING_SENDID}" \
            --build-arg VITE_APP_ID="${VITE_APP_ID}" \
            --build-arg VITE_VAPID_KEY="${VITE_VAPID_KEY}" \
-           --build-arg VITE_BASE_URL="https://catch-ping.com" \
+           --build-arg VITE_BASE_URL="https://internal-trinity-be-alb-619775524.ap-northeast-2.elb.amazonaws.com" \
            -t $ECR_REPOSITORY:$IMAGE_TAG .
          docker tag $ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
@@ -84,7 +84,7 @@ jobs:
          VITE_MESSAGING_SENDID: ${{ secrets.VITE_MESSAGING_SENDID }}
          VITE_APP_ID: ${{ secrets.VITE_APP_ID }}
          VITE_VAPID_KEY: ${{ secrets.VITE_VAPID_KEY }}
-         VITE_BASE_URL: "https://catch-ping.com"
+         VITE_BASE_URL: "https://internal-trinity-be-alb-619775524.ap-northeast-2.elb.amazonaws.com"
        with:
          host: '10.0.15.154'
          username: ec2-user
@@ -105,7 +105,7 @@ jobs:
            VITE_MESSAGING_SENDID="${VITE_MESSAGING_SENDID}"
            VITE_APP_ID="${VITE_APP_ID}"
            VITE_VAPID_KEY="${VITE_VAPID_KEY}"
-           VITE_BASE_URL="https://catch-ping.com"
+           VITE_BASE_URL="https://internal-trinity-be-alb-619775524.ap-northeast-2.elb.amazonaws.com"
            EOF
 
            # 파일 권한 설정
