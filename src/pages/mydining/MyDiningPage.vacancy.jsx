@@ -68,6 +68,7 @@ const MyDiningVacancy = () => {
                     onClose={() => setIsCancel(false)}
                     onConfirm = { () => deleteVacancy()}
                     message={"정말로 빈자리 알림을 취소하시겠습니까?"}
+                    innerMessage={"💵 빈자리 알림 취소 시 티켓은 반환되지 않습니다! 💵 ."}
 
                 />
             )}

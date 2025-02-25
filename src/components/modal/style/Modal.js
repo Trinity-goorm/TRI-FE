@@ -56,23 +56,24 @@ export const ButtonContainer = styled.div`
 `;
 
 export const ButtonEach = styled.div`
-    width: 40%;
+    width: 200px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 5px;
-    padding: 15px;
+    border-radius: 10px;
+
     font-weight: bold;
     border: 1px solid lightgray;
 
 `;
 export const ButtonConfirm = styled.div`
-    width: 40%;
+    width: 200px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 5px;
-    padding: 15px;
+    border-radius: 10px;
     color: white;
     font-weight: bold;
     background-color: #FF6868;
@@ -89,6 +90,7 @@ export const InnerMessageContainer = styled.div`
     background: #f3f3f3;
     border-radius: 5px;
     font-weight: bold;
+    color: #FF6868;
 
 `
 
