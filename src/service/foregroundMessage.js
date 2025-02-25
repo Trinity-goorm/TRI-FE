@@ -20,12 +20,12 @@ const NotificationHandler = () => {
 
   useEffect(() => {
     const handleMessage = (payload) => {
-      setNotification((prev) => ({
+      setNotification({
         isModalOpen: true,
         title: payload.data.title || "",
         body: payload.data.body || "",
         redirectUrl: payload.data.redirectUrl || "",
-      }));
+      });
     };
 
     const unsubscribe = onMessage(messaging, handleMessage);
@@ -34,10 +34,6 @@ const NotificationHandler = () => {
       unsubscribe();
     };
   }, []);
-
-  useEffect(() => {
-    console.log("Updated notification state:", notification);
-  }, [notification]);
 
   return null;
 };

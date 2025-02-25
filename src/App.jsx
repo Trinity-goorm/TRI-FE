@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { userState } from "./atoms/userState.js";
 import GetUserDetail from "./api/userInfo/GetUserDetail.js";
+import LoadingBar from "./components/loadingBar/LoadingBar.jsx";
 
 // fcm 알림
 import PostFcmRenew from "./api/fcm/PostFcmRenew.js";
@@ -70,7 +71,7 @@ function App() {
   };
 
   if (!isDataLoaded) {
-    return <div>로딩 중...!</div>;
+    return <LoadingBar />;
   }
 
   return (

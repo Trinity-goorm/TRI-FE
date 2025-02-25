@@ -47,7 +47,7 @@ export const CategoryFeedContainer = styled.div`
 `;
 
 export const Comment = styled.div`
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 650;
   margin-left: 20px;
 `;
