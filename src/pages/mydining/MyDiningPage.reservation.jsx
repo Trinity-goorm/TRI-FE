@@ -73,7 +73,7 @@ const MyDiningReservation = () => {
                     onClose={() => setIsCancel(false)}
                     onConfirm = { () => cancelReservation()}
                     message={"정말로 예약을 취소하시겠습니까?"}
-                    innerMessage={""}
+                    innerMessage={"💵 예약 취소 시 티켓은 반환됩니다! 💵"}
 
                 />
             )}
