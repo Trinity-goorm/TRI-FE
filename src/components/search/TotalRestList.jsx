@@ -28,7 +28,6 @@ const TotalRestListContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3px;
-
   overflow-y: auto;
   scrollbar-width: none;
 

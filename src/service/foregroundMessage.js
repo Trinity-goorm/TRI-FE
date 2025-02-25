@@ -1,6 +1,8 @@
 import { getMessaging, onMessage } from "firebase/messaging";
 import { initializeApp } from "firebase/app";
-import logoTest from "../../public/logo_test.png";
+import { notificationState } from "../atoms/notificationState";
+import { useRecoilState } from "recoil";
+import { useEffect } from "react";
 
 const config = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -13,27 +15,27 @@ const config = {
 initializeApp(config);
 const messaging = getMessaging();
 
-export const setupMessageListener = () => {
-  onMessage(messaging, (payload) => {
-    console.log("Message received in foreground:", payload);
+const NotificationHandler = () => {
+  const [notification, setNotification] = useRecoilState(notificationState);
 
-    const notificationTitle = payload.data.title;
-    const notificationOptions = {
-      body: payload.data.body,
-      tag: "catchping",
-      icon: logoTest,
+  useEffect(() => {
+    const handleMessage = (payload) => {
+      setNotification({
+        isModalOpen: true,
+        title: payload.data.title || "",
+        body: payload.data.body || "",
+        redirectUrl: payload.data.redirectUrl || "",
+      });
     };
 
-    const notification = new Notification(
-      notificationTitle,
-      notificationOptions
-    );
+    const unsubscribe = onMessage(messaging, handleMessage);
 
-    notification.onclick = (event) => {
-      event.preventDefault();
-      const redirectUrl = payload.data.url;
-      if (redirectUrl) window.open(redirectUrl, "_self");
-      notification.close();
+    return () => {
+      unsubscribe();
     };
-  });
+  }, []);
+
+  return null;
 };
+
+export default NotificationHandler;

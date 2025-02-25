@@ -9,15 +9,37 @@ const OnboardingUserInfo = ({
   setAge,
   phoneNum,
   setPhoneNum,
+  name,
+  setName,
   setIsFormValid,
 }) => {
+  const isGreenName = name === null ? null : name.length >= 2;
   const isGreenAge = age === null ? null : !isNaN(age) && age.length === 8;
-
   const isGreenPhone = phoneNum === null ? null : phoneNum.length === 13;
 
+  console.log(phoneNum);
+
   useEffect(() => {
-    setIsFormValid(isGreenAge && isGreenPhone);
-  }, [isGreenAge, isGreenPhone, setIsFormValid]);
+    setIsFormValid(isGreenName && isGreenAge && isGreenPhone);
+  }, [isGreenName, isGreenAge, isGreenPhone, setIsFormValid]);
+
+  const formatPhoneNum = (value) => {
+    const numbers = value.replace(/\D/g, "");
+
+    if (numbers.length <= 3) return numbers;
+    if (numbers.length <= 7)
+      return `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
+    return `${numbers.slice(0, 3)}-${numbers.slice(3, 7)}-${numbers.slice(
+      7,
+      11
+    )}`;
+  };
+
+  const handlePhoneNumChange = (e) => {
+    const rawValue = e.target.value;
+    const formattedValue = formatPhoneNum(rawValue);
+    setPhoneNum(formattedValue);
+  };
 
   return (
     <>
@@ -51,6 +73,19 @@ const OnboardingUserInfo = ({
         </ComentInputWrapper>
 
         <ComentInputWrapper>
+          <Coment>이름</Coment>
+          <InputContainer>
+            <OnBoardingInput
+              value={name ?? ""}
+              onChange={(e) => setName(e.target.value)}
+              $isGreen={isGreenName}
+              placeholder="홍길동"
+            />
+            <CheckIcon $isGreen={isGreenName} />
+          </InputContainer>
+        </ComentInputWrapper>
+
+        <ComentInputWrapper>
           <Coment>생년월일</Coment>
           <InputContainer>
             <OnBoardingInput
@@ -68,7 +103,7 @@ const OnboardingUserInfo = ({
           <InputContainer>
             <OnBoardingInput
               value={phoneNum ?? ""}
-              onChange={(e) => setPhoneNum(e.target.value)}
+              onChange={handlePhoneNumChange}
               $isGreen={isGreenPhone}
               placeholder="010-1234-5678"
             />
@@ -86,7 +121,7 @@ const OnboardingContainer = styled.div`
   padding: 30px 30px;
   box-sizing: border-box;
   margin-top: 30px;
-  gap: 45px;
+  gap: 27px;
 `;
 
 const Title = styled.div`

@@ -1,10 +1,19 @@
 import "./App.css";
+
+// 로그인
 import { useSetRecoilState } from "recoil";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { userState } from "./atoms/userState.js";
 import GetUserDetail from "./api/userInfo/GetUserDetail.js";
-import { setupMessageListener } from "./service/foregroundMessage.js";
+import LoadingBar from "./components/loadingBar/LoadingBar.jsx";
+
+// fcm 알림
+import PostFcmRenew from "./api/fcm/PostFcmRenew.js";
+import { formatLocalDate } from "./util/formatLocalDate.js";
+import NotificationHandler from "./service/foregroundMessage.js";
+import NotificationModal from "./components/notification/NotificationModal.jsx";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/home/HomePage.main.jsx";
 import MyDiningPage from "./pages/mydining/MyDiningPage.main.jsx";
@@ -28,14 +37,23 @@ function App() {
   const setUser = useSetRecoilState(userState);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
 
-  // 초기 세팅
   useEffect(() => {
-    setupMessageListener();
+    if (
+      location.pathname === "/kakao/callback" ||
+      location.pathname === "/onboarding"
+    ) {
+      setIsDataLoaded(true); // 렌더링 허용
+      return;
+    }
+
     const userId = localStorage.getItem("userId");
+    const fcmToken = localStorage.getItem("FCM_TOKEN");
 
     if (userId) {
       getUserInfo(userId).then(() => setIsDataLoaded(true));
+      PostFcmRenew(fcmToken, formatLocalDate(new Date()));
     } else {
+      setIsDataLoaded(true);
       nav("/login");
     }
   }, []);
@@ -53,29 +71,42 @@ function App() {
   };
 
   if (!isDataLoaded) {
-    return <div>로딩 중...</div>;
+    return <LoadingBar />;
   }
 
   return (
-    <Routes>
-      <Route path="*" element={<HomePage />} />
-      <Route path="/" element={<HomePage />} />
-      <Route path="/login" element={<KakaoLogin />} />
-      <Route path="/kakao/callback" element={<KakaoCallback />} />
-      <Route path="/onboarding" element={<Onboarding />} />
-      <Route path="/mydining" element={<MyDiningPage />} />
-      <Route path="/mypage" element={<MyPage />} />
-      <Route path="/detail/:id" element={<DetailPage />} />
-      <Route path="/search" element={<Search />} />
-      <Route path="/search/total/category" element={<SearchCategoryTotal />} />
-      <Route path="/search/total" element={<SearchKeywordTotal />} />
-      <Route path="/reservation/:id" element={<ReservationMainPage />} />
-      <Route path="/reservation/confirm/:id" element={<ReservationConfirm />} />
-      <Route path="/reservation/payment" element={<ReservationPaymentPage />} />
-      <Route path="/mydining" element={<MyDiningPage />} />
-      <Route path="/mydining/reservation" element={<MyDiningReservation />} />
-      <Route path="/mydining/vacancy" element={<MyDiningVacancy />} />
-    </Routes>
+    <>
+      <NotificationHandler />
+      <NotificationModal />
+      <Routes>
+        <Route path="*" element={<HomePage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<KakaoLogin />} />
+        <Route path="/kakao/callback" element={<KakaoCallback />} />
+        <Route path="/onboarding" element={<Onboarding />} />
+        <Route path="/mydining" element={<MyDiningPage />} />
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/detail/:id" element={<DetailPage />} />
+        <Route path="/search" element={<Search />} />
+        <Route
+          path="/search/total/category"
+          element={<SearchCategoryTotal />}
+        />
+        <Route path="/search/total" element={<SearchKeywordTotal />} />
+        <Route path="/reservation/:id" element={<ReservationMainPage />} />
+        <Route
+          path="/reservation/confirm/:id"
+          element={<ReservationConfirm />}
+        />
+        <Route
+          path="/reservation/payment"
+          element={<ReservationPaymentPage />}
+        />
+        <Route path="/mydining" element={<MyDiningPage />} />
+        <Route path="/mydining/reservation" element={<MyDiningReservation />} />
+        <Route path="/mydining/vacancy" element={<MyDiningVacancy />} />
+      </Routes>
+    </>
   );
 }
 

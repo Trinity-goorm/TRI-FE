@@ -3,6 +3,7 @@ import requestHandler from "../requestHandler";
 const PostOnboarding = (
   userId,
   sex,
+  name,
   birthday,
   phoneNumber,
   minPrice,
@@ -15,6 +16,7 @@ const PostOnboarding = (
     data: {
       userId,
       sex,
+      name,
       birthday,
       phoneNumber,
       minPrice,

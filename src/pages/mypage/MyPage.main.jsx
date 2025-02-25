@@ -52,7 +52,7 @@ const MyPage = () => {
     try {
       const response = await GetUserDetail(localStorage.getItem("userId"));
       setName(response.username);
-      setTellNum(response.userId);
+      setTellNum(response.phoneNumber);
       setNormalTicketCount(response.normalTicketCount);
       setEmptyTicketCount(response.emptyTicketCount);
     } catch (error) {

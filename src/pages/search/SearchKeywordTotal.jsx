@@ -7,6 +7,8 @@ import TotalRestList from "../../components/search/TotalRestList";
 import GetKeywordRestList from "../../api/search/GetKeywordRestList";
 import SortModal from "../../components/search/SortModal";
 import NoResultsFound from "../../components/search/NoResultsFound";
+import LoadingBar from "../../components/loadingBar/LoadingBar";
+import LoadingMoreBar from "../../components/loadingBar/LoadingMoreBar";
 
 const type = {
   highest_rating: "별점순",
@@ -22,6 +24,7 @@ const SearchKeywordTotal = () => {
   const [sortType, setSortType] = useState("highest_rating");
   const [restaurantList, setRestaurantList] = useState([]);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   // 쿼리파라미터
   const keyword = searchParam.get("keyword");
@@ -31,6 +34,7 @@ const SearchKeywordTotal = () => {
     setSortType(type);
     setIsModalOpen(false);
     setPage(1);
+    setLastPage(0);
   };
 
   // 무한스크롤
@@ -40,16 +44,22 @@ const SearchKeywordTotal = () => {
 
   useEffect(() => {
     const handleScroll = () => {
+      if (loading) return;
       if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
         setPage((prevPage) => prevPage + 1);
       }
     };
+
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [loading]);
 
   // api 호출
   const fetchKeywordData = async () => {
+    setLoading(true);
     try {
       const response = await GetKeywordRestList(
         keyword,
@@ -63,11 +73,13 @@ const SearchKeywordTotal = () => {
       );
     } catch (error) {
       console.error("💀데이터 로드 실패", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <SearchKeywordTotalContainer>
+    <>
       <SearchKeyword onClick={() => nav(`/search?keyword=${keyword}`)}>
         <SearchKeywordContainer>
           <GoArrowLeft
@@ -96,18 +108,19 @@ const SearchKeywordTotal = () => {
         clickSortHandler={clickSortHandler}
       />
 
-      {restaurantList.length === 0 ? (
+      {loading && page === 1 ? (
+        <LoadingBar />
+      ) : restaurantList.length === 0 ? (
         <NoResultsFound />
       ) : (
-        <TotalRestList restaurantList={restaurantList} />
+        <>
+          <TotalRestList restaurantList={restaurantList} />
+          {loading && page > 1 && <LoadingMoreBar />}
+        </>
       )}
-    </SearchKeywordTotalContainer>
+    </>
   );
 };
-
-const SearchKeywordTotalContainer = styled.div`
-  height: calc(100vh - 70px - 75px);
-`;
 
 const SearchKeyword = styled.div`
   position: fixed;
