@@ -7,7 +7,7 @@ const TopBar = () => {
 
   return (
     <style.TopBarContainer>
-      <style.Logo>C</style.Logo>
+      <style.Logo>P</style.Logo>
       <style.SearchBarContainer onClick={() => nav("/search")}>
         <style.SearchBar>
           <GoSearch size={22} color="gray" />

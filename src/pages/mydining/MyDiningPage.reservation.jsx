@@ -61,17 +61,14 @@ const MyDiningReservation = () => {
     return (
         <>
             <style.TotalWrapper>
-                {reservations.length > 0 ? (
-                    reservations.map((reservation, index) => (
+
+                    {reservations.map((reservation, index) => (
                             <DiningComponent key={index} tagText={"방문 예정"}
                                              reservation={reservation}
                                              onCancel={() => onClickCancel(reservation.reservationId)}
                             />
-                        ))
-                ):(
-                    <NoSavedRestaurant/>
+                        ))}
 
-                )}
             </style.TotalWrapper>
             {isCancel && (
                 <Modal

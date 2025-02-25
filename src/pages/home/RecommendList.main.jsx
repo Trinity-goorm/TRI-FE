@@ -79,7 +79,6 @@ const RecommendComponent = () => {
       <style.TitleContainer>
         <style.Title>
           ✨ {user.userName} 님이 좋아할 매장 ✨
-          <style.WatchAll>전체보기 {">"}</style.WatchAll>
         </style.Title>
         <style.TitleExplain>마음에 들 만한 곳을 모아봤어요!</style.TitleExplain>
       </style.TitleContainer>
