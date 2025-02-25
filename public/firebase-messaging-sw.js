@@ -14,15 +14,6 @@ const config = {
     appId: import.meta.env.VITE_APP_ID,
 };
 
-const config = {
-    apiKey: "AIzaSyAHpQFkV6TfhI3Ej2neyWMIVSQegHAxHDM",
-    authDomain: "catchping-fcmserver.firebaseapp.com",
-    projectId: "catchping-fcmserver",
-    storageBucket: "catchping-fcmserver.firebasestorage.app",
-    messagingSenderId: "502059574661",
-    appId: "1:502059574661:web:5e52a72c28988d1a2410ec",
-};
-
 const app = firebase.initializeApp(config);
 
 self.addEventListener("install", function (e) {
