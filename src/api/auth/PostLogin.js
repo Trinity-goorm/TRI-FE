@@ -1,6 +1,7 @@
 import requestHandler from "../requestHandler";
 
 const PostLogin = (code, fcmToken, timeStamp) => {
+  console.log("PostLogin 실행 시작🍎");
   return requestHandler({
     method: "POST",
     data: { "fcmToken": fcmToken, "timeStamp": timeStamp },
