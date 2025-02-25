@@ -5,9 +5,7 @@ const SocialKakaoButton = ({ handleLogin }) => {
   return (
     <>
       <KakaoBtn
-        onClick={() => {
-          handleLogin();
-        }}
+        onClick={handleLogin}
       >
         <KakaoImg src={kakaoIcon} />
         카카오 로그인

@@ -19,11 +19,14 @@ const KakaoCallback = () => {
       const fcmToken = localStorage.getItem("FCM_TOKEN");
       if (!fcmToken) throw new Error("fcm 토큰이 없습니다.");
 
-      const response = await PostLogin(
-        code,
-        fcmToken,
-        formatLocalDate(new Date())
-      );
+      try {
+        console.log("로그인 시도 ⭐️", code, fcmToken, formatLocalDate(new Date()));
+        const response = await PostLogin(code, fcmToken, formatLocalDate(new Date()));
+        console.log("loginresponse", response);
+      } catch (error) {
+        console.error("로그인 API 에러 발생:", error);
+      }
+      console.log("loginresponse",response);
 
       // 로컬 스토리지 저장
       localStorage.setItem("ACCESS_TOKEN", response.accessToken);

@@ -38,13 +38,15 @@ const Login = () => {
   // FCM 토큰 요청 및 저장
   const getFcmToken = async () => {
     try {
-      if (permission === "granted") {
+      console.log("fcmToken 발급 전");
+        console.log("fcmToken 발급 시도");
         const token = await getToken(messaging, {
           vapidKey: import.meta.env.VITE_VAPID_KEY,
         });
+        console.log("fcmToken 발급 완료");
 
-        localStorage.setItem("FCM_TOKEN", token); // 토큰을 localStorage에 저장
-      }
+
+        localStorage.setItem("FCM_TOKEN", token);
     } catch (err) {
       console.log("FCM 에러:", err);
     }
@@ -53,7 +55,10 @@ const Login = () => {
   // 로그인 버튼 클릭
   const handleLogin = async () => {
     await getFcmToken();
+    const tokenOk = localStorage.getItem("FCM_TOKEN");
+    console.log(tokenOk, "토큰 발급 완료");
     window.location.href = kakaoURL;
+
   };
 
   return (
