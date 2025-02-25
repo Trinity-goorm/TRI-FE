@@ -40,6 +40,7 @@ const Onboarding = () => {
     if (step === 3) {
       postOnboardingData();
       setUser({ ...user, userName: name });
+      localStorage.setItem("userName", name);
       nav("/");
     } else {
       setStep((prev) => prev + 1);
