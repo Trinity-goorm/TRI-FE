@@ -165,11 +165,11 @@ jobs:
 
            # Docker 배포
            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}
-           docker pull ${{ steps.login-ecr.outputs.registry }}/frontend-repo:${{ github.sha }}
-           docker stop frontend-container || true
-           docker rm frontend-container || true
-           docker run -d --name frontend-container \
+           docker pull ${{ steps.login-ecr.outputs.registry }}/trinity-repo:${{ github.sha }}
+           docker stop trinity-container || true
+           docker rm trinity-container || true
+           docker run -d --name trinity-container \
              -p 5173:5173 \
              --restart unless-stopped \
              --env-file /home/ec2-user/TRI-FE/.env \
-             ${{ steps.login-ecr.outputs.registry }}/frontend-repo:${{ github.sha }}
+             ${{ steps.login-ecr.outputs.registry }}/trinity-repo:${{ github.sha }}
