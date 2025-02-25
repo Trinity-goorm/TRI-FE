@@ -6,6 +6,7 @@ import {useEffect, useState} from "react";
 //API
 import PostReservationCancel from "../../api/reservation/post/PostReservationCancel.js";
 import Modal from "../../components/modal/Modal.jsx";
+import NoSavedRestaurant from "../../components/restaurant/NoSavedRestuarant.jsx";
 
 const MyDiningReservation = () => {
     const [isCancel, setIsCancel] = useState(false);
@@ -60,12 +61,17 @@ const MyDiningReservation = () => {
     return (
         <>
             <style.TotalWrapper>
-                {reservations.map((reservation, index) => (
-                    <DiningComponent key={index} tagText={"방문 예정"}
-                                     reservation={reservation}
-                                     onCancel={() => onClickCancel(reservation.reservationId)}
-                    />
-                ))}
+                {reservations.length > 0 ? (
+                    reservations.map((reservation, index) => (
+                            <DiningComponent key={index} tagText={"방문 예정"}
+                                             reservation={reservation}
+                                             onCancel={() => onClickCancel(reservation.reservationId)}
+                            />
+                        ))
+                ):(
+                    <NoSavedRestaurant/>
+
+                )}
             </style.TotalWrapper>
             {isCancel && (
                 <Modal
