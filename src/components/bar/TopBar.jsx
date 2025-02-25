@@ -14,7 +14,7 @@ const TopBar = () => {
         </style.SearchBar>
       </style.SearchBarContainer>
       <style.MovetoSaveButton>
-        <GoBookmark size={30} color="gray" />
+        <GoBookmark size={30} color="gray" onClick={() => nav("/mypage")}  />
       </style.MovetoSaveButton>
     </style.TopBarContainer>
   );

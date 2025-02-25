@@ -1,59 +1,27 @@
 import styled from "styled-components";
 import SocialKakaoButton from "../../components/auth/SocialKakaoButton";
-import { initializeApp } from "firebase/app";
-import { getMessaging, getToken } from "firebase/messaging";
-import { useEffect } from "react";
-
-const config = {
-  apiKey: import.meta.env.VITE_API_KEY,
-  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDID,
-  appId: import.meta.env.VITE_APP_ID,
-};
-initializeApp(config);
-const messaging = getMessaging();
+import { useState, useEffect } from "react";
 
 const Login = () => {
   const Rest_api_key = import.meta.env.VITE_APP_API_KEY;
   const redirect_uri = "http://localhost:5173/kakao/callback";
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`;
+  const [permission, setPermission] = useState(null);
+  const [showWarning, setShowWarning] = useState(false);
 
   // 알림 권한 설정
-  let permission = null;
   useEffect(() => {
     const getPermission = async () => {
-      permission = await Notification.requestPermission();
-
-      if (permission === "denied") {
-        alert(
-          "캐치핑은 예약과 빈자리 정보를 알림으로 안내해드려요.\n알림을 받으시려면 설정 > 개인 정보 보호 및 보안 > 사이트 설정에서 알림을 허용해주세요."
-        );
-      }
+      const newPermission = await Notification.requestPermission();
+      setPermission(newPermission);
     };
     getPermission();
   }, []);
 
-  // FCM 토큰 요청 및 저장
-  const getFcmToken = async () => {
-    try {
-      if (permission === "granted") {
-        const token = await getToken(messaging, {
-          vapidKey: import.meta.env.VITE_VAPID_KEY,
-        });
-
-        localStorage.setItem("FCM_TOKEN", token); // 토큰을 localStorage에 저장
-      }
-    } catch (err) {
-      console.log("FCM 에러:", err);
-    }
-  };
-
   // 로그인 버튼 클릭
-  const handleLogin = async () => {
-    await getFcmToken();
-    window.location.href = kakaoURL;
+  const handleLogin = () => {
+    if (permission === "granted") window.location.href = kakaoURL;
+    else if (permission === "denied") setShowWarning(true);
   };
 
   return (
@@ -62,7 +30,16 @@ const Login = () => {
         <h1>Logo</h1>
         <Info>편안한 식사 문화를 위한 새로운 시작</Info>
       </LogoWrapper>
-      <SocialKakaoButton handleLogin={handleLogin} />
+      <WarningButtonContainer>
+        {showWarning && (
+          <WarningComment>
+            캐치핑은 예약과 빈자리 정보를 알림으로 안내해 드려요. <br />
+            설정 &gt; 개인 정보 보호 및 보안 &gt; 사이트 설정에서 권한을 재설정
+            해주세요.
+          </WarningComment>
+        )}
+        <SocialKakaoButton handleLogin={handleLogin} />
+      </WarningButtonContainer>
     </LoginContainer>
   );
 };
@@ -87,6 +64,22 @@ const LogoWrapper = styled.div`
 const Info = styled.div`
   font-size: 13px;
   color: #666;
+`;
+
+const WarningButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+const WarningComment = styled.div`
+  padding: 15px;
+  background-color: #fff3f3;
+  color: #d32f2f;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.5;
 `;
 
 export default Login;
