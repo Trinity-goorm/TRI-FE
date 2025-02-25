@@ -27,7 +27,7 @@ jobs:
      - name: Build, tag, and push Docker image
        env:
          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-         ECR_REPOSITORY: frontend-repo
+         ECR_REPOSITORY: trinity-repo 
          IMAGE_TAG: ${{ github.sha }}
          VITE_APP_API_KEY: ${{ secrets.VITE_APP_API_KEY }}
          VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
