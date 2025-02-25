@@ -65,16 +65,21 @@ const DetailPage = () => {
     };
     const handleLike = async () => {
         try{
+            let updatedWishCount = restaurantDetail.wishCount;
             if(!isSaved){
                 await PostLike(userId, restaurantDetail.restaurantId);
-                setIsSaved(true);
+                updatedWishCount += 1;
                 console.log("상세페이지에서 좋아요 성공!")
             }else {
                 await DeleteLike(userId, restaurantDetail.restaurantId);
-                setIsSaved(false);
-                console.log("상세페이지에서 좋아요 실패!")
+                updatedWishCount -= 1;
+                console.log("상세페이지에서 좋아요 해제!")
             }
-
+            setRestaurantDetail({
+                ...restaurantDetail,
+                wishCount: updatedWishCount,
+            });
+            setIsSaved(!isSaved);
         }catch(e){
             console.log("👎좋아요 실패",e);
         }
