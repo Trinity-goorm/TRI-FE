@@ -27,7 +27,7 @@ const NotificationModal = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       handleClose();
-    }, 3000);
+    }, 5000);
 
     return () => {
       clearTimeout(timer);
@@ -146,6 +146,7 @@ const TitleWrapper = styled.div`
 
 const BodyWrapper = styled.div`
   font-size: 15px;
+  white-space: pre-line;
 `;
 
 export default NotificationModal;

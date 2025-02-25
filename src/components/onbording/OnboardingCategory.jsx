@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 const OnboardingCategory = ({ category, setCategory, setIsFormValid }) => {
   useEffect(() => {
-    setIsFormValid(category.length >= 3);
+    setIsFormValid(category.length === 3);
   }, [category, setIsFormValid]);
 
   return (
@@ -13,7 +13,7 @@ const OnboardingCategory = ({ category, setCategory, setIsFormValid }) => {
         <div>
           <Title>어떤 음식을 좋아하세요?</Title>
           <Description>
-            더 나은 경험을 위해 최소 3개의 카테고리를 골라주세요!
+            더 나은 경험을 위해 3개의 카테고리를 골라주세요!
           </Description>
         </div>
         <CategoryList category={category} setCategory={setCategory} />
