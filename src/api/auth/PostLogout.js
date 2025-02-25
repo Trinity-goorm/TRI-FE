@@ -6,7 +6,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 const PostLogout = async (accessToken, fcmToken) => {
   try {
     const response = await axios.post(
-      `${BASE_URL}/users/kakao/logout`,
+      `${BASE_URL}/api/users/kakao/logout`,
       { fcmToken },
       {
         headers: {
