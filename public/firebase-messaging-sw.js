@@ -34,6 +34,6 @@ messaging.onBackgroundMessage((payload) => {
   console.log("📩 백그라운드 푸시 메시지 수신됨:", payload);
   self.registration.showNotification(payload.notification.title, {
     body: payload.notification.body,
-    icon: "/logo_test.png",
+    icon: "/logo.png",
   });
 });

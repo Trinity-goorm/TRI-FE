@@ -27,7 +27,7 @@ const Login = () => {
   return (
     <LoginContainer>
       <LogoWrapper>
-        <h1>Logo</h1>
+        <h1>CATCHPING</h1>
         <Info>편안한 식사 문화를 위한 새로운 시작</Info>
       </LogoWrapper>
       <WarningButtonContainer>
@@ -51,6 +51,10 @@ const LoginContainer = styled.div`
   box-sizing: border-box;
   padding: 80px 20px;
   justify-content: space-between;
+`;
+
+const Logo = styled.div`
+  font-weight: 700;
 `;
 
 const LogoWrapper = styled.div`
