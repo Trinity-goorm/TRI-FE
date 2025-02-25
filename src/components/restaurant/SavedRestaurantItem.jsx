@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import SaveButton from "../save/SaveButton";
 import PostLike from "../../api/save/post/PostLike.js";
@@ -20,9 +21,11 @@ const SavedRestaurantItem = ({
   imgUrl,
   deleteLikeItem,
 }) => {
+  const nav = useNavigate();
   const [isSaved, setIsSaved] = useState(true);
 
-  const onClickSaved = () => {
+  const onClickSaved = (e) => {
+    e.stopPropagation();
     setIsSaved((prev) => {
       const newSaved = !prev;
 
@@ -54,7 +57,11 @@ const SavedRestaurantItem = ({
   };
 
   return (
-    <SavedRestaurantItemContainer>
+    <SavedRestaurantItemContainer
+      onClick={() => {
+        nav(`/detail/${id}`);
+      }}
+    >
       <RestImgWrapper
         $imgUrl={imgUrl === null ? defaultImage : `https://${imgUrl}`}
       />
@@ -91,6 +98,7 @@ const SavedRestaurantItem = ({
 
 const SavedRestaurantItemContainer = styled.div`
   display: flex;
+  cursor: pointer;
 `;
 
 const RestImgWrapper = styled.div`

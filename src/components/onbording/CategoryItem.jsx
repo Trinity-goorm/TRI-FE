@@ -71,7 +71,7 @@ const Title = styled.div`
   white-space: nowrap;
   color: white;
   border-radius: 5px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   background: rgba(0, 0, 0, 0.4);
   padding: 34px 8px;

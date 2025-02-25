@@ -40,7 +40,6 @@ const Login = () => {
         )}
         <SocialKakaoButton handleLogin={handleLogin} />
       </WarningButtonContainer>
-      <button onClick={deleteFcmToken}>FCM 토큰 삭제</button>;
     </LoginContainer>
   );
 };
