@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 const Login = () => {
   const Rest_api_key = import.meta.env.VITE_APP_API_KEY;
-  const redirect_uri = "https://catch-ping.com//kakao/callback";
+  const redirect_uri = "https://catch-ping.com/kakao/callback";
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`;
   const [permission, setPermission] = useState(null);
   const [showWarning, setShowWarning] = useState(false);
@@ -27,7 +27,7 @@ const Login = () => {
   return (
     <LoginContainer>
       <LogoWrapper>
-        <h1>Logo</h1>
+        <h1>CATCHPING</h1>
         <Info>편안한 식사 문화를 위한 새로운 시작</Info>
       </LogoWrapper>
       <WarningButtonContainer>
@@ -51,6 +51,10 @@ const LoginContainer = styled.div`
   box-sizing: border-box;
   padding: 80px 20px;
   justify-content: space-between;
+`;
+
+const Logo = styled.div`
+  font-weight: 700;
 `;
 
 const LogoWrapper = styled.div`

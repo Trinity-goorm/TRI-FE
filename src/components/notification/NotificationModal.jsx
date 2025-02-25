@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { notificationState } from "../../atoms/notificationState";
-import logo_test from "/logo_test.png";
+import logo from "/logo.png";
 import { IoClose } from "react-icons/io5";
 import { useEffect, useRef } from "react";
 
@@ -45,7 +45,7 @@ const NotificationModal = () => {
           handleClose();
         }}
       >
-        <LogoIcon src={logo_test} />
+        <LogoIcon src={logo} />
         <ContentContainer>
           <TitleWrapper>{notification.title}</TitleWrapper>
           <BodyWrapper>{notification.body}</BodyWrapper>
@@ -137,6 +137,7 @@ const LogoIcon = styled.img`
   width: 45px;
   height: 45px;
   border-radius: 10px;
+  object-fit: contain;
 `;
 
 const TitleWrapper = styled.div`

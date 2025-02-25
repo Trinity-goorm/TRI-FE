@@ -4,7 +4,7 @@ import onboardingImg from "../../assets/img/onboardingImg.jpg";
 const OnboardingInfo = () => {
   return (
     <OnboardingInfoContainer>
-      <LogoWrapper>logo</LogoWrapper>
+      <LogoWrapper>CATCHPING</LogoWrapper>
       <Image src={onboardingImg} style={{ width: "300px", height: "300px" }} />
       <Info>
         <Title>환영합니다!</Title>
