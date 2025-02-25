@@ -4,12 +4,12 @@ importScripts("https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging-compa
 console.log("✅ Service Worker 실행됨");
 
 const config = {
-    apiKey: "AIzaSyAHpQFkV6TfhI3Ej2neyWMIVSQegHAxHDM",
-    authDomain: "catchping-fcmserver.firebaseapp.com",
-    projectId: "catchping-fcmserver",
-    storageBucket: "catchping-fcmserver.firebasestorage.app",
-    messagingSenderId: "502059574661",
-    appId: "1:502059574661:web:5e52a72c28988d1a2410ec",
+    apiKey: import.meta.env.VITE_API_KEY,
+    authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_APP_ID,
 };
 
 const app = firebase.initializeApp(config);
