@@ -6,5 +6,13 @@ export default defineConfig({
   plugins: [react()],
   preview: {
     allowedHosts: ["catch-ping.com"],
+    proxy: {
+      "/api": {
+        target:
+          "http://internal-trinity-be-alb-619775524.ap-northeast-2.elb.amazonaws.com",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
   },
 });
