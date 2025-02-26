@@ -17,8 +17,6 @@ const OnboardingUserInfo = ({
   const isGreenAge = age === null ? null : !isNaN(age) && age.length === 8;
   const isGreenPhone = phoneNum === null ? null : phoneNum.length === 13;
 
-  console.log(phoneNum);
-
   useEffect(() => {
     setIsFormValid(isGreenName && isGreenAge && isGreenPhone);
   }, [isGreenName, isGreenAge, isGreenPhone, setIsFormValid]);
