@@ -6,7 +6,7 @@ import {FaXmark} from "react-icons/fa6";
 const PaymentTopBar = ({setIsTimeOver}) => {
 
     const navigate = useNavigate();
-    const [timeLeft, setTimeLeft] = useState(120);
+    const [timeLeft, setTimeLeft] = useState(30);
     const [isTimeOk, setIsTimeOk] = useState(true);
 
     useEffect(() => {

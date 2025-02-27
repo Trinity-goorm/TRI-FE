@@ -17,6 +17,7 @@ const RecommendComponent = () => {
   const [likeList, setLikeList] = useState([]);
   const [recommendList, setRecommendList] = useState([]);
   const user = useRecoilValue(userState);
+  const userName = localStorage.getItem("userName");
   //API
   const fetchLikeRestaurants = async () => {
     try {
@@ -78,7 +79,7 @@ const RecommendComponent = () => {
     <style.TotalContainer>
       <style.TitleContainer>
         <style.Title>
-          ✨ {user.userName} 님이 좋아할 매장 ✨
+          ✨ {userName} 님이 좋아할 매장 ✨
         </style.Title>
         <style.TitleExplain>마음에 들 만한 곳을 모아봤어요!</style.TitleExplain>
       </style.TitleContainer>

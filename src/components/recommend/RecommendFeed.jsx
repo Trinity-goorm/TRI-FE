@@ -16,6 +16,9 @@ const RecommendFeed = ({ item, isLiked, onToggleLike }) => {
   const formatLocation = (location) => {
     return location.length > 9 ? `${location.slice(0, 10)}...` : location;
   };
+  const formatTitle = (title) => {
+    return title.length > 9 ? `${title.slice(0, 10)}...` : title;
+  }
 
   const nav = useNavigate();
   const onClickToDetail = () => {
@@ -33,7 +36,7 @@ const RecommendFeed = ({ item, isLiked, onToggleLike }) => {
       </style.ImageContainer>
       <style.SubContainer>
         <style.InfoContainer>
-          <style.NameContainer>{name}</style.NameContainer>
+          <style.NameContainer>{formatTitle(name)}</style.NameContainer>
           <style.SubInfoContainer>
             <style.StarContainer>
               <FaStar size={16} color={"#FFD700"} />

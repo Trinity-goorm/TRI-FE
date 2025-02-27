@@ -4,6 +4,7 @@ import VacancyComponent from "../../components/dining/VacancyComponent.jsx";
 import DeleteVacancySeat from "../../api/vacancy/delete/DeleteVacancySeat.js";
 import Modal from "../../components/modal/Modal.jsx";
 import getVacancySeats from "../../api/vacancy/get/GetVacancySeats.js";
+import {BsBookmarkDash} from "react-icons/bs";
 
 
 const MyDiningVacancy = () => {
@@ -55,18 +56,34 @@ const MyDiningVacancy = () => {
     return (
         <>
             <style.TotalWrapper>
-                {vacancySeats.map((reservation, index) => (
-                    <VacancyComponent key={index} tagText={"알림 대기중"}
-                                     reservation={reservation}
-                                     onClickFunction={() => onClickDeleteVacancy(reservation.seatNotificationId)}
-                    />
-                ))}
+                {
+                    vacancySeats.length > 0 ? (
+
+                        vacancySeats.map((reservation, index) => (
+                                <VacancyComponent key={index} tagText={"알림 대기중"}
+                                                  reservation={reservation}
+                                                  onClickFunction={() => onClickDeleteVacancy(reservation.seatNotificationId)}
+                                />
+                            ))
+                    ) : (
+                        <style.NoRestaurantWrapper>
+                            <style.NoRestaurantIcon>
+                                <BsBookmarkDash size={60} color={"#dcdcdc"} strokeWidth={0.3}/>
+                            </style.NoRestaurantIcon>
+                            <style.NoRestaurantMessageFirst>빈자리 알림이 없습니다!</style.NoRestaurantMessageFirst>
+                            <style.NoRestaurantMessageSecond>신청한 빈자리 알림이 여기에 표시됩니다!</style.NoRestaurantMessageSecond>
+
+
+                        </style.NoRestaurantWrapper>
+
+                    )
+                }
             </style.TotalWrapper>
             {isCancel && (
                 <Modal
                     isOpen={isCancel}
                     onClose={() => setIsCancel(false)}
-                    onConfirm = { () => deleteVacancy()}
+                    onConfirm={() => deleteVacancy()}
                     message={"정말로 빈자리 알림을 취소하시겠습니까?"}
                     innerMessage={"💵 빈자리 알림 취소 시 티켓은 반환되지 않습니다! 💵 "}
 
