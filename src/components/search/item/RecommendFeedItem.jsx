@@ -1,8 +1,8 @@
-import * as style from "./style/RecommendFeedItem.js";
+import * as style from "../style/RecommendFeedItem.js";
 import { FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import wine from "../../assets/img/wineBar.jpg";
-import { formatRating } from "../../util/formatRating.js";
+import wine from "../../../assets/img/wineBar.jpg";
+import { formatRating } from "../../../util/formatRating.js";
 
 const RecommendFeedItem = ({ item }) => {
   const name = item?.name;

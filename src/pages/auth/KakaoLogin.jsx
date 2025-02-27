@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import SocialKakaoButton from "../../components/auth/SocialKakaoButton";
+import SocialKakaoButton from "../../components/button/SocialKakaoButton";
 import { useState, useEffect } from "react";
 
 const Login = () => {
   const Rest_api_key = import.meta.env.VITE_APP_API_KEY;
   // const redirect_uri = "https://catch-ping.com/kakao/callback";
-  const redirect_uri = "http://catch-ping.com/kakao/callback";
+  const redirect_uri = "https://catch-ping.com/kakao/callback";
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`;
   const [permission, setPermission] = useState(null);
   const [showWarning, setShowWarning] = useState(false);

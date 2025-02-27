@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import TotalRestItem from "./TotalRestItem.jsx";
+import TotalRestItem from "../item/TotalRestItem";
 
 const TotalRestList = ({ restaurantList, category }) => {
   return (

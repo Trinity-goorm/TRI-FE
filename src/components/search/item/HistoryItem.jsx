@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { IoClose } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
-import DeleteHistoryItem from "../../api/search/DeleteHistoryItem";
+import DeleteHistoryItem from "../../../api/search/DeleteHistoryItem";
 
 const HistoryItem = ({ id, keyword, deleteHistory }) => {
   const nav = useNavigate();

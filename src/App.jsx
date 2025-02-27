@@ -12,7 +12,7 @@ import LoadingBar from "./components/loadingBar/LoadingBar.jsx";
 import PostFcmRenew from "./api/fcm/PostFcmRenew.js";
 import { formatLocalDate } from "./util/formatLocalDate.js";
 import NotificationHandler from "./service/foregroundMessage.js";
-import NotificationModal from "./components/notification/NotificationModal.jsx";
+import NotificationModal from "./components/modal/NotificationModal.jsx";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/home/HomePage.main.jsx";

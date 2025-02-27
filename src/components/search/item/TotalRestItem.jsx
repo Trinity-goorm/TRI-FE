@@ -2,15 +2,15 @@ import styled from "styled-components";
 import { FaStar } from "react-icons/fa";
 import { MdAccessTimeFilled } from "react-icons/md";
 import { FaWonSign } from "react-icons/fa6";
-import SaveButton from "../save/SaveButton";
-import SearchResevationList from "./SearchReservationList";
-import { formatRating } from "../../util/formatRating.js";
-import { formatPrice } from "../../util/formatPrice.js";
+import SaveButton from "../../save/SaveButton.jsx";
+import SearchReservationList from "../list/SearchReservationList.jsx";
+import { formatRating } from "../../../util/formatRating.js";
+import { formatPrice } from "../../../util/formatPrice.js";
 import { useState } from "react";
-import PostLike from "../../api/save/post/PostLike.js";
-import DeleLike from "../../api/save/delete/DeleteLike.js";
+import PostLike from "../../../api/save/post/PostLike.js";
+import DeleLike from "../../../api/save/delete/DeleteLike.js";
 import { useNavigate } from "react-router-dom";
-import wine from "../../assets/img/wine1.jpg";
+import wine from "../../../assets/img/wine1.jpg";
 
 const TotalRestItem = ({
   id,

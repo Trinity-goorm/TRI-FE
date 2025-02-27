@@ -14,11 +14,11 @@ import { userState } from "../../atoms/userState.js";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 // Componenet
-import RecommendFeedItem from "../../components/search/RecommendFeedItem.jsx";
-import HistoryList from "../../components/search/HistoryList";
-import GetHistoryList from "../../api/search/GetHistoryList";
+import RecommendFeedItem from "../../components/search/item/RecommendFeedItem.jsx";
+import HistoryList from "../../components/search/list/HistoryList";
+import GetHistoryList from "../../api/search/GetHistoryList.js";
 import GetRecommendList from "../../api/recommend/get/GetRecommendList.js";
-import RecommendCatItem from "../../components/search/RecommendCatItem";
+import RecommendCatItem from "../../components/search/item/RecommendCatItem";
 
 const recomCatList = [
   {
