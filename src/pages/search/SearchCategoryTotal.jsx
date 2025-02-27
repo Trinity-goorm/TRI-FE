@@ -3,9 +3,9 @@ import { GoArrowLeft } from "react-icons/go";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import TotalRestList from "../../components/search/TotalRestList";
+import TotalRestList from "../../components/search/list/TotalRestList";
 import GetCategoryRestList from "../../api/search/GetCategoryRestList";
-import SortModal from "../../components/search/SortModal";
+import SortModal from "../../components/modal/SortModal";
 import LoadingBar from "../../components/loadingBar/LoadingBar";
 import LoadingMoreBar from "../../components/loadingBar/LoadingMoreBar";
 

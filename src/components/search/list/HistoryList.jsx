@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import HistoryItem from "./HistoryItem";
+import HistoryItem from "../item/HistoryItem";
 
 const HistoryList = ({ histroyList, deleteHistory }) => {
   return (
