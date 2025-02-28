@@ -1,14 +1,17 @@
-import requestHandler from "../requestHandler";
+import axios from "axios";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-const PostLogin = (code, fcmToken, timeStamp) => {
-  console.log("PostLogin 실행 시작🍎");
-  return requestHandler({
-    method: "POST",
-    data: {fcmToken, timeStamp},
-    endpoint: `/users/kakao/login?code=${code}`,
-    successMessage: "로그인 성공",
-    errorMessage: "로그인 실패",
-  });
+const PostLogin = async (authCode) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/users/kakao/login`, {
+      authCode,
+    });
+
+    return response;
+  } catch (error) {
+    console.error("로그인 실패:", error.response?.data || error.message);
+    throw new Error("로그인 실패");
+  }
 };
 
 export default PostLogin;
