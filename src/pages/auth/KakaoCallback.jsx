@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import PostLogin from "../../api/auth/PostLogin";
-import { formatLocalDate } from "../../util/formatLocalDate";
 import { userState } from "../../atoms/userState";
 import { useRecoilState } from "recoil";
 import LoadingBar from "../../components/loadingBar/LoadingBar";
@@ -21,6 +20,13 @@ const config = {
 initializeApp(config);
 const messaging = getMessaging();
 
+const getCookie = (name) => {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(";").shift();
+  return null;
+};
+
 const KakaoCallback = () => {
   const nav = useNavigate();
   const [user, setUser] = useRecoilState(userState);
@@ -32,8 +38,8 @@ const KakaoCallback = () => {
     }
     const registration = await navigator.serviceWorker.ready;
     console.log(
-        "서비스 워커 준비 완료:",
-        registration.active ? "활성화됨" : "비활성화됨"
+      "서비스 워커 준비 완료:",
+      registration.active ? "활성화됨" : "비활성화됨"
     );
     return registration;
   };
@@ -64,22 +70,29 @@ const KakaoCallback = () => {
       const fcmToken = await getFcmToken();
       if (!fcmToken) throw new Error("fcm 토큰이 없습니다.");
 
-      const response = await PostLogin(
-          code,
-          fcmToken,
-          formatLocalDate(new Date())
-      );
+      // const response = await PostLogin(
+      //   code,
+      //   fcmToken,
+      //   formatLocalDate(new Date())
+      // );
+      console.log("PostLogin 호출");
+      const response = await PostLogin(code);
+
+      const accessToken = response.headers.get("access");
+      const refreshToken = getCookie("refresh");
+      if (!accessToken || !refreshToken)
+        throw new Error("액세스 토큰과 리프레시 토큰을 찾을 수 없습니다.");
 
       // 로컬 스토리지 저장
       localStorage.setItem("FCM_TOKEN", fcmToken);
-      localStorage.setItem("ACCESS_TOKEN", response.accessToken);
-      localStorage.setItem("REFRESH_TOKEN", response.refreshToken);
-      localStorage.setItem("userId", response.id);
+      localStorage.setItem("ACCESS_TOKEN", accessToken);
+      localStorage.setItem("REFRESH_TOKEN", refreshToken);
 
       // 전역으로 저장
-      setUser({ ...user, userId: response.id });
+      // setUser({ ...user, userId: response.id });
 
-      if (response.newUser) {
+      //needOnboarding
+      if (response.data.needOnboarding) {
         nav("/onboarding");
       } else {
         nav("/");

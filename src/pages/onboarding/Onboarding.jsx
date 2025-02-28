@@ -54,7 +54,6 @@ const Onboarding = () => {
   const postOnboardingData = async () => {
     try {
       await PostOnboarding(
-        localStorage.getItem("userId"),
         gender,
         name,
         formatBirth(age),
