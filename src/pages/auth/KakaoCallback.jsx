@@ -88,7 +88,7 @@ const KakaoCallback = () => {
         localStorage.setItem("FCM_TOKEN", fcmToken);
         localStorage.setItem("ACCESS_TOKEN", accessToken);
         localStorage.setItem("REFRESH_TOKEN", refreshToken);
-        // nav("/");
+        nav("/");
       }
     };
 
