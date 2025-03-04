@@ -24,6 +24,7 @@ const messaging = getMessaging();
 const KakaoCallback = () => {
   const nav = useNavigate();
   const [user, setUser] = useRecoilState(userState);
+  const [isReady, setIsReady] = useState(false);
 
   // 서비스 워커 준비 확인 함수
   const waitForServiceWorker = async () => {
@@ -88,12 +89,18 @@ const KakaoCallback = () => {
         localStorage.setItem("FCM_TOKEN", fcmToken);
         localStorage.setItem("ACCESS_TOKEN", accessToken);
         localStorage.setItem("REFRESH_TOKEN", refreshToken);
-        nav("/");
+        setIsReady(true);
       }
     };
 
     postCode();
   }, []);
+
+  useEffect(() => {
+    if (isReady) {
+      nav("/");
+    }
+  }, [isReady]);
 
   return <LoadingBar />;
 };
