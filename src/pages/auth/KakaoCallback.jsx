@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import PostLogin from "../../api/auth/PostLogin";
 import { userState } from "../../atoms/userState";
@@ -8,7 +8,7 @@ import LoadingBar from "../../components/loadingBar/LoadingBar";
 // fcm
 import { getMessaging, getToken } from "firebase/messaging";
 import { initializeApp } from "firebase/app";
-import PostFcmToken from "../../api/fcm/PostFcmToken";
+import PostFcmRenew from "../../api/fcm/PostFcmRenew";
 
 const config = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -23,8 +23,8 @@ const messaging = getMessaging();
 
 const KakaoCallback = () => {
   const nav = useNavigate();
+  const [searchParams] = useSearchParams();
   const [user, setUser] = useRecoilState(userState);
-  const [isReady, setIsReady] = useState(false);
 
   // 서비스 워커 준비 확인 함수
   const waitForServiceWorker = async () => {
@@ -54,9 +54,9 @@ const KakaoCallback = () => {
     }
   };
 
-  const postFcmTokenData = async (fcmToken) => {
+  const renewFcmTokenData = async (fcmToken, accessToken) => {
     try {
-      await PostFcmToken(fcmToken);
+      await PostFcmRenew(fcmToken, accessToken);
     } catch (error) {
       console.error(error);
     }
@@ -64,7 +64,7 @@ const KakaoCallback = () => {
 
   useEffect(() => {
     const postCode = async () => {
-      const code = new URL(window.location.href).searchParams.get("code");
+      const code = searchParams.get("code");
       console.log(code);
       if (!code) throw new Error("인가 코드가 없습니다.");
 
@@ -80,27 +80,24 @@ const KakaoCallback = () => {
         throw new Error("액세스 토큰 또는 리프레시 토큰을 찾을 수 없습니다.");
       setUser({ ...user, fcmToken, accessToken, refreshToken });
 
-      await postFcmTokenData(fcmToken);
-
       //needOnboarding
       if (response.data.needOnboarding) {
         nav("/onboarding");
       } else {
-        localStorage.setItem("FCM_TOKEN", fcmToken);
-        localStorage.setItem("ACCESS_TOKEN", accessToken);
-        localStorage.setItem("REFRESH_TOKEN", refreshToken);
-        setIsReady(true);
+        renewFcmTokenData(fcmToken, accessToken);
+        savingToken(fcmToken, accessToken, refreshToken);
+        nav("/");
       }
     };
 
     postCode();
   }, []);
 
-  useEffect(() => {
-    if (isReady) {
-      nav("/");
-    }
-  }, [isReady]);
+  const savingToken = (fcmToken, accessToken, refreshToken) => {
+    localStorage.setItem("FCM_TOKEN", fcmToken);
+    localStorage.setItem("ACCESS_TOKEN", accessToken);
+    localStorage.setItem("REFRESH_TOKEN", refreshToken);
+  };
 
   return <LoadingBar />;
 };

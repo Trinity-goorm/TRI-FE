@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, act } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import OnboardingInfo from "../../components/onbording/OnboardingInfo";
@@ -11,6 +11,7 @@ import PostOnboarding from "../../api/onboarding/PostOnboarding";
 import { formatBirth } from "../../util/formatBirth.js";
 import { userState } from "../../atoms/userState.js";
 import { useRecoilState } from "recoil";
+import PostFcmToken from "../../api/fcm/PostFcmToken.js";
 
 const fixedMinPrice = 10000;
 const fixedMaxPrice = 500000;
@@ -42,6 +43,7 @@ const Onboarding = () => {
         localStorage.setItem("FCM_TOKEN", user.fcmToken);
         localStorage.setItem("ACCESS_TOKEN", response.headers.get("access"));
         localStorage.setItem("REFRESH_TOKEN", user.refreshToken);
+        postFcmTokenData(user.fcmToken, response.headers.get("access"));
       }
       window.location.href = "/";
     } else {
@@ -67,6 +69,14 @@ const Onboarding = () => {
         user.accessToken
       );
       return response;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const postFcmTokenData = async (fcmToken, accessToken) => {
+    try {
+      await PostFcmToken(fcmToken, accessToken);
     } catch (error) {
       console.error(error);
     }
