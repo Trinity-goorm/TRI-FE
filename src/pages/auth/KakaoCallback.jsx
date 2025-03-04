@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import PostLogin from "../../api/auth/PostLogin";
 import { userState } from "../../atoms/userState";
 import { useRecoilState } from "recoil";
@@ -8,6 +8,7 @@ import LoadingBar from "../../components/loadingBar/LoadingBar";
 // fcm
 import { getMessaging, getToken } from "firebase/messaging";
 import { initializeApp } from "firebase/app";
+import PostFcmToken from "../../api/fcm/PostFcmToken";
 
 const config = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -19,13 +20,6 @@ const config = {
 };
 initializeApp(config);
 const messaging = getMessaging();
-
-const getCookie = (name) => {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(";").shift();
-  return null;
-};
 
 const KakaoCallback = () => {
   const nav = useNavigate();
@@ -53,11 +47,17 @@ const KakaoCallback = () => {
         vapidKey: import.meta.env.VITE_VAPID_KEY,
         serviceWorkerRegistration: registration,
       });
-      localStorage.setItem("FCM_TOKEN", token);
-      console.log("FCM 토큰 저장 완료:", token);
       return token;
     } catch (err) {
       console.log("FCM 에러:", err);
+    }
+  };
+
+  const postFcmTokenData = async (fcmToken) => {
+    try {
+      await PostFcmToken(fcmToken);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -70,32 +70,25 @@ const KakaoCallback = () => {
       const fcmToken = await getFcmToken();
       if (!fcmToken) throw new Error("fcm 토큰이 없습니다.");
 
-      // const response = await PostLogin(
-      //   code,
-      //   fcmToken,
-      //   formatLocalDate(new Date())
-      // );
       console.log("PostLogin 호출");
       const response = await PostLogin(code);
 
       const accessToken = response.headers.get("access");
-      const refreshToken = getCookie("refresh");
+      const refreshToken = response.headers.get("refresh");
       if (!accessToken || !refreshToken)
-        throw new Error("액세스 토큰과 리프레시 토큰을 찾을 수 없습니다.");
+        throw new Error("액세스 토큰 또는 리프레시 토큰을 찾을 수 없습니다.");
+      setUser({ ...user, fcmToken, accessToken, refreshToken });
 
-      // 로컬 스토리지 저장
-      localStorage.setItem("FCM_TOKEN", fcmToken);
-      localStorage.setItem("ACCESS_TOKEN", accessToken);
-      localStorage.setItem("REFRESH_TOKEN", refreshToken);
-
-      // 전역으로 저장
-      // setUser({ ...user, userId: response.id });
+      await postFcmTokenData(fcmToken);
 
       //needOnboarding
       if (response.data.needOnboarding) {
         nav("/onboarding");
       } else {
-        nav("/");
+        localStorage.setItem("FCM_TOKEN", fcmToken);
+        localStorage.setItem("ACCESS_TOKEN", accessToken);
+        localStorage.setItem("REFRESH_TOKEN", refreshToken);
+        // nav("/");
       }
     };
 

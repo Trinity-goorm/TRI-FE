@@ -41,7 +41,7 @@ const SavedRestaurantItem = ({
 
   const fetchPostLike = async () => {
     try {
-      await PostLike(localStorage.getItem("userId"), id);
+      await PostLike(id);
     } catch (error) {
       console.error("💀좋아요 실패", error);
     }
@@ -49,7 +49,7 @@ const SavedRestaurantItem = ({
 
   const fetchDelete = async () => {
     try {
-      await DeleLike(localStorage.getItem("userId"), id);
+      await DeleLike(id);
       deleteLikeItem(id);
     } catch (error) {
       console.error("좋아요 삭제 실패", error);

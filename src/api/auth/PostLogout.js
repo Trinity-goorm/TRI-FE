@@ -3,11 +3,11 @@ import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-const PostLogout = async (accessToken, fcmToken) => {
+const PostLogout = async (accessToken, refreshToken, fcmToken) => {
   try {
     const response = await axios.post(
-      `${BASE_URL}/api/users/kakao/logout`,
-      { fcmToken },
+      `${BASE_URL}/logout`,
+      { fcmToken, refreshToken },
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,

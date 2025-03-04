@@ -61,12 +61,7 @@ const SearchKeywordTotal = () => {
   const fetchKeywordData = async () => {
     setLoading(true);
     try {
-      const response = await GetKeywordRestList(
-        keyword,
-        localStorage.getItem("userId"),
-        page,
-        sortType
-      );
+      const response = await GetKeywordRestList(keyword, page, sortType);
 
       setRestaurantList((prevList) =>
         page === 1 ? response : [...prevList, ...response]
