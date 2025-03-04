@@ -55,12 +55,7 @@ const SearchCategoryTotal = () => {
   const fetchCategoryData = async () => {
     setLoading(true);
     try {
-      const response = await GetCategoryRestList(
-        category,
-        localStorage.getItem("userId"),
-        page,
-        sortType
-      );
+      const response = await GetCategoryRestList(category, page, sortType);
 
       setRestaurantList((prevList) =>
         page === 1 ? response : [...prevList, ...response]

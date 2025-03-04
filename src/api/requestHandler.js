@@ -13,11 +13,12 @@ const refreshAccessToken = async () => {
       throw new Error("Refresh token not found");
     }
 
-    const response = await axios.post(`${BASE_URL}/api/v1/auth/token/refresh`, {
-      refreshToken,
+    const response = await axios.post(`${BASE_URL}/token/reissue`, {
+      refresh: refreshToken,
     });
 
-    const { accessToken, refreshToken: newRefreshToken } = response.data;
+    const accessToken = response.headers.get("access");
+    const newRefreshToken = response.headers.get("refresh");
 
     // 새 토큰 저장
     await localStorage.setItem("ACCESS_TOKEN", accessToken);

@@ -16,7 +16,6 @@ const fixedMinPrice = 10000;
 const fixedMaxPrice = 500000;
 const buttonText = ["시작하기", "다음", "다음", "완료"];
 const Onboarding = () => {
-  const nav = useNavigate();
   const [step, setStep] = useState(0);
   const [isFormValid, setIsFormValid] = useState(true);
   const [user, setUser] = useRecoilState(userState);
@@ -36,12 +35,15 @@ const Onboarding = () => {
   const [rangeMinPercent, setRangeMinPercent] = useState(0);
   const [rangeMaxPercent, setRangeMaxPercent] = useState(0);
 
-  const handleNextStep = () => {
+  const handleNextStep = async () => {
     if (step === 3) {
-      postOnboardingData();
-      setUser({ ...user, userName: name });
-      localStorage.setItem("userName", name);
-      nav("/");
+      if (user) {
+        const response = await postOnboardingData();
+        localStorage.setItem("FCM_TOKEN", user.fcmToken);
+        localStorage.setItem("ACCESS_TOKEN", response.headers.get("access"));
+        localStorage.setItem("REFRESH_TOKEN", user.refreshToken);
+      }
+      window.location.href = "/";
     } else {
       setStep((prev) => prev + 1);
     }
@@ -53,15 +55,18 @@ const Onboarding = () => {
 
   const postOnboardingData = async () => {
     try {
-      await PostOnboarding(
+      const response = await PostOnboarding(
         gender,
         name,
         formatBirth(age),
         phoneNum,
         rangeMinValue,
         rangeMaxValue,
-        category
+        category,
+        user.refreshToken,
+        user.accessToken
       );
+      return response;
     } catch (error) {
       console.error(error);
     }

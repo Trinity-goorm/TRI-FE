@@ -41,7 +41,7 @@ const TotalRestItem = ({
 
   const fetchPostLike = async () => {
     try {
-      await PostLike(localStorage.getItem("userId"), id);
+      await PostLike(id);
     } catch (error) {
       console.error("💀좋아요 실패", error);
     }
@@ -49,7 +49,7 @@ const TotalRestItem = ({
 
   const fetchDeleteLike = async () => {
     try {
-      await DeleLike(localStorage.getItem("userId"), id);
+      await DeleLike(id);
     } catch (error) {
       console.error("좋아요 삭제 실패", error);
     }
@@ -130,7 +130,7 @@ const TotalRestItem = ({
         </PriceContainer>
       </BottomContainer>
 
-      <SearchResevationList reservation={reservation} />
+      <SearchReservationList reservation={reservation} />
     </TotalRestItemContainer>
   );
 };

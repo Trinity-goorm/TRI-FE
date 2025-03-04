@@ -9,8 +9,6 @@ import star from "../../assets/img/star.png";
 
 // React
 import { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { userState } from "../../atoms/userState.js";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 // Componenet
@@ -54,22 +52,19 @@ const Search = () => {
   const [searchQuery, setSearchQuery] = useState(query || "");
   const [histroyList, setHistoryList] = useState([]);
   const [recommendList, setRecommendList] = useState([]);
-  const user = useRecoilValue(userState);
 
   const handleChangeQuery = (e) => {
     setSearchQuery(e.target.value);
   };
 
   useEffect(() => {
-    if (user) {
-      fetchHistoryData();
-      fetchRecommendList();
-    }
-  }, [user]);
+    fetchHistoryData();
+    fetchRecommendList();
+  }, []);
 
   const fetchHistoryData = async () => {
     try {
-      const response = await GetHistoryList(user.userId);
+      const response = await GetHistoryList();
       setHistoryList(response);
     } catch (error) {
       console.error("💀데이터 로드 실패", error);
@@ -78,10 +73,10 @@ const Search = () => {
 
   const fetchRecommendList = async () => {
     try {
-      const response = await GetRecommendList(user.userId);
+      const response = await GetRecommendList();
       setRecommendList(response);
     } catch (e) {
-      console.error("💀찜한 리스트 가져오기 실패", e);
+      console.error("추천 리스트 가져오기 실패", e);
     }
   };
 
@@ -150,7 +145,7 @@ const Search = () => {
       </style.CategoryFeedContainer>
 
       <style.RecomFeedContainer>
-        <style.Comment>{user.userName} 님을 위한 레스토랑</style.Comment>
+        <style.Comment>님을 위한 레스토랑</style.Comment>
         <style.ContentSlider>
           {recommendList.map((item, index) => (
             <RecommendFeedItem item={item} key={index} />

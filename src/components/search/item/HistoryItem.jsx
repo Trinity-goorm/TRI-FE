@@ -10,7 +10,7 @@ const HistoryItem = ({ id, keyword, deleteHistory }) => {
     event.stopPropagation();
 
     try {
-      await DeleteHistoryItem(localStorage.getItem("userId"), id);
+      await DeleteHistoryItem(id);
       deleteHistory(id);
     } catch (error) {
       console.error(error);

@@ -8,20 +8,13 @@ import GetRecommendList from "../../api/recommend/get/GetRecommendList.js";
 import PostLike from "../../api/save/post/PostLike.js";
 import DeleteLike from "../../api/save/delete/DeleteLike.js";
 
-// recoil
-import { userState } from "../../atoms/userState.js";
-import { useRecoilValue } from "recoil";
-
 const RecommendComponent = () => {
-  const userId = localStorage.getItem("userId");
   const [likeList, setLikeList] = useState([]);
   const [recommendList, setRecommendList] = useState([]);
-  const user = useRecoilValue(userState);
-  const userName = localStorage.getItem("userName");
   //API
   const fetchLikeRestaurants = async () => {
     try {
-      const response = await GetLikeRestaurants(userId);
+      const response = await GetLikeRestaurants();
       console.log("⭐️찜한 리스트 가져오기 성공", response);
       setLikeList(response);
       localStorage.setItem("likeList", JSON.stringify(likeList));
@@ -34,7 +27,7 @@ const RecommendComponent = () => {
   //API
   const fetchRecommendList = async () => {
     try {
-      const response = await GetRecommendList(userId);
+      const response = await GetRecommendList();
       console.log("👀 추천 리스트 가져오기 성공", response);
       setRecommendList(response);
     } catch (e) {
@@ -45,7 +38,7 @@ const RecommendComponent = () => {
   useEffect(() => {
     fetchRecommendList();
     fetchLikeRestaurants();
-  }, [userId]);
+  }, []);
 
   useEffect(() => {
     if (likeList.length > 0) {
@@ -58,14 +51,14 @@ const RecommendComponent = () => {
   const handleLike = async (restaurantId) => {
     try {
       if (likeSet.has(restaurantId)) {
-        await DeleteLike(userId, restaurantId);
+        await DeleteLike(restaurantId);
         fetchLikeRestaurants();
         setLikeList((prev) =>
           prev.filter((item) => item.restaurantId !== restaurantId)
         );
         console.log("👍 좋아요 취소 성공");
       } else {
-        await PostLike(userId, restaurantId);
+        await PostLike(restaurantId);
         fetchLikeRestaurants();
         setLikeList((prev) => [...prev, restaurantId]);
         console.log("👍 좋아요 성공");
@@ -78,7 +71,7 @@ const RecommendComponent = () => {
   return (
     <style.TotalContainer>
       <style.TitleContainer>
-        <style.Title>✨ {userName} 님이 좋아할 매장 ✨</style.Title>
+        <style.Title>✨ 님이 좋아할 매장 ✨</style.Title>
         <style.TitleExplain>마음에 들 만한 곳을 모아봤어요!</style.TitleExplain>
       </style.TitleContainer>
       <style.ContentSlider>
