@@ -8,6 +8,7 @@ import GetUserDetail from "../../api/userInfo/GetUserDetail.js";
 import NoSavedRestaurant from "../../components/restaurant/NoSavedRestuarant.jsx";
 import GetMyLikeList from "../../api/userInfo/GetMyLikeList.js";
 import DeleteFcmToken from "../../api/fcm/DeleteFcmToken.js";
+import PostLogout from "../../api/auth/PostLogout.js";
 
 const MyPage = () => {
   const nav = useNavigate();
@@ -25,6 +26,7 @@ const MyPage = () => {
   const handleLogout = async () => {
     try {
       await delteFcmTokenData();
+      await postLogoutData();
       localStorage.clear();
 
       nav("/login");
@@ -55,6 +57,14 @@ const MyPage = () => {
       setTellNum(response.phoneNumber);
       setNormalTicketCount(response.normalTicketCount);
       setEmptyTicketCount(response.emptyTicketCount);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const postLogoutData = async () => {
+    try {
+      await PostLogout(localStorage.getItem("REFRESH_TOKEN"));
     } catch (error) {
       console.error(error);
     }

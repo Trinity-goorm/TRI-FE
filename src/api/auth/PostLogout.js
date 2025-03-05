@@ -1,19 +1,14 @@
-import requestHandler from "../requestHandler";
 import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-const PostLogout = async (accessToken, refreshToken, fcmToken) => {
+const PostLogout = async (refreshToken) => {
   try {
-    const response = await axios.post(
-      `${BASE_URL}/logout`,
-      { fcmToken, refreshToken },
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    const response = await axios.post(`${BASE_URL}/logout`, null, {
+      headers: {
+        refresh: refreshToken,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("로그아웃 실패", error);
