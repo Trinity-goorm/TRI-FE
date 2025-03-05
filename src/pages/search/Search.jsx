@@ -145,7 +145,9 @@ const Search = () => {
       </style.CategoryFeedContainer>
 
       <style.RecomFeedContainer>
-        <style.Comment>님을 위한 레스토랑</style.Comment>
+        <style.Comment>
+          {recommendList[0]?.userName}님을 위한 레스토랑
+        </style.Comment>
         <style.ContentSlider>
           {recommendList.map((item, index) => (
             <RecommendFeedItem item={item} key={index} />

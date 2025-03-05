@@ -42,7 +42,7 @@ const Onboarding = () => {
         const response = await postOnboardingData();
         localStorage.setItem("FCM_TOKEN", user.fcmToken);
         localStorage.setItem("ACCESS_TOKEN", response.headers.get("access"));
-        localStorage.setItem("REFRESH_TOKEN", user.refreshToken);
+        localStorage.setItem("REFRESH_TOKEN", response.headers.get("refresh"));
         postFcmTokenData(user.fcmToken, response.headers.get("access"));
       }
       window.location.href = "/";

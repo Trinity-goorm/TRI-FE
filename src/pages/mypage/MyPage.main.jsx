@@ -24,7 +24,7 @@ const MyPage = () => {
 
   const handleLogout = async () => {
     try {
-      await delteFcmTokenData(localStorage.getItem("FCM_TOKEN"));
+      await delteFcmTokenData();
       localStorage.clear();
 
       nav("/login");

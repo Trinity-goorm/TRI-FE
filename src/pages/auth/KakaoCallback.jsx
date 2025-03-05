@@ -8,7 +8,7 @@ import LoadingBar from "../../components/loadingBar/LoadingBar";
 // fcm
 import { getMessaging, getToken } from "firebase/messaging";
 import { initializeApp } from "firebase/app";
-import PostFcmRenew from "../../api/fcm/PostFcmRenew";
+import PostFcmToken from "../../api/fcm/PostFcmToken.js";
 
 const config = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -54,9 +54,9 @@ const KakaoCallback = () => {
     }
   };
 
-  const renewFcmTokenData = async (fcmToken, accessToken) => {
+  const PostFcmTokenData = async (fcmToken, accessToken) => {
     try {
-      await PostFcmRenew(fcmToken, accessToken);
+      await PostFcmToken(fcmToken, accessToken);
     } catch (error) {
       console.error(error);
     }
@@ -84,7 +84,7 @@ const KakaoCallback = () => {
       if (response.data.needOnboarding) {
         nav("/onboarding");
       } else {
-        renewFcmTokenData(fcmToken, accessToken);
+        PostFcmTokenData(fcmToken, accessToken);
         savingToken(fcmToken, accessToken, refreshToken);
         nav("/");
       }

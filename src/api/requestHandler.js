@@ -77,7 +77,7 @@ const requestHandler = async ({
 
     return response.data; // 성공 데이터 반환
   } catch (error) {
-    if (error.response?.status === 401 && !error.config._retry) {
+    if (error.response?.status === 401) {
       const originalRequest = error.config;
       originalRequest._retry = true;
 
