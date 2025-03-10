@@ -130,7 +130,7 @@ const TotalRestItem = ({
         </PriceContainer>
       </BottomContainer>
 
-      <SearchResevationList reservation={reservation} />
+      <SearchReservationList reservation={reservation} />
     </TotalRestItemContainer>
   );
 };

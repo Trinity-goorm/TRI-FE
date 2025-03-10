@@ -6,12 +6,16 @@ import Modal from "../../components/modal/Modal.jsx";
 import getVacancySeats from "../../api/vacancy/get/GetVacancySeats.js";
 import {BsBookmarkDash} from "react-icons/bs";
 
+//Recoil
+import {useRecoilValue} from "recoil";
+import {userState} from "../../atoms/userState.js";
+
 
 const MyDiningVacancy = () => {
     const [isCancel, setIsCancel] = useState(false);
     const [selectedSeatId, setSelectedSeatId] = useState(null);
     const [vacancySeats, setVacancySeats] = useState([]);
-    const userId = localStorage.getItem("userId");
+    const userId = useRecoilValue(userState).userId;
 
     const deleteVacancy = async () => {
 

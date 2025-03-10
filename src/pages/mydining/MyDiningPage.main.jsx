@@ -9,7 +9,6 @@ import myReservation from "../../assets/dummydata/MyReservation.js";
 const MyDiningPage = () => {
     const [isReservationClick, setIsReservationClick] = useState(true);
     const [isVacancyClick, setIsVacancyClick] = useState(false);
-    const userId = localStorage.getItem("userId");
 
     const onClickTopBar = (type) => {
         if (type === "left") {
@@ -32,10 +31,10 @@ const MyDiningPage = () => {
                     </style.TopTitle>
                 </style.TopTitleBarContainer>
                 <style.TopMoveBarContainer>
-                    <style.TopMoveEach isTopBarClick={isReservationClick} onClick={() => onClickTopBar("left")}>
+                    <style.TopMoveEach istopbarclick={isReservationClick} onClick={() => onClickTopBar("left")}>
                         나의 예약
                     </style.TopMoveEach>
-                    <style.TopMoveEach isTopBarClick={isVacancyClick} onClick={() => onClickTopBar("right")}>
+                    <style.TopMoveEach istopbarclick={isVacancyClick} onClick={() => onClickTopBar("right")}>
                         빈자리 알림
                     </style.TopMoveEach>
                 </style.TopMoveBarContainer>

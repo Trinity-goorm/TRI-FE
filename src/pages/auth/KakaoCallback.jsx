@@ -77,7 +77,7 @@ const KakaoCallback = () => {
       localStorage.setItem("userId", response.id);
 
       // 전역으로 저장
-      setUser({ ...user, userId: response.id });
+      setUser({ userName: response.name, userId: response.id });
 
       if (response.newUser) {
         nav("/onboarding");

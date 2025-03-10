@@ -7,7 +7,7 @@ const PostLogin = (code, fcmToken, timeStamp) => {
     data: {fcmToken, timeStamp},
     endpoint: `/users/kakao/login?code=${code}`,
     successMessage: "로그인 성공",
-    errorMessage: "로그인 실패",
+    errorMessage: "로그인 실패", 
   });
 };
 

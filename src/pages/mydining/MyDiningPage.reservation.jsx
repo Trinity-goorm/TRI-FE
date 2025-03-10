@@ -9,10 +9,15 @@ import PostReservationCancel from "../../api/reservation/post/PostReservationCan
 import Modal from "../../components/modal/Modal.jsx";
 import NoSavedRestaurant from "../../components/restaurant/NoSavedRestuarant.jsx";
 
+//Recoil
+import {useRecoilValue} from "recoil";
+import {userState} from "../../atoms/userState.js";
+
 const MyDiningReservation = () => {
     const [isCancel, setIsCancel] = useState(false);
     const [selectedReservation, setSelectedReservation] = useState(null);
-    const userId = localStorage.getItem("userId");
+    const userInfo = useRecoilValue(userState);
+    const userId = userInfo.userId;
     const [reservations, setReservations] = useState([]);
 
     const fetchUserReservations = async () => {
