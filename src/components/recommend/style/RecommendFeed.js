@@ -62,7 +62,7 @@ export const StarContainer = styled.div``;
 
 export const StarImage = styled.div``;
 
-export const StarScore = styled.span`
+export const StarScore = styled.div`
     font-weight: 600;
     font-size: 15px;
     margin-left: 5px;

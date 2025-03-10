@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import * as style from "./style/Banner.js";
 import banner1 from "../../assets/img/banner1.webp";
 import banner2 from "../../assets/img/banner2.webp";
@@ -18,25 +18,37 @@ const banners = [
     banner7
 ];
 
-const Banner = () => {
-    const [currentIndex, setCurrentIndex] = useState(0);
+const Banner = memo(
+    () => {
+        const [currentIndex, setCurrentIndex] = useState(0);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentIndex((prevIndex) => (prevIndex + 1) % banners.length);
-        }, 4000);
-        return () => clearInterval(interval);
-    }, [currentIndex]); // ✅ `currentIndex` 변경될 때만 실행
+        useEffect(() => {
+            banners.forEach((src) => {
+                const img = new Image();
+                img.src = src;
+            });
+        }, []);
 
-    return (
-        <style.SliderContainer>
-            {banners.map((image, index) => (
-                <style.Slide key={index} active={index === currentIndex}>
-                    <img src={image} alt={`Banner ${index + 1}`} />
-                </style.Slide>
-            ))}
-        </style.SliderContainer>
-    );
-};
+        useEffect(() => {
+            const interval = setInterval(() => {
+                setCurrentIndex((prevIndex) => (prevIndex + 1) % banners.length);
+            }, 4000);
+            return () => clearInterval(interval);
+        }, []); // ✅ `currentIndex` 변경될 때만 실행
+
+        return (
+            <style.SliderContainer>
+                {banners.map((image, index) => (
+                    <style.Slide key={index} active={index === currentIndex}>
+                        <img src={image} alt={`Banner ${index + 1}`}/>
+                    </style.Slide>
+                ))}
+            </style.SliderContainer>
+        );
+    }
+
+);
+
+
 
 export default Banner;

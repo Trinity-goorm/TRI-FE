@@ -11,7 +11,7 @@ const SaveButton = ({
   isLiked,
 }) => {
   return (
-    <style.ButtonContainer width={width} height={height} border={border}>
+    <style.ButtonContainer role="button" width={width} height={height} border={border}>
       {isLiked ? (
         <FaBookmark size={size ? size : 23} color={"#FF6868"} />
       ) : (
