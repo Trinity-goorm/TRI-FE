@@ -1,11 +1,11 @@
 import axios from "axios";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-const PostFcmToken = async (fcmToken, accessToken) => {
+const PatchFcmRenew = async (fcmToken, accessToken) => {
   try {
-    const response = await axios.post(
-      `${BASE_URL}/api/fcmTokens/register`,
-      null, 
+    const response = await axios.patch(
+      `${BASE_URL}/api/fcmTokens/renew`,
+      null,  
       {
         headers: {
           "Content-Type": "application/json",
@@ -17,9 +17,9 @@ const PostFcmToken = async (fcmToken, accessToken) => {
 
     return response;
   } catch (error) {
-    console.error(" FCM 토큰 등록 실패:", error.response?.data || error.message);
-    throw new Error("FCM 토큰 등록 실패");
+    console.error("FCM 토큰 갱신 실패:", error.response?.data || error.message);
+    throw new Error("FCM 토큰 갱신 실패");
   }
 };
 
-export default PostFcmToken;
+export default PatchFcmRenew;
