@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, act } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import OnboardingInfo from "../../components/onbording/OnboardingInfo";
@@ -11,12 +11,12 @@ import PostOnboarding from "../../api/onboarding/PostOnboarding";
 import { formatBirth } from "../../util/formatBirth.js";
 import { userState } from "../../atoms/userState.js";
 import { useRecoilState } from "recoil";
+import PostFcmToken from "../../api/fcm/PostFcmToken.js";
 
 const fixedMinPrice = 10000;
 const fixedMaxPrice = 500000;
 const buttonText = ["시작하기", "다음", "다음", "완료"];
 const Onboarding = () => {
-  const nav = useNavigate();
   const [step, setStep] = useState(0);
   const [isFormValid, setIsFormValid] = useState(true);
   const [user, setUser] = useRecoilState(userState);
@@ -36,12 +36,16 @@ const Onboarding = () => {
   const [rangeMinPercent, setRangeMinPercent] = useState(0);
   const [rangeMaxPercent, setRangeMaxPercent] = useState(0);
 
-  const handleNextStep = () => {
+  const handleNextStep = async () => {
     if (step === 3) {
-      postOnboardingData();
-      setUser({ ...user, userName: name });
-      localStorage.setItem("userName", name);
-      nav("/");
+      if (user) {
+        const response = await postOnboardingData();
+        localStorage.setItem("FCM_TOKEN", user.fcmToken);
+        localStorage.setItem("ACCESS_TOKEN", response.headers.get("access"));
+        localStorage.setItem("REFRESH_TOKEN", response.headers.get("refresh"));
+        postFcmTokenData(user.fcmToken, response.headers.get("access"));
+      }
+      window.location.href = "/";
     } else {
       setStep((prev) => prev + 1);
     }
@@ -53,16 +57,26 @@ const Onboarding = () => {
 
   const postOnboardingData = async () => {
     try {
-      await PostOnboarding(
-        localStorage.getItem("userId"),
+      const response = await PostOnboarding(
         gender,
         name,
         formatBirth(age),
         phoneNum,
         rangeMinValue,
         rangeMaxValue,
-        category
+        category,
+        user.refreshToken,
+        user.accessToken
       );
+      return response;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const postFcmTokenData = async (fcmToken, accessToken) => {
+    try {
+      await PostFcmToken(fcmToken, accessToken);
     } catch (error) {
       console.error(error);
     }

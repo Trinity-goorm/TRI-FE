@@ -2,12 +2,13 @@ import BottomBar from "../../components/bar/BottomBar";
 import styled from "styled-components";
 import profileImg from "../../assets/img/profile_default.png";
 import SavedRestaurantList from "../../components/restaurant/SavedRestaurantList.jsx";
-import PostLogout from "../../api/auth/PostLogout.js";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import GetUserDetail from "../../api/userInfo/GetUserDetail.js";
 import NoSavedRestaurant from "../../components/restaurant/NoSavedRestuarant.jsx";
 import GetMyLikeList from "../../api/userInfo/GetMyLikeList.js";
+import DeleteFcmToken from "../../api/fcm/DeleteFcmToken.js";
+import PostLogout from "../../api/auth/PostLogout.js";
 
 const MyPage = () => {
   const nav = useNavigate();
@@ -24,15 +25,10 @@ const MyPage = () => {
 
   const handleLogout = async () => {
     try {
-      await PostLogout(
-        localStorage.getItem("ACCESS_TOKEN"),
-        localStorage.getItem("FCM_TOKEN")
-      );
-
-      localStorage.removeItem("FCM_TOKEN");
-      localStorage.removeItem("ACCESS_TOKEN");
-      localStorage.removeItem("REFRESH_TOKEN");
-      localStorage.removeItem("userId");
+      await deleteFcmTokenData();
+      console.log("FCM 토큰 삭제 성공");
+      await postLogoutData();
+      localStorage.clear();
 
       nav("/login");
     } catch (error) {
@@ -42,7 +38,7 @@ const MyPage = () => {
 
   const fetchMyLikeList = async () => {
     try {
-      const response = await GetMyLikeList(localStorage.getItem("userId"));
+      const response = await GetMyLikeList();
       setSavedRestList(response);
     } catch (error) {
       console.error("💀데이터 로드 실패", error);
@@ -57,11 +53,27 @@ const MyPage = () => {
 
   const fetchUserDetail = async () => {
     try {
-      const response = await GetUserDetail(localStorage.getItem("userId"));
+      const response = await GetUserDetail();
       setName(response.username);
       setTellNum(response.phoneNumber);
       setNormalTicketCount(response.normalTicketCount);
       setEmptyTicketCount(response.emptyTicketCount);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const postLogoutData = async () => {
+    try {
+      await PostLogout(localStorage.getItem("REFRESH_TOKEN"));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const deleteFcmTokenData = async () => {
+    try {
+      await DeleteFcmToken(localStorage.getItem("FCM_TOKEN"), localStorage.getItem("ACCESS_TOKEN"));
     } catch (error) {
       console.error(error);
     }

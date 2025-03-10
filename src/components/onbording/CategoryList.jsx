@@ -7,6 +7,7 @@ const CategoryList = ({ category, setCategory }) => {
     if (!category.includes(id)) {
       setCategory((prevCategory) => [...prevCategory, id]);
     }
+    console.log(id,"선택!");
   };
 
   const handleDeleteCategory = (id) => {
@@ -19,12 +20,12 @@ const CategoryList = ({ category, setCategory }) => {
         {CategoryDummy.map((item, index) => (
           <CategoryItem
             key={index}
-            id={index}
+            id={item.id}
             image={item.image}
             name={item.name}
             addCategory={handleAddCategory}
             deleteCategory={handleDeleteCategory}
-            isSelected={category.includes(index)}
+            isSelected={category.includes(item.id)}
           />
         ))}
       </CategoryListContainer>

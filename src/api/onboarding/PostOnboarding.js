@@ -1,31 +1,47 @@
-import requestHandler from "../requestHandler";
+import axios from "axios";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-const PostOnboarding = (
-  userId,
+const PostOnboarding = async (
   sex,
   name,
   birthday,
   phoneNumber,
   minPrice,
   maxPrice,
-  userPreferenceCategoryIdList
+  userPreferenceCategoryIdList,
+  refreshToken,
+  accessToken
 ) => {
-  return requestHandler({
-    method: "POST",
-    endpoint: "/users/onboarding",
-    data: {
-      userId,
-      sex,
-      name,
-      birthday,
-      phoneNumber,
-      minPrice,
-      maxPrice,
-      userPreferenceCategoryIdList,
-    },
-    successMessage: "온보딩 정보 보내기 성공",
-    errorMessage: "온보딩 정보 보내기 실패",
-  });
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/api/users/onboarding`,
+      {
+        sex,
+        name,
+        birthday,
+        phoneNumber,
+        minPrice,
+        maxPrice,
+        userPreferenceCategoryIdList,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          refresh: refreshToken,
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.error(
+      "온보딩 정보 보내기 실패",
+      error.response?.data || error.message
+    );
+    throw new Error("온보딩 정보 보내기 실패");
+  }
 };
 
 export default PostOnboarding;

@@ -11,12 +11,10 @@ import { useEffect } from "react";
 const ReservationConfirm = () => {
   const location = useLocation();
   const reservation = location.state;
-  const userId = localStorage.getItem("userId");
   const [isTicketLack, setIsTicketLack] = useState(false);
 
   const [reservationId, setReservationId] = useState(null);
   const [preoccupyData, setPreoccupyData] = useState({
-    userId: userId,
     restaurantId: reservation.restaurantId,
     seatTypeId: reservation.seatTypeId,
     seatType: reservation.seatType,
@@ -24,7 +22,6 @@ const ReservationConfirm = () => {
     reservationTime: reservation.reservationTime,
   });
   const [reservationData, setReservationData] = useState({
-    userId: userId,
     restaurantId: 2,
     seatTypeId: 2,
     seatType: reservation.seatType,
