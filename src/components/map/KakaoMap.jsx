@@ -5,6 +5,8 @@ const DetailLocation = ({ address }) => {
   const KAKAO_REST_KEY = import.meta.env.VITE_REST_KEY;
   const KAKAO_JS_KEY = import.meta.env.VITE_JS_KEY;
   const [coords, setCoords] = useState({ latitude: null, longitude: null });
+  const [isScriptLoaded, setIsScriptLoaded] = useState(false);
+
 
   useEffect(() => {
     if (!address) return;
@@ -53,8 +55,17 @@ const DetailLocation = ({ address }) => {
     return () => document.head.removeChild(script);
   }, [coords.latitude, coords.longitude]);
 
+
+  useEffect(() => {
+    if (isScriptLoaded && coords.latitude && coords.longitude) {
+      initializeMap(coords.latitude, coords.longitude);
+    }
+
+  }, [isScriptLoaded, coords.latitude, coords.longitude]);
+
   const initializeMap = () => {
-    const mapContainer = document.getElementById('map');
+
+    const mapContainer = document.getElementById("map");
     if (!mapContainer) return;
     const mapOptions = {
       center: new window.kakao.maps.LatLng(coords.latitude, coords.longitude),

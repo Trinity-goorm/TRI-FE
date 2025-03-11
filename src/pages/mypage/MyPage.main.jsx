@@ -25,7 +25,8 @@ const MyPage = () => {
 
   const handleLogout = async () => {
     try {
-      await delteFcmTokenData();
+      await deleteFcmTokenData();
+      console.log("FCM 토큰 삭제 성공");
       await postLogoutData();
       localStorage.clear();
 
@@ -70,9 +71,9 @@ const MyPage = () => {
     }
   };
 
-  const delteFcmTokenData = async () => {
+  const deleteFcmTokenData = async () => {
     try {
-      await DeleteFcmToken(localStorage.getItem("FCM_TOKEN"));
+      await DeleteFcmToken(localStorage.getItem("FCM_TOKEN"), localStorage.getItem("ACCESS_TOKEN"));
     } catch (error) {
       console.error(error);
     }

@@ -2,7 +2,7 @@ import axios from "axios";
 
 let isRefreshing = false;
 let failedQueue = [];
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+const BASE_URL = (typeof importMeta !== 'undefined' ? importMeta.env.VITE_BASE_URL : import.meta.env.VITE_BASE_URL);
 
 console.log(BASE_URL);
 

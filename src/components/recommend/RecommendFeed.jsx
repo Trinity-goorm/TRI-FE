@@ -14,10 +14,10 @@ const RecommendFeed = ({ item, isLiked, onToggleLike }) => {
   const location = item?.location;
   const id = item?.restaurantId;
   const formatLocation = (location) => {
-    return location.length > 9 ? `${location.slice(0, 10)}...` : location;
+    return location?.length > 9 ? `${location.slice(0, 10)}...` : location;
   };
   const formatTitle = (title) => {
-    return title.length > 9 ? `${title.slice(0, 10)}...` : title;
+    return title?.length > 9 ? `${title.slice(0, 10)}...` : title;
   }
 
   const nav = useNavigate();

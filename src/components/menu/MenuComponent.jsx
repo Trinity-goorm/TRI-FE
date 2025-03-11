@@ -1,11 +1,11 @@
 import * as style from "./style/MenuComponent.js"
 
-const MenuComponent = ({name, price}) => {
+const MenuComponent = ({name, price, ...props}) => {
 
     return (
-        <style.MenuContainer>
+        <style.MenuContainer {...props}>
             <style.InfoContainer>
-                <style.TitleContainer>
+                <style.TitleContainer data-testid="menuTitle">
                     {name}
                 </style.TitleContainer>
                 <style.PriceContainer>

@@ -1,17 +1,16 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import { configDefaults } from 'vitest/config';
-import path from 'node:path';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import { configDefaults } from "vitest/config";
 
-// https://vite.dev/config/
+
 export default defineConfig({
   plugins: [react()],
   preview: {
     allowedHosts: ['catch-ping.com'],
     proxy: {
-      '/api': {
-        target:
-          'http://internal-trinity-be-alb-619775524.ap-northeast-2.elb.amazonaws.com/',
+      "/api": {
+        target: "http://internal-trinity-be-alb-619775524.ap-northeast-2.elb.amazonaws.com",
+        develop
         changeOrigin: true,
         secure: false,
       },
@@ -20,14 +19,15 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: './setupTests.js',
-    exclude: [...configDefaults.exclude, 'node_modules/**'],
-    testTimeout: 10000,
+    setupFiles: './setupTests.js',  // 📌 경로 확인 필요!
+    exclude: [...configDefaults.exclude, 'test/**'],  // 📌 중복 제거된 exclude
+    testTimeout: 20000,  // 📌 필요 시 늘리기
     coverage: {
-      provider: 'v8', // V8 커버리지 사용
-      reporter: ['text', 'html', 'clover'], // 출력 형식
-      include: ['src/**/*.{js,jsx}'], // 커버리지 대상 파일
-      exclude: ['node_modules/**', 'dist/**', 'src/test/**'], // 제외할 파일
+      provider: 'v8',  // 📌 c8 설치 확인 필요!
+      reporter: ['text', 'json', 'html'],
+      all: true,
+      include: ['src/**'],
+      exclude: ['node_modules/**', 'test/**', 'src/test/**'],  // 📌 개선된 exclude 설정
     },
   },
 });

@@ -32,7 +32,7 @@ export const WatchAll = styled.div`
     
     
 `
-export const TitleExplain = styled.text`
+export const TitleExplain = styled.span`
     font-size: 15px;
     margin-top: 5px;
 `;
