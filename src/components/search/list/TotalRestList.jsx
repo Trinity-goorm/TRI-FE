@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import TotalRestItem from "../item/TotalRestItem";
+import styled from 'styled-components';
+import TotalRestItem from '../item/TotalRestItem';
 
-const TotalRestList = ({ restaurantList, category }) => {
+const TotalRestList = ({ restaurantList }) => {
   return (
     <TotalRestListContainer>
       {restaurantList?.map((item, index) => (
