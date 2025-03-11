@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import * as style from "../../pages/detail/style/DetailPage.Location.js";
+import React, { useEffect, useState } from 'react';
+import * as style from '../../pages/detail/style/DetailPage.Location.js';
 
 const DetailLocation = ({ address }) => {
   const KAKAO_REST_KEY = import.meta.env.VITE_REST_KEY;
@@ -20,7 +20,7 @@ const DetailLocation = ({ address }) => {
           address
         )}`,
         {
-          method: "GET",
+          method: 'GET',
           headers: {
             Authorization: `KakaoAK ${KAKAO_REST_KEY}`,
           },
@@ -29,10 +29,9 @@ const DetailLocation = ({ address }) => {
 
       const data = await response.json();
       const { x, y } = data.documents[0];
-      console.log(x, y);
       setCoords({ latitude: y, longitude: x });
     } catch (e) {
-      console.log("API 요청 실패", e);
+      console.log('API 요청 실패', e);
     }
   };
 
@@ -40,11 +39,11 @@ const DetailLocation = ({ address }) => {
     if (!coords.latitude || !coords.longitude) return;
 
     if (window.kakao && window.kakao.maps) {
-      initializeMap(coords.latitude, coords.longitude);
+      initializeMap();
       return;
     }
 
-    const script = document.createElement("script");
+    const script = document.createElement('script');
     script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_JS_KEY}&autoload=false`;
     script.async = true;
     document.head.appendChild(script);
@@ -81,7 +80,7 @@ const DetailLocation = ({ address }) => {
     marker.setMap(map);
   };
 
-  return <style.KakaoMapContainer id="map" />;
+  return <style.KakaoMapContainer id='map' />;
 };
 
 export default DetailLocation;

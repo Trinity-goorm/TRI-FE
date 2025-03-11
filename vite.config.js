@@ -2,13 +2,15 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { configDefaults } from "vitest/config";
 
+
 export default defineConfig({
   plugins: [react()],
   preview: {
-    allowedHosts: ["catch-ping.com"],
+    allowedHosts: ['catch-ping.com'],
     proxy: {
       "/api": {
         target: "http://internal-trinity-be-alb-619775524.ap-northeast-2.elb.amazonaws.com",
+        develop
         changeOrigin: true,
         secure: false,
       },
