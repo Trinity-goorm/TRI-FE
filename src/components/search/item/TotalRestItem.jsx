@@ -1,7 +1,4 @@
 import styled from 'styled-components';
-//import { FaStar } from "react-icons/fa";
-//import { MdAccessTimeFilled } from "react-icons/md";
-//import { FaWonSign } from "react-icons/fa6";
 import SaveButton from '../../save/SaveButton.jsx';
 import SearchReservationList from '../list/SearchReservationList.jsx';
 import { formatRating } from '../../../util/formatRating.js';
@@ -78,11 +75,7 @@ const TotalRestItem = ({
 
         <DetailTopContainer>
           <RatingWrapper>
-            {/*<FaStar*/}
-            {/*  size={15}*/}
-            {/*  color={"#FFD700"}*/}
-            {/*  style={{ marginBottom: "3px" }}*/}
-            {/*/>*/}
+            <StarIcon className='material-icons'>star</StarIcon>
             {formatRating(rating)}
           </RatingWrapper>
           <div>&nbsp;· 경기 성남시 분당구</div>
@@ -108,23 +101,23 @@ const TotalRestItem = ({
 
       <BottomContainer>
         <OperatingTimeContainer>
-          {/*<MdAccessTimeFilled style={{ marginBottom: "2px" }} />*/}
+          <ClockIcon className='material-icons'>schedule</ClockIcon>
           {operatingHour === 'null' ? '운영 시간 정보 없음' : operatingHour}
         </OperatingTimeContainer>
         <PriceContainer>
           <div
             style={{
-              width: '12px',
-              height: '12px',
+              width: '10px',
+              height: '10px',
               borderRadius: '50%',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              backgroundColor: 'black',
+              border: '1.3px solid black',
               marginBottom: '2px',
             }}
           >
-            {/*<FaWonSign size={6} color={"white"} />*/}
+            <MoneyIcon className='material-icons'>attach_money</MoneyIcon>
           </div>
           평균 {formatPrice(averagePrice)}
         </PriceContainer>
@@ -229,6 +222,21 @@ const PriceContainer = styled.div`
   align-items: center;
   gap: 4px;
   margin-left: 15px;
+`;
+
+const StarIcon = styled.span`
+  font-size: 15px;
+  color: gold;
+  margin-bottom: 3px;
+`;
+
+const ClockIcon = styled.span`
+  font-size: 14px;
+  margin-bottom: 2px;
+`;
+
+const MoneyIcon = styled.span`
+  font-size: 12px;
 `;
 
 export default TotalRestItem;
