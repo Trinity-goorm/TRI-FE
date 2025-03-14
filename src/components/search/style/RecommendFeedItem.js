@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const TotalContainer = styled.div`
   display: flex;
@@ -83,4 +83,10 @@ export const LikeContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+`;
+
+export const StarIcon = styled.span`
+  font-size: 20px;
+  color: gold;
+  margin-bottom: 3px;
 `;

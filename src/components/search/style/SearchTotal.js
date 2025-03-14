@@ -52,3 +52,16 @@ export const RestListWrapper = styled.div`
   }};
   margin-bottom: ${({ $isLodingMore }) => ($isLodingMore ? '50px' : '0px')};
 `;
+
+export const ArrowBackIcon = styled.span`
+  font-size: 18px;
+  color: black;
+  position: absolute;
+  left: 35px;
+  cursor: pointer;
+`;
+
+export const ArrowDownIcon = styled.span`
+  font-size: 18px;
+  margin-right: -5px;
+`;

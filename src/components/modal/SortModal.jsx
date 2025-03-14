@@ -20,11 +20,7 @@ const SortModal = ({ isOpen, closeModal, sortType, clickSortHandler }) => {
       <ModalContentContainer $isOpen={isOpen}>
         <SortText>
           정렬
-          {/*     <MdClose
-            onClick={closeModal}
-            size={18}
-            style={{ cursor: "pointer" }}
-          />*/}
+          <CloseIcon className='material-icons'>close</CloseIcon>
         </SortText>
         <SortComment
           $sortType={sortType === 'highest_rating'}
@@ -33,9 +29,8 @@ const SortModal = ({ isOpen, closeModal, sortType, clickSortHandler }) => {
           }}
         >
           {sortType === 'highest_rating' ? (
-            <div>highest_rating</div>
-          ) : // <IoMdCheckmark strokeWidth={15} />
-          null}
+            <CheckIcon className='material-icons'>check</CheckIcon>
+          ) : null}
           별점순
         </SortComment>
         <SortComment
@@ -45,9 +40,8 @@ const SortModal = ({ isOpen, closeModal, sortType, clickSortHandler }) => {
           }}
         >
           {sortType === 'highest_average_price' ? (
-            <div>highest_average_price</div>
-          ) : /*    <IoMdCheckmark strokeWidth={15} />*/
-          null}
+            <CheckIcon className='material-icons'>check</CheckIcon>
+          ) : null}
           가격 높은순
         </SortComment>
         <SortComment
@@ -57,9 +51,8 @@ const SortModal = ({ isOpen, closeModal, sortType, clickSortHandler }) => {
           }}
         >
           {sortType === 'lowest_average_price' ? (
-            <div>lowest_average_price</div>
-          ) : /* <IoMdCheckmark strokeWidth={15} />*/
-          null}
+            <CheckIcon className='material-icons'>check</CheckIcon>
+          ) : null}
           가격 낮은순
         </SortComment>
       </ModalContentContainer>
@@ -94,6 +87,15 @@ const SortText = styled.div`
   height: 100%;
 `;
 
+const CloseIcon = styled.div`
+  font-size: 18px;
+  cursor: pointer;
+`;
+
+const CheckIcon = styled.div`
+  font-size: 15px;
+`;
+
 const SortComment = styled.div`
   font-weight: 400;
   color: #484848;
@@ -110,7 +112,7 @@ const ModalContentContainer = styled.div`
   height: 30%;
   background-color: white;
   border-radius: 12px 12px 0 0;
-
+  margin-left: 10px;
   display: flex;
   flex-direction: column;
   padding: 0px 22px 13px 22px;

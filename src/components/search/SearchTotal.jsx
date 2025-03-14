@@ -1,6 +1,4 @@
 import * as style from './style/SearchTotal.js';
-//import { GoArrowLeft } from 'react-icons/go';
-//import { MdKeyboardArrowDown } from 'react-icons/md';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import TotalRestList from './list/TotalRestList';
 import SortModal from '../modal/SortModal';
@@ -122,10 +120,8 @@ const SearchTotal = ({
     <>
       <style.SearchKeyword onClick={navPath}>
         <style.SearchKeywordContainer>
-          {/*      <GoArrowLeft
-            size={22}
-            color='black'
-            style={{ position: 'absolute', left: '33px', cursor: 'pointer' }}
+          <style.ArrowBackIcon
+            className='material-icons'
             onClick={(e) => {
               e.stopPropagation();
 
@@ -135,7 +131,9 @@ const SearchTotal = ({
                 navPath();
               }
             }}
-          />*/}
+          >
+            arrow_back
+          </style.ArrowBackIcon>
           <style.Keyword
             $isCategory={displayText === '찾고 있는 맛집이 있나요?'}
           >
@@ -146,7 +144,9 @@ const SearchTotal = ({
 
       <style.SortButton onClick={() => setIsModalOpen(true)}>
         {type[sortType]}
-        {/*<MdKeyboardArrowDown size={18} style={{ marginRight: '-5' }} />*/}
+        <style.ArrowDownIcon className='material-icons'>
+          keyboard_arrow_down
+        </style.ArrowDownIcon>
       </style.SortButton>
       <SortModal
         isOpen={isModalOpen}
