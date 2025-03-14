@@ -1,11 +1,11 @@
-import { atom } from "recoil";
+import { atom } from 'recoil';
 
 export const notificationState = atom({
-  key: "notificationState",
+  key: 'notificationState',
   default: {
     isModalOpen: false,
-    title: "",
-    body: "",
-    redirectUrl: "",
+    title: '',
+    body: '',
+    redirectUrl: '',
   },
 });

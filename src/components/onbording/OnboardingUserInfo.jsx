@@ -1,6 +1,5 @@
-import { useEffect } from "react";
-import styled from "styled-components";
-import { IoCheckmarkDoneOutline } from "react-icons/io5";
+import { useEffect } from 'react';
+import styled from 'styled-components';
 
 const OnboardingUserInfo = ({
   gender,
@@ -22,7 +21,7 @@ const OnboardingUserInfo = ({
   }, [isGreenName, isGreenAge, isGreenPhone, setIsFormValid]);
 
   const formatPhoneNum = (value) => {
-    const numbers = value.replace(/\D/g, "");
+    const numbers = value.replace(/\D/g, '');
 
     if (numbers.length <= 3) return numbers;
     if (numbers.length <= 7)
@@ -47,23 +46,23 @@ const OnboardingUserInfo = ({
         <ComentInputWrapper>
           <Coment>성별</Coment>
           <GenderContainer>
-            <GenderLabel $checked={gender === "MALE"}>
+            <GenderLabel $checked={gender === 'MALE'}>
               <HiddenRadio
-                type="radio"
-                name="gender"
-                value="MALE"
-                checked={gender === "MALE"}
-                onChange={() => setGender("MALE")}
+                type='radio'
+                name='gender'
+                value='MALE'
+                checked={gender === 'MALE'}
+                onChange={() => setGender('MALE')}
               />
               남성
             </GenderLabel>
-            <GenderLabel $checked={gender === "FEMALE"}>
+            <GenderLabel $checked={gender === 'FEMALE'}>
               <HiddenRadio
-                type="radio"
-                name="gender"
-                value="FEMALE"
-                checked={gender === "FEMALE"}
-                onChange={() => setGender("FEMALE")}
+                type='radio'
+                name='gender'
+                value='FEMALE'
+                checked={gender === 'FEMALE'}
+                onChange={() => setGender('FEMALE')}
               />
               여성
             </GenderLabel>
@@ -74,12 +73,14 @@ const OnboardingUserInfo = ({
           <Coment>이름</Coment>
           <InputContainer>
             <OnBoardingInput
-              value={name ?? ""}
+              value={name ?? ''}
               onChange={(e) => setName(e.target.value)}
               $isGreen={isGreenName}
-              placeholder="홍길동"
+              placeholder='홍길동'
             />
-            <CheckIcon $isGreen={isGreenName} />
+            <CheckIcon className='material-icons' $isGreen={isGreenName}>
+              check
+            </CheckIcon>
           </InputContainer>
         </ComentInputWrapper>
 
@@ -87,12 +88,14 @@ const OnboardingUserInfo = ({
           <Coment>생년월일</Coment>
           <InputContainer>
             <OnBoardingInput
-              value={age ?? ""}
+              value={age ?? ''}
               onChange={(e) => setAge(e.target.value)}
               $isGreen={isGreenAge}
-              placeholder="생년월일 8자리 (YYYYMMDD)"
+              placeholder='생년월일 8자리 (YYYYMMDD)'
             />
-            <CheckIcon $isGreen={isGreenAge} />
+            <CheckIcon className='material-icons' $isGreen={isGreenAge}>
+              check
+            </CheckIcon>
           </InputContainer>
         </ComentInputWrapper>
 
@@ -100,12 +103,14 @@ const OnboardingUserInfo = ({
           <Coment>전화번호</Coment>
           <InputContainer>
             <OnBoardingInput
-              value={phoneNum ?? ""}
+              value={phoneNum ?? ''}
               onChange={handlePhoneNumChange}
               $isGreen={isGreenPhone}
-              placeholder="010-1234-5678"
+              placeholder='010-1234-5678'
             />
-            <CheckIcon $isGreen={isGreenPhone} />
+            <CheckIcon className='material-icons' $isGreen={isGreenPhone}>
+              check
+            </CheckIcon>
           </InputContainer>
         </ComentInputWrapper>
       </OnboardingContainer>
@@ -148,9 +153,9 @@ const OnBoardingInput = styled.input`
   border: 1.3px solid
     ${({ $isGreen }) => {
       if ($isGreen === null) {
-        return "#bfbfbf";
+        return '#bfbfbf';
       } else {
-        return $isGreen ? "#22b379" : "#ff0000";
+        return $isGreen ? '#22b379' : '#ff0000';
       }
     }};
   width: 100%;
@@ -179,9 +184,9 @@ const GenderLabel = styled.label`
   font-size: 16px;
   min-width: 100px;
   text-align: center;
-  border: 1.5px solid ${({ $checked }) => ($checked ? "#22b379" : "#bfbfbf")};
-  color: ${({ $checked }) => ($checked ? "white" : "#595c62")};
-  background-color: ${({ $checked }) => ($checked ? "#22B379" : "white")};
+  border: 1.5px solid ${({ $checked }) => ($checked ? '#22b379' : '#bfbfbf')};
+  color: ${({ $checked }) => ($checked ? 'white' : '#595c62')};
+  background-color: ${({ $checked }) => ($checked ? '#22B379' : 'white')};
   transition: all 0.3s ease-in-out;
 `;
 
@@ -189,14 +194,14 @@ const HiddenRadio = styled.input`
   display: none;
 `;
 
-const CheckIcon = styled(IoCheckmarkDoneOutline)`
+const CheckIcon = styled.span`
   position: absolute;
   right: 20px;
   top: 10px;
   color: #22b379;
   font-size: 25px;
   opacity: ${({ $isGreen }) => ($isGreen ? 1 : 0)};
-  transform: ${({ $isGreen }) => ($isGreen ? "scale(1)" : "scale(0.5)")};
+  transform: ${({ $isGreen }) => ($isGreen ? 'scale(1)' : 'scale(0.5)')};
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 `;
 

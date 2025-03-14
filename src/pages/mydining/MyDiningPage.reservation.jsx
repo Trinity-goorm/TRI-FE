@@ -3,15 +3,21 @@ import DiningComponent from "../../components/dining/DiningComponent.jsx";
 import GetUserReservations from "../../api/reservation/get/GetUserReservations.js";
 import {useEffect, useState} from "react";
 
+
 //API
 import PostReservationCancel from "../../api/reservation/post/PostReservationCancel.js";
 import Modal from "../../components/modal/Modal.jsx";
 import NoSavedRestaurant from "../../components/restaurant/NoSavedRestuarant.jsx";
 
+//Recoil
+import {useRecoilValue} from "recoil";
+import {userState} from "../../atoms/userState.js";
+
 const MyDiningReservation = () => {
     const [isCancel, setIsCancel] = useState(false);
     const [selectedReservation, setSelectedReservation] = useState(null);
-    const userId = localStorage.getItem("userId");
+    const userInfo = useRecoilValue(userState);
+    const userId = userInfo.userId;
     const [reservations, setReservations] = useState([]);
 
     const fetchUserReservations = async () => {
@@ -61,13 +67,29 @@ const MyDiningReservation = () => {
     return (
         <>
             <style.TotalWrapper>
+                {
+                    reservations.length > 0 ? (
+                        reservations.map((reservation, index) => (
+                                <DiningComponent key={index} tagText={"방문 예정"}
+                                                 reservation={reservation}
+                                                 onCancel={() => onClickCancel(reservation.reservationId)}
+                                />
+                            ))
+                    ) : (
+                        <style.NoRestaurantWrapper>
+                            <style.NoRestaurantIcon>
+                                <span className="material-icons-outlined"
+                                      style={{fontSize: "60px", color: "gray"}}
+                                >content_paste_off</span>
+                            </style.NoRestaurantIcon>
+                            <style.NoRestaurantMessageFirst>예약된 레스토랑이 없습니다!</style.NoRestaurantMessageFirst>
+                            <style.NoRestaurantMessageSecond>예약한 모든 레스토랑이 여기에 표시됩니다!</style.NoRestaurantMessageSecond>
 
-                    {reservations.map((reservation, index) => (
-                            <DiningComponent key={index} tagText={"방문 예정"}
-                                             reservation={reservation}
-                                             onCancel={() => onClickCancel(reservation.reservationId)}
-                            />
-                        ))}
+
+                        </style.NoRestaurantWrapper>
+                    )
+                }
+
 
             </style.TotalWrapper>
             {isCancel && (

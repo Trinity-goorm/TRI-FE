@@ -1,9 +1,10 @@
-import styled from "styled-components";
-import TotalRestItem from "./TotalRestItem.jsx";
+import styled from 'styled-components';
+import TotalRestItem from '../item/TotalRestItem';
+import React from 'react';
 
-const TotalRestList = ({ restaurantList, category }) => {
+const TotalRestList = React.memo(({ restaurantList, offsetY }) => {
   return (
-    <TotalRestListContainer>
+    <TotalRestListContainer $offsetY={offsetY}>
       {restaurantList?.map((item, index) => (
         <TotalRestItem
           key={`${item.restaurantId}-${index}`}
@@ -21,16 +22,14 @@ const TotalRestList = ({ restaurantList, category }) => {
       ))}
     </TotalRestListContainer>
   );
-};
+});
 
 const TotalRestListContainer = styled.div`
   background-color: #eeeeee;
   display: flex;
   flex-direction: column;
   gap: 3px;
-  overflow-y: auto;
-  scrollbar-width: none;
-
+  transform: ${({ $offsetY }) => `translateY(${$offsetY}px)`};
   cursor: pointer;
 `;
 

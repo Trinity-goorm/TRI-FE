@@ -1,18 +1,19 @@
-import BottomBar from "../../components/bar/BottomBar";
-import styled from "styled-components";
-import profileImg from "../../assets/img/profile_default.png";
-import SavedRestaurantList from "../../components/restaurant/SavedRestaurantList.jsx";
-import PostLogout from "../../api/auth/PostLogout.js";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import GetUserDetail from "../../api/userInfo/GetUserDetail.js";
-import NoSavedRestaurant from "../../components/restaurant/NoSavedRestuarant.jsx";
-import GetMyLikeList from "../../api/userInfo/GetMyLikeList.js";
+import BottomBar from '../../components/bar/BottomBar';
+import styled from 'styled-components';
+import profileImg from '../../assets/img/profile_default.png';
+import SavedRestaurantList from '../../components/restaurant/SavedRestaurantList.jsx';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import GetUserDetail from '../../api/userInfo/GetUserDetail.js';
+import NoSavedRestaurant from '../../components/restaurant/NoSavedRestuarant.jsx';
+import GetMyLikeList from '../../api/userInfo/GetMyLikeList.js';
+import DeleteFcmToken from '../../api/fcm/DeleteFcmToken.js';
+import PostLogout from '../../api/auth/PostLogout.js';
 
 const MyPage = () => {
   const nav = useNavigate();
-  const [name, setName] = useState("");
-  const [tellNum, setTellNum] = useState("");
+  const [name, setName] = useState('');
+  const [tellNum, setTellNum] = useState('');
   const [emptyTicketCount, setEmptyTicketCount] = useState(0);
   const [normalTicketCount, setNormalTicketCount] = useState(0);
   const [savedRestList, setSavedRestList] = useState([]);
@@ -24,28 +25,23 @@ const MyPage = () => {
 
   const handleLogout = async () => {
     try {
-      await PostLogout(
-        localStorage.getItem("ACCESS_TOKEN"),
-        localStorage.getItem("FCM_TOKEN")
-      );
+      await deleteFcmTokenData();
+      console.log('FCM 토큰 삭제 성공');
+      await postLogoutData();
+      localStorage.clear();
 
-      localStorage.removeItem("FCM_TOKEN");
-      localStorage.removeItem("ACCESS_TOKEN");
-      localStorage.removeItem("REFRESH_TOKEN");
-      localStorage.removeItem("userId");
-
-      nav("/login");
+      nav('/login');
     } catch (error) {
-      console.error("💀데이터 로드 실패", error);
+      console.error('💀데이터 로드 실패', error);
     }
   };
 
   const fetchMyLikeList = async () => {
     try {
-      const response = await GetMyLikeList(localStorage.getItem("userId"));
+      const response = await GetMyLikeList();
       setSavedRestList(response);
     } catch (error) {
-      console.error("💀데이터 로드 실패", error);
+      console.error('💀데이터 로드 실패', error);
     }
   };
 
@@ -57,11 +53,30 @@ const MyPage = () => {
 
   const fetchUserDetail = async () => {
     try {
-      const response = await GetUserDetail(localStorage.getItem("userId"));
+      const response = await GetUserDetail();
       setName(response.username);
       setTellNum(response.phoneNumber);
       setNormalTicketCount(response.normalTicketCount);
       setEmptyTicketCount(response.emptyTicketCount);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const postLogoutData = async () => {
+    try {
+      await PostLogout(localStorage.getItem('REFRESH_TOKEN'));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const deleteFcmTokenData = async () => {
+    try {
+      await DeleteFcmToken(
+        localStorage.getItem('FCM_TOKEN'),
+        localStorage.getItem('ACCESS_TOKEN')
+      );
     } catch (error) {
       console.error(error);
     }
@@ -103,7 +118,7 @@ const MyPage = () => {
         <SavedRestList>
           <SavedRestCommetWrapper>
             <Comment>저장한 레스토랑</Comment>
-            <div style={{ color: "#7b7b7b", marginBottom: "20px" }}>
+            <div style={{ color: '#7b7b7b', marginBottom: '20px' }}>
               {savedRestList.length}
             </div>
           </SavedRestCommetWrapper>
@@ -133,7 +148,7 @@ const VerticalDivider = styled.div`
 `;
 
 const MyPageTotalContainer = styled.div`
-  height: ${({ $haveList }) => ($haveList ? "none" : "100vh")};
+  height: ${({ $haveList }) => ($haveList ? 'none' : '100vh')};
 `;
 
 const MyPageContainer = styled.div`

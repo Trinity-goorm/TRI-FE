@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { IoClose } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
-import DeleteHistoryItem from "../../api/search/DeleteHistoryItem";
+import styled from 'styled-components';
+// import { IoClose } from '@react-icons/all-files/io5/IoClose';
+import { useNavigate } from 'react-router-dom';
+import DeleteHistoryItem from '../../../api/search/DeleteHistoryItem';
 
 const HistoryItem = ({ id, keyword, deleteHistory }) => {
   const nav = useNavigate();
@@ -10,7 +10,7 @@ const HistoryItem = ({ id, keyword, deleteHistory }) => {
     event.stopPropagation();
 
     try {
-      await DeleteHistoryItem(localStorage.getItem("userId"), id);
+      await DeleteHistoryItem(id);
       deleteHistory(id);
     } catch (error) {
       console.error(error);
@@ -20,12 +20,9 @@ const HistoryItem = ({ id, keyword, deleteHistory }) => {
   return (
     <ItemContainer onClick={() => nav(`/search/total?keyword=${keyword}`)}>
       <Keyword>{keyword}</Keyword>
-      <IoClose
-        color={"#a1a1a1"}
-        size={15}
-        style={{ marginBottom: "1px" }}
-        onClick={handleDelete}
-      />
+      <CloseIcon className='material-icons' onClick={handleDelete}>
+        close
+      </CloseIcon>
     </ItemContainer>
   );
 };
@@ -44,4 +41,10 @@ const ItemContainer = styled.div`
 
 const Keyword = styled.div`
   font-size: 14px;
+`;
+
+const CloseIcon = styled.span`
+  color: #a1a1a1;
+  font-size: 15px;
+  margin-bottom: 1px;
 `;

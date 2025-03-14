@@ -1,5 +1,4 @@
 import * as style from "./style/DiningComponent.js";
-import {FaXmark} from "react-icons/fa6";
 import wine from "../../assets/img/wineBar.jpg";
 
 const DiningComponent = ({tagText, reservation, onCancel}) => {
@@ -17,7 +16,7 @@ const DiningComponent = ({tagText, reservation, onCancel}) => {
                     {tagText}
                 </style.TopTagContainer>
                 <style.CancelContainer onClick={onCancel}>
-                    <FaXmark size={15} />
+                    <span className="material-icons" style={{fontSize:"20px"}}>close</span>
                 </style.CancelContainer>
             </style.TopContainer>
             <style.ContentContainer>

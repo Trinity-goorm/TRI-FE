@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const SliderContainer = styled.div`
-    width: 91%;
-    height: 260px;
+    width: 92%;
+    height: 290px;
     overflow: hidden;
     position: relative;
     border-radius: 10px;

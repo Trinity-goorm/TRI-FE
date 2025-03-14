@@ -1,7 +1,6 @@
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import PostLogin from "../../api/auth/PostLogin";
-import { formatLocalDate } from "../../util/formatLocalDate";
 import { userState } from "../../atoms/userState";
 import { useRecoilState } from "recoil";
 import LoadingBar from "../../components/loadingBar/LoadingBar";
@@ -9,6 +8,7 @@ import LoadingBar from "../../components/loadingBar/LoadingBar";
 // fcm
 import { getMessaging, getToken } from "firebase/messaging";
 import { initializeApp } from "firebase/app";
+import PostFcmToken from "../../api/fcm/PostFcmToken.js";
 
 const config = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -23,6 +23,7 @@ const messaging = getMessaging();
 
 const KakaoCallback = () => {
   const nav = useNavigate();
+  const [searchParams] = useSearchParams();
   const [user, setUser] = useRecoilState(userState);
 
   // 서비스 워커 준비 확인 함수
@@ -32,8 +33,8 @@ const KakaoCallback = () => {
     }
     const registration = await navigator.serviceWorker.ready;
     console.log(
-        "서비스 워커 준비 완료:",
-        registration.active ? "활성화됨" : "비활성화됨"
+      "서비스 워커 준비 완료:",
+      registration.active ? "활성화됨" : "비활성화됨"
     );
     return registration;
   };
@@ -47,47 +48,56 @@ const KakaoCallback = () => {
         vapidKey: import.meta.env.VITE_VAPID_KEY,
         serviceWorkerRegistration: registration,
       });
-      localStorage.setItem("FCM_TOKEN", token);
-      console.log("FCM 토큰 저장 완료:", token);
       return token;
     } catch (err) {
       console.log("FCM 에러:", err);
     }
   };
 
+  const PostFcmTokenData = async (fcmToken, accessToken) => {
+    try {
+      await PostFcmToken(fcmToken, accessToken);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     const postCode = async () => {
-      const code = new URL(window.location.href).searchParams.get("code");
+      const code = searchParams.get("code");
       console.log(code);
       if (!code) throw new Error("인가 코드가 없습니다.");
 
       const fcmToken = await getFcmToken();
       if (!fcmToken) throw new Error("fcm 토큰이 없습니다.");
 
-      const response = await PostLogin(
-          code,
-          fcmToken,
-          formatLocalDate(new Date())
-      );
+      console.log("PostLogin 호출");
+      const response = await PostLogin(code);
 
-      // 로컬 스토리지 저장
-      localStorage.setItem("FCM_TOKEN", fcmToken);
-      localStorage.setItem("ACCESS_TOKEN", response.accessToken);
-      localStorage.setItem("REFRESH_TOKEN", response.refreshToken);
-      localStorage.setItem("userId", response.id);
+      const accessToken = response.headers.get("access");
+      const refreshToken = response.headers.get("refresh");
+      if (!accessToken || !refreshToken)
+        throw new Error("액세스 토큰 또는 리프레시 토큰을 찾을 수 없습니다.");
+      setUser({ ...user, fcmToken, accessToken, refreshToken });
 
-      // 전역으로 저장
-      setUser({ ...user, userId: response.id });
-
-      if (response.newUser) {
+      //needOnboarding
+      if (response.data.needOnboarding) {
         nav("/onboarding");
       } else {
+        PostFcmTokenData(fcmToken, accessToken);
+        savingToken(fcmToken, accessToken, refreshToken);
         nav("/");
       }
     };
 
     postCode();
   }, []);
+
+  const savingToken = (fcmToken, accessToken, refreshToken) => {
+    localStorage.setItem("FCM_TOKEN", fcmToken);
+    localStorage.setItem("ACCESS_TOKEN", accessToken);
+    localStorage.setItem("REFRESH_TOKEN", refreshToken);
+  };
 
   return <LoadingBar />;
 };

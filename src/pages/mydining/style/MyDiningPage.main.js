@@ -80,6 +80,6 @@ export const TopMoveEach = styled.div`
     align-items: center;
     justify-content: center;
     font-size: 18px;
-  font-weight: ${(props) => props.isTopBarClick ? "bold" : "normal"};
-    border-bottom: ${props => props.isTopBarClick ? "2px solid #FF6868" : "" }
+  font-weight: ${(props) => props.istopbarclick ? "bold" : "normal"};
+    border-bottom: ${props => props.istopbarclick ? "2px solid #FF6868" : "" }
 `

@@ -13,10 +13,10 @@ const HomePage = () => {
       </style.TopBarContainer>
       <style.InnerContainer>
         <style.BannerContainer>
-          <Banner />
+            <Banner />
         </style.BannerContainer>
         <style.RecommendContainer>
-          <RecommendComponent />
+             <RecommendComponent />
         </style.RecommendContainer>
         <style.CategoryContainer>
           <CategoryComponent />

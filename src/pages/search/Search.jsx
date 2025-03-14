@@ -1,48 +1,43 @@
-import * as style from "./style/Search.js";
-import { GoArrowLeft } from "react-icons/go";
-import { FiSearch } from "react-icons/fi";
-import { IoCloseCircle } from "react-icons/io5";
-import sushi from "../../assets/img/sushi.png";
-import meat from "../../assets/img/meat.png";
-import cake from "../../assets/img/cake.png";
-import star from "../../assets/img/star.png";
+import * as style from './style/Search.js';
+import sushi from '../../assets/img/sushi.png';
+import meat from '../../assets/img/meat.png';
+import cake from '../../assets/img/cake.png';
+import star from '../../assets/img/star.png';
 
 // React
-import { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { userState } from "../../atoms/userState.js";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 // Componenet
-import RecommendFeedItem from "../../components/search/RecommendFeedItem.jsx";
-import HistoryList from "../../components/search/HistoryList";
-import GetHistoryList from "../../api/search/GetHistoryList";
-import GetRecommendList from "../../api/recommend/get/GetRecommendList.js";
-import RecommendCatItem from "../../components/search/RecommendCatItem";
+import RecommendFeedItem from '../../components/search/item/RecommendFeedItem.jsx';
+import HistoryList from '../../components/search/list/HistoryList';
+import GetHistoryList from '../../api/search/GetHistoryList.js';
+import GetRecommendList from '../../api/recommend/get/GetRecommendList.js';
+import RecommendCatItem from '../../components/search/item/RecommendCatItem';
 
 const recomCatList = [
   {
     img: sushi,
-    title: "일식",
-    subTitle: "신선한",
+    title: '일식',
+    subTitle: '신선한',
     categoryId: 2,
   },
   {
     img: meat,
-    title: "스테이크",
-    subTitle: "육즙 가득한",
+    title: '스테이크',
+    subTitle: '육즙 가득한',
     categoryId: 9,
   },
   {
     img: cake,
-    title: "브런치카페",
-    subTitle: "여유로운",
+    title: '브런치카페',
+    subTitle: '여유로운',
     categoryId: 3,
   },
   {
     img: star,
-    title: "별점 높은",
-    subTitle: "인정받은",
+    title: '별점 높은',
+    subTitle: '인정받은',
     categoryId: 13, // 공백
   },
 ];
@@ -50,38 +45,35 @@ const recomCatList = [
 const Search = () => {
   const nav = useNavigate();
   const [searchParam] = useSearchParams();
-  const query = searchParam.get("keyword");
-  const [searchQuery, setSearchQuery] = useState(query || "");
+  const query = searchParam.get('keyword');
+  const [searchQuery, setSearchQuery] = useState(query || '');
   const [histroyList, setHistoryList] = useState([]);
   const [recommendList, setRecommendList] = useState([]);
-  const user = useRecoilValue(userState);
 
   const handleChangeQuery = (e) => {
     setSearchQuery(e.target.value);
   };
 
   useEffect(() => {
-    if (user) {
-      fetchHistoryData();
-      fetchRecommendList();
-    }
-  }, [user]);
+    fetchHistoryData();
+    fetchRecommendList();
+  }, []);
 
   const fetchHistoryData = async () => {
     try {
-      const response = await GetHistoryList(user.userId);
+      const response = await GetHistoryList();
       setHistoryList(response);
     } catch (error) {
-      console.error("💀데이터 로드 실패", error);
+      console.error('💀데이터 로드 실패', error);
     }
   };
 
   const fetchRecommendList = async () => {
     try {
-      const response = await GetRecommendList(user.userId);
+      const response = await GetRecommendList();
       setRecommendList(response);
     } catch (e) {
-      console.error("💀찜한 리스트 가져오기 실패", e);
+      console.error('추천 리스트 가져오기 실패', e);
     }
   };
 
@@ -93,26 +85,31 @@ const Search = () => {
     <style.SearchContainer>
       <style.SearchBar>
         <style.SearchBarContainer>
-          <GoArrowLeft size={22} color="black" onClick={() => nav("/")} />
+          <style.ArrowBackIcon
+            className='material-icons'
+            onClick={() => nav('/')}
+          >
+            arrow_back
+          </style.ArrowBackIcon>
           <style.SearchInput
-            placeholder="어떤 맛집을 찾으세요?"
+            placeholder='어떤 맛집을 찾으세요?'
             value={searchQuery}
             onChange={handleChangeQuery}
             onKeyDown={(e) => {
-              if (searchQuery !== "" && e.key === "Enter") {
+              if (searchQuery !== '' && e.key === 'Enter') {
                 nav(`/search/total?keyword=${searchQuery}`);
               }
             }}
           ></style.SearchInput>
-          {searchQuery === "" ? null : (
-            <IoCloseCircle
-              size={18.5}
-              color="#b3b3b3"
-              style={{ position: "absolute", right: "40px" }}
+          {searchQuery === '' ? null : (
+            <style.CloseCircleIcon
+              className='material-icons'
               onClick={() => {
-                setSearchQuery("");
+                setSearchQuery('');
               }}
-            />
+            >
+              cancel
+            </style.CloseCircleIcon>
           )}
         </style.SearchBarContainer>
       </style.SearchBar>
@@ -121,7 +118,7 @@ const Search = () => {
         <style.Comment>최근에 검색한</style.Comment>
         {histroyList.length === 0 ? (
           <style.HistoryNoResultComment>
-            <FiSearch />
+            {/* <FiSearch /> */}
             최근 검색어가 없어요.
           </style.HistoryNoResultComment>
         ) : (
@@ -150,7 +147,9 @@ const Search = () => {
       </style.CategoryFeedContainer>
 
       <style.RecomFeedContainer>
-        <style.Comment>{user.userName} 님을 위한 레스토랑</style.Comment>
+        <style.Comment>
+          {recommendList[0]?.userName}님을 위한 레스토랑
+        </style.Comment>
         <style.ContentSlider>
           {recommendList.map((item, index) => (
             <RecommendFeedItem item={item} key={index} />

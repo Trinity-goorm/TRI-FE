@@ -43,7 +43,7 @@ export const InfoContainer = styled.div`
     align-items: flex-start;
 
     margin-top: 5px;
-    background-color: white;
+
 `;
 
 export const NameContainer = styled.div`
@@ -56,16 +56,26 @@ export const SubInfoContainer = styled.div`
    
     display: flex;
     flex-direction: row;
+
 `;
 
-export const StarContainer = styled.div``;
+export const StarContainer = styled.div`
+    display: flex;
+    flex-direction : row;
+    
+    align-items: center;
+   
+`;
 
 export const StarImage = styled.div``;
 
-export const StarScore = styled.span`
+export const StarScore = styled.div`
     font-weight: 600;
-    font-size: 15px;
+    font-size: 12px;
     margin-left: 5px;
+    justify-content: center;
+    align-items: center;
+
 `;
 
 export const CategoryLocation = styled.div`
@@ -86,4 +96,5 @@ export const LikeContainer = styled.div`
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    font-size: 10px;
 `

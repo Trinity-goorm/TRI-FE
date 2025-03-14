@@ -1,11 +1,11 @@
 import * as style from "./style/RecommendFeed.js";
-import { FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import SaveButton from "../save/SaveButton.jsx";
-import { useState } from "react";
 import wine from "../../assets/img/wineBar.jpg";
+import useSingleLike from "../../hooks/useSingleLike.js";
 
-const RecommendFeed = ({ item, isLiked, onToggleLike }) => {
+
+const RecommendFeed = ({item}) => {
   const name = item?.name;
   const images = item?.imageUrls || [];
   const mainImage = images.length === 0 || images[0] == null ? wine : images[0];
@@ -13,9 +13,15 @@ const RecommendFeed = ({ item, isLiked, onToggleLike }) => {
   const category = item?.category;
   const location = item?.location;
   const id = item?.restaurantId;
+  const wishlisted = item?.wishlisted;
+  const { isLiked, toggleLike } = useSingleLike(id, wishlisted);
+
   const formatLocation = (location) => {
-    return location.length > 9 ? `${location.slice(0, 10)}...` : location;
+    return location?.length > 9 ? `${location.slice(0, 10)}...` : location;
   };
+  const formatTitle = (title) => {
+    return title?.length > 9 ? `${title.slice(0, 10)}...` : title;
+  }
 
   const nav = useNavigate();
   const onClickToDetail = () => {
@@ -33,10 +39,10 @@ const RecommendFeed = ({ item, isLiked, onToggleLike }) => {
       </style.ImageContainer>
       <style.SubContainer>
         <style.InfoContainer>
-          <style.NameContainer>{name}</style.NameContainer>
+          <style.NameContainer>{formatTitle(name)}</style.NameContainer>
           <style.SubInfoContainer>
             <style.StarContainer>
-              <FaStar size={16} color={"#FFD700"} />
+              <span className="material-icons" style={{fontSize:"16px", color:"gold"}}>star</span>
               <style.StarScore>{star}</style.StarScore>
             </style.StarContainer>
             <style.CategoryLocation>
@@ -44,14 +50,15 @@ const RecommendFeed = ({ item, isLiked, onToggleLike }) => {
             </style.CategoryLocation>
           </style.SubInfoContainer>
         </style.InfoContainer>
-        <style.LikeContainer onClick={onToggleLike}>
+        <style.LikeContainer onClick={() => toggleLike(id)}>
           <SaveButton
             width={"30px"}
             height={"30px"}
-            size={18}
+            size={22}
             border={"#E4E4E4"}
-            iconcolor={"E4E4E4"}
+            iconcolor={"#E4E4E4"}
             isLiked={isLiked}
+
           ></SaveButton>
         </style.LikeContainer>
       </style.SubContainer>

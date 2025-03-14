@@ -1,8 +1,7 @@
-import SearchReservationItem from "./SearchReservationItem";
+import SearchReservationItem from "../item/SearchReservationItem";
 import styled from "styled-components";
 
 const SearchResevationList = ({ id, reservation }) => {
-
   return (
     <ReservationListContainer>
       {reservation.map((item, index) => (

@@ -6,11 +6,16 @@ import Modal from "../../components/modal/Modal.jsx";
 import getVacancySeats from "../../api/vacancy/get/GetVacancySeats.js";
 
 
+//Recoil
+import {useRecoilValue} from "recoil";
+import {userState} from "../../atoms/userState.js";
+
+
 const MyDiningVacancy = () => {
     const [isCancel, setIsCancel] = useState(false);
     const [selectedSeatId, setSelectedSeatId] = useState(null);
     const [vacancySeats, setVacancySeats] = useState([]);
-    const userId = localStorage.getItem("userId");
+    const userId = useRecoilValue(userState).userId;
 
     const deleteVacancy = async () => {
 
@@ -55,18 +60,34 @@ const MyDiningVacancy = () => {
     return (
         <>
             <style.TotalWrapper>
-                {vacancySeats.map((reservation, index) => (
-                    <VacancyComponent key={index} tagText={"알림 대기중"}
-                                     reservation={reservation}
-                                     onClickFunction={() => onClickDeleteVacancy(reservation.seatNotificationId)}
-                    />
-                ))}
+                {
+                    vacancySeats.length > 0 ? (
+
+                        vacancySeats.map((reservation, index) => (
+                                <VacancyComponent key={index} tagText={"알림 대기중"}
+                                                  reservation={reservation}
+                                                  onClickFunction={() => onClickDeleteVacancy(reservation.seatNotificationId)}
+                                />
+                            ))
+                    ) : (
+                        <style.NoRestaurantWrapper>
+                            <style.NoRestaurantIcon>
+                                <span className="material-icons-outlined" style={{fontSize:"60px", color:"gray"}}>notifications_off</span>
+                            </style.NoRestaurantIcon>
+                            <style.NoRestaurantMessageFirst>빈자리 알림이 없습니다!</style.NoRestaurantMessageFirst>
+                            <style.NoRestaurantMessageSecond>신청한 빈자리 알림이 여기에 표시됩니다!</style.NoRestaurantMessageSecond>
+
+
+                        </style.NoRestaurantWrapper>
+
+                    )
+                }
             </style.TotalWrapper>
             {isCancel && (
                 <Modal
                     isOpen={isCancel}
                     onClose={() => setIsCancel(false)}
-                    onConfirm = { () => deleteVacancy()}
+                    onConfirm={() => deleteVacancy()}
                     message={"정말로 빈자리 알림을 취소하시겠습니까?"}
                     innerMessage={"💵 빈자리 알림 취소 시 티켓은 반환되지 않습니다! 💵 "}
 

@@ -1,22 +1,19 @@
-import {FaPhoneAlt, FaPhoneSlash} from "react-icons/fa";
-import {FaShop, FaShopSlash} from "react-icons/fa6";
-import {MdFastfood, MdNoFood} from "react-icons/md";
 import styled from "styled-components";
 
 
 const CautionIcon = ({caution}) => {
     if (caution === "예약가능") {
-        return <FaPhoneAlt size={30} />;
+       return <span className="material-icons">phone_enabled</span>
     } else if (caution === "예약불가") {
-        return <FaPhoneSlash size={30} />;
+        return <span className="material-icons">phone_disabled</span>
     } else if (caution === "배달가능"){
-        return <FaShop size={30} />;
+        return <span className="material-icons">delivery_dining</span>
     } else if (caution === "배달불가"){
-        return <FaShopSlash size={30} />;
+        return <span className="material-icons">no_meals</span>
     } else if(caution === "포장가능"){
-        return <MdFastfood size={30} />;
+        return <span className="material-icons">fastfood</span>
     } else if (caution === "포장불가"){
-        return <MdNoFood size={30} />
+        return <span className="material-icons">no_encryption_gmailerrorred</span>
     } else {
         return null;
     }

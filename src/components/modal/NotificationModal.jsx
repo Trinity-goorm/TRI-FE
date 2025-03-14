@@ -1,10 +1,9 @@
-import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { notificationState } from "../../atoms/notificationState";
-import logo from "/logo.png";
-import { IoClose } from "react-icons/io5";
-import { useEffect, useRef } from "react";
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { notificationState } from '../../atoms/notificationState';
+import logo from '/logo.png';
+import { useEffect, useRef } from 'react';
 
 // title: "",
 // body: "",
@@ -49,15 +48,16 @@ const NotificationModal = () => {
         <ContentContainer>
           <TitleWrapper>{notification.title}</TitleWrapper>
           <BodyWrapper>{notification.body}</BodyWrapper>
-          <IoClose
-            size={20}
-            style={{ position: "absolute", right: "0", top: "-1" }}
-            onClick={(event) => {
-              event.stopPropagation();
-              handleClose();
-            }}
-          />
         </ContentContainer>
+        <CloseIcon
+          className='material-icons'
+          onClick={(event) => {
+            event.stopPropagation();
+            handleClose();
+          }}
+        >
+          close
+        </CloseIcon>
       </NotificationModalContainer>
     </Overlay>
   );
@@ -73,9 +73,9 @@ const Overlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  opacity: ${({ $isOpen }) => ($isOpen ? "1" : "0")};
+  opacity: ${({ $isOpen }) => ($isOpen ? '1' : '0')};
   transition: opacity 0.3s ease-out;
-  pointer-events: ${({ $isOpen }) => ($isOpen ? "auto" : "none")};
+  pointer-events: ${({ $isOpen }) => ($isOpen ? 'auto' : 'none')};
 `;
 
 const NotificationModalContainer = styled.div`
@@ -95,7 +95,7 @@ const NotificationModalContainer = styled.div`
 
   // 애니메이션
   animation: ${({ $isOpen }) =>
-    $isOpen ? "slideDown 0.3s ease-out" : "slideUp 0.3s ease-in"};
+    $isOpen ? 'slideDown 0.3s ease-out' : 'slideUp 0.3s ease-in'};
 
   @keyframes slideDown {
     from {
@@ -148,6 +148,14 @@ const TitleWrapper = styled.div`
 const BodyWrapper = styled.div`
   font-size: 15px;
   white-space: pre-line;
+`;
+
+const CloseIcon = styled.div`
+  font-size: 20px;
+  cursor: pointer;
+  position: 'absolute';
+  /* right: '0';
+  top: '-1'; */
 `;
 
 export default NotificationModal;

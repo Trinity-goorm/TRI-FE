@@ -23,5 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 .env
+/test
 
 /public/firebase-messaging-sw.js
+/src/test
+setupTests.js

@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import * as style from "./style/Reservation.modal.js";
 import ReservationButton from "../../components/button/ReservationButton.jsx";
 import CustomCalendar from "../../components/calendar/CustomCalendar.jsx";
 import ReservationTable from "../../pages/reservation/Reservation.table.jsx";
 import GetAvailableSeat from "../../api/reservation/get/GetAvailableSeat.js";
 
-import ReservationReservation from "../../assets/dummydata/ReservationResponse.js";
+//Recoil
+import {useRecoilValue} from "recoil";
+import {userState} from "../../atoms/userState.js";
 
 //formatDate 변환 함수
 const formatDate = (date) => {
@@ -14,11 +16,11 @@ const formatDate = (date) => {
         .toISOString()
         .split("T")[0];
 };
-const userId = localStorage.getItem("userId");
 
-const ReservationModal = ({name, isOpen, closeModal, children, restaurantId, remoteSelectDate}) => {
-    console.log("🤥",remoteSelectDate)
+const ReservationModal = ({name, isOpen, closeModal, children, restaurantId, remoteSelectDate, ...props}) => {
 
+    const userInfo = useRecoilValue(userState);
+    const userId = userInfo.userId;
     const [selectDate, setSelectDate] = useState(formatDate(new Date()));
     const [isToday, setIsToday] = useState(true);
     const [reservation, setReservation] = useState({
@@ -114,7 +116,7 @@ const ReservationModal = ({name, isOpen, closeModal, children, restaurantId, rem
 
     return (
         <style.Background>
-            <style.TotalContainer>
+            <style.TotalContainer {...props}>
                 <style.CalendarContainer>
                     <CustomCalendar onSelectDate={onSelectDateChange} selectedDate={selectDate} />
                 </style.CalendarContainer>
