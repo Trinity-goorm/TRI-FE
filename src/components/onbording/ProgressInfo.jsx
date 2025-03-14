@@ -1,14 +1,19 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 //import { IoChevronBack } from "react-icons/io5";
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const ProgressInfo = ({ step, handleBeforeStep }) => {
   return (
     <ProgressInfoWrapper>
       <Header>
-        {step === 2 || step === 3 ? (
-            <div>hihi</div>
-        ) : null}
+        {step === 2 || step === 3
+          ? /*<IoChevronBack
+            size="25px"
+            style={{ position: "absolute", left: "20" }}
+            onClick={() => handleBeforeStep()}
+          />*/
+            null
+          : null}
         {step !== 0 && <Title>CATCHPING</Title>}
       </Header>
       <ProgressBarWrapper>
@@ -55,7 +60,7 @@ const ProgressBarFill = styled.div`
   transition: width 0.5s ease-in-out;
   background-color: #fc8383;
   width: ${({ $step }) =>
-    $step === 1 ? "30%" : $step === 2 ? "60%" : $step === 3 ? "90%" : "0%"};
+    $step === 1 ? '30%' : $step === 2 ? '60%' : $step === 3 ? '90%' : '0%'};
 `;
 
 const Title = styled.div`

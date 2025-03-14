@@ -1,8 +1,7 @@
-import * as style from "../style/RecommendFeedItem.js";
-//import { FaStar } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-import wine from "../../../assets/img/wineBar.jpg";
-import { formatRating } from "../../../util/formatRating.js";
+import * as style from '../style/RecommendFeedItem.js';
+import { useNavigate } from 'react-router-dom';
+import wine from '../../../assets/img/wineBar.jpg';
+import { formatRating } from '../../../util/formatRating.js';
 
 const RecommendFeedItem = ({ item }) => {
   const name = item?.name;
@@ -18,7 +17,7 @@ const RecommendFeedItem = ({ item }) => {
   };
   const makeImageUrls = (image) => {
     if (!image || image === wine) return image;
-    return image.startsWith("http") ? image : `https://${image}`;
+    return image.startsWith('http') ? image : `https://${image}`;
   };
 
   return (
@@ -32,7 +31,7 @@ const RecommendFeedItem = ({ item }) => {
           <style.NameContainer>{name}</style.NameContainer>
           <style.SubInfoContainer>
             <style.StarContainer>
-{/*              <FaStar size={16} color={"#FFD700"} />*/}
+              <style.StarIcon className='material-icons'>star</style.StarIcon>
               <style.StarScore>{formatRating(star)}</style.StarScore>
             </style.StarContainer>
             <style.CategoryLocation>{category} · 분당구</style.CategoryLocation>

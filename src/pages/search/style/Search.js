@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const SearchContainer = styled.div`
   display: flex;
@@ -102,6 +102,19 @@ export const HistoryNoResultComment = styled.div`
   margin-left: 20px;
   margin-top: 5px;
   gap: 7px;
+`;
+
+export const ArrowBackIcon = styled.span`
+  font-size: 20px;
+  cursor: pointer;
+`;
+
+export const CloseCircleIcon = styled.span`
+  font-size: 18px;
+  color: #b3b3b3;
+  position: absolute;
+  right: 35px;
+  cursor: pointer;
 `;
 
 export const HistoryListWrapper = styled.div``;

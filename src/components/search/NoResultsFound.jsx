@@ -1,11 +1,10 @@
-import styled from "styled-components";
-//import { BsShop } from "react-icons/bs";
+import styled from 'styled-components';
 
 const NoResultsFound = () => {
   return (
     <NoResultsFoundContainer>
       <InfoContainer>
-       {/* <BsShop size={70} color={"#dcdcdc"} />*/}
+        <StoreIcon className='material-icons'>storefront</StoreIcon>
         <InfoTitle>앗! 조건에 맞는 매장이 없어요.</InfoTitle>
         <InfoSubTitleContainer>
           <InfoSubTitle>• 더 일반적인 검색어로 검색해 보세요.</InfoSubTitle>
@@ -45,6 +44,11 @@ const InfoSubTitleContainer = styled.div`
 const InfoSubTitle = styled.div`
   font-size: 13px;
   color: #919191;
+`;
+
+const StoreIcon = styled.span`
+  font-size: 70px;
+  color: #dcdcdc;
 `;
 
 export default NoResultsFound;
