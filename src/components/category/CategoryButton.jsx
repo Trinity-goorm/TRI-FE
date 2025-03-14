@@ -9,9 +9,8 @@ const CategoryButton = ({ id, image, name }) => {
   useEffect(() => {
     const callback = (entries, observer) => {
       entries.forEach(entry => {
-        console.log(entry);
+
         if(entry.isIntersecting) {
-          console.log("🧚🏼 버튼 등장", entry.target.dataset.src);
           entry.target.src = entry.target.dataset.src;
           observer.unobserve(entry.target);
         }
