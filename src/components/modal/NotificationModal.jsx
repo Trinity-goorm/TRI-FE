@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { notificationState } from "../../atoms/notificationState";
 import logo from "/logo.png";
-import { IoClose } from "react-icons/io5";
+//import { IoClose } from "react-icons/io5";
 import { useEffect, useRef } from "react";
 
 // title: "",
@@ -49,14 +49,14 @@ const NotificationModal = () => {
         <ContentContainer>
           <TitleWrapper>{notification.title}</TitleWrapper>
           <BodyWrapper>{notification.body}</BodyWrapper>
-          <IoClose
-            size={20}
-            style={{ position: "absolute", right: "0", top: "-1" }}
-            onClick={(event) => {
-              event.stopPropagation();
-              handleClose();
-            }}
-          />
+          {/*<IoClose*/}
+          {/*  size={20}*/}
+          {/*  style={{ position: "absolute", right: "0", top: "-1" }}*/}
+          {/*  onClick={(event) => {*/}
+          {/*    event.stopPropagation();*/}
+          {/*    handleClose();*/}
+          {/*  }}*/}
+          {/*/>*/}
         </ContentContainer>
       </NotificationModalContainer>
     </Overlay>

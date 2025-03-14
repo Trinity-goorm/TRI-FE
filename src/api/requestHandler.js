@@ -78,8 +78,8 @@ const requestHandler = async ({
     return response.data; // 성공 데이터 반환
   } catch (error) {
     if (error.response?.status === 401) {
-      const originalRequest = error.config;
-      originalRequest._retry = true;
+      window.location.href = "/login";
+      localStorage.clear();
 
       if (isRefreshing) {
         // 토큰 갱신 중인 경우 큐에 추가

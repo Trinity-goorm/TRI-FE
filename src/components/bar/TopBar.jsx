@@ -1,5 +1,4 @@
 import * as style from "./style/TopBar.js";
-import { GoSearch, GoBookmark } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 
 const TopBar = () => {
@@ -10,11 +9,11 @@ const TopBar = () => {
       <style.Logo>P</style.Logo>
       <style.SearchBarContainer role='goSearch' onClick={() => nav("/search")}>
         <style.SearchBar>
-          <GoSearch size={22} color="gray" />
+            <span class="material-icons" style={{ fontSize: "25px", color: "gray" }} >search</span>
         </style.SearchBar>
       </style.SearchBarContainer>
       <style.MovetoSaveButton>
-        <GoBookmark size={30} role="goSave" color="gray" onClick={() => nav("/mypage")}  />
+
       </style.MovetoSaveButton>
     </style.TopBarContainer>
   );

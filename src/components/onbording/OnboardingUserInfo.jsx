@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import styled from "styled-components";
-import { IoCheckmarkDoneOutline } from "react-icons/io5";
+//import { IoCheckmarkDoneOutline } from "react-icons/io5";
 
 const OnboardingUserInfo = ({
   gender,
@@ -79,7 +79,7 @@ const OnboardingUserInfo = ({
               $isGreen={isGreenName}
               placeholder="홍길동"
             />
-            <CheckIcon $isGreen={isGreenName} />
+            {/*<CheckIcon $isGreen={isGreenName} />*/}
           </InputContainer>
         </ComentInputWrapper>
 
@@ -92,7 +92,7 @@ const OnboardingUserInfo = ({
               $isGreen={isGreenAge}
               placeholder="생년월일 8자리 (YYYYMMDD)"
             />
-            <CheckIcon $isGreen={isGreenAge} />
+            {/*<CheckIcon $isGreen={isGreenAge} />*/}
           </InputContainer>
         </ComentInputWrapper>
 
@@ -105,7 +105,7 @@ const OnboardingUserInfo = ({
               $isGreen={isGreenPhone}
               placeholder="010-1234-5678"
             />
-            <CheckIcon $isGreen={isGreenPhone} />
+            {/*<CheckIcon $isGreen={isGreenPhone} />*/}
           </InputContainer>
         </ComentInputWrapper>
       </OnboardingContainer>
@@ -189,7 +189,7 @@ const HiddenRadio = styled.input`
   display: none;
 `;
 
-const CheckIcon = styled(IoCheckmarkDoneOutline)`
+/*const CheckIcon = styled(IoCheckmarkDoneOutline)`
   position: absolute;
   right: 20px;
   top: 10px;
@@ -198,6 +198,6 @@ const CheckIcon = styled(IoCheckmarkDoneOutline)`
   opacity: ${({ $isGreen }) => ($isGreen ? 1 : 0)};
   transform: ${({ $isGreen }) => ($isGreen ? "scale(1)" : "scale(0.5)")};
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-`;
+`;*/
 
 export default OnboardingUserInfo;

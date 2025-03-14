@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { IoChevronBack } from "react-icons/io5";
+//import { IoChevronBack } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
 const ProgressInfo = ({ step, handleBeforeStep }) => {
@@ -7,11 +7,11 @@ const ProgressInfo = ({ step, handleBeforeStep }) => {
     <ProgressInfoWrapper>
       <Header>
         {step === 2 || step === 3 ? (
-          <IoChevronBack
+            {/*<IoChevronBack
             size="25px"
             style={{ position: "absolute", left: "20" }}
             onClick={() => handleBeforeStep()}
-          />
+          />*/}
         ) : null}
         {step !== 0 && <Title>CATCHPING</Title>}
       </Header>

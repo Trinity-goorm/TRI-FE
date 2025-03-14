@@ -2,7 +2,6 @@ import {fireEvent, render, screen} from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import RecommendFeed from '../../components/recommend/RecommendFeed.jsx';
 import {MemoryRouter, Router, useNavigate} from 'react-router-dom';
-import { FaStar } from 'react-icons/fa';
 import '../../../setupTests.js';
 
 const mockNavigate = vi.fn();

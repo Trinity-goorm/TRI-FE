@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import * as style from "./style/Reservation.modal.js";
 import ReservationButton from "../../components/button/ReservationButton.jsx";
 import CustomCalendar from "../../components/calendar/CustomCalendar.jsx";
@@ -18,7 +18,7 @@ const formatDate = (date) => {
 };
 
 const ReservationModal = ({name, isOpen, closeModal, children, restaurantId, remoteSelectDate, ...props}) => {
-    console.log("🤥",remoteSelectDate);
+
     const userInfo = useRecoilValue(userState);
     const userId = userInfo.userId;
     const [selectDate, setSelectDate] = useState(formatDate(new Date()));

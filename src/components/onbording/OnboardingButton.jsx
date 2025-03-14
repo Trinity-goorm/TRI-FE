@@ -1,4 +1,3 @@
-import { BiSolidHandLeft } from "react-icons/bi";
 import styled from "styled-components";
 
 const OnboardingButton = ({ text, isFormValid, handleClickButton }) => {
