@@ -1,46 +1,46 @@
-import * as style from "./style/Search.js";
+import * as style from './style/Search.js';
 //import { GoArrowLeft } from "react-icons/go";
 //import { FiSearch } from "react-icons/fi";
 //import { IoCloseCircle } from "react-icons/io5";
-import sushi from "../../assets/img/sushi.png";
-import meat from "../../assets/img/meat.png";
-import cake from "../../assets/img/cake.png";
-import star from "../../assets/img/star.png";
+import sushi from '../../assets/img/sushi.png';
+import meat from '../../assets/img/meat.png';
+import cake from '../../assets/img/cake.png';
+import star from '../../assets/img/star.png';
 
 // React
-import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 // Componenet
-import RecommendFeedItem from "../../components/search/item/RecommendFeedItem.jsx";
-import HistoryList from "../../components/search/list/HistoryList";
-import GetHistoryList from "../../api/search/GetHistoryList.js";
-import GetRecommendList from "../../api/recommend/get/GetRecommendList.js";
-import RecommendCatItem from "../../components/search/item/RecommendCatItem";
+import RecommendFeedItem from '../../components/search/item/RecommendFeedItem.jsx';
+import HistoryList from '../../components/search/list/HistoryList';
+import GetHistoryList from '../../api/search/GetHistoryList.js';
+import GetRecommendList from '../../api/recommend/get/GetRecommendList.js';
+import RecommendCatItem from '../../components/search/item/RecommendCatItem';
 
 const recomCatList = [
   {
     img: sushi,
-    title: "일식",
-    subTitle: "신선한",
+    title: '일식',
+    subTitle: '신선한',
     categoryId: 2,
   },
   {
     img: meat,
-    title: "스테이크",
-    subTitle: "육즙 가득한",
+    title: '스테이크',
+    subTitle: '육즙 가득한',
     categoryId: 9,
   },
   {
     img: cake,
-    title: "브런치카페",
-    subTitle: "여유로운",
+    title: '브런치카페',
+    subTitle: '여유로운',
     categoryId: 3,
   },
   {
     img: star,
-    title: "별점 높은",
-    subTitle: "인정받은",
+    title: '별점 높은',
+    subTitle: '인정받은',
     categoryId: 13, // 공백
   },
 ];
@@ -48,8 +48,8 @@ const recomCatList = [
 const Search = () => {
   const nav = useNavigate();
   const [searchParam] = useSearchParams();
-  const query = searchParam.get("keyword");
-  const [searchQuery, setSearchQuery] = useState(query || "");
+  const query = searchParam.get('keyword');
+  const [searchQuery, setSearchQuery] = useState(query || '');
   const [histroyList, setHistoryList] = useState([]);
   const [recommendList, setRecommendList] = useState([]);
 
@@ -67,7 +67,7 @@ const Search = () => {
       const response = await GetHistoryList();
       setHistoryList(response);
     } catch (error) {
-      console.error("💀데이터 로드 실패", error);
+      console.error('💀데이터 로드 실패', error);
     }
   };
 
@@ -76,7 +76,7 @@ const Search = () => {
       const response = await GetRecommendList();
       setRecommendList(response);
     } catch (e) {
-      console.error("추천 리스트 가져오기 실패", e);
+      console.error('추천 리스트 가져오기 실패', e);
     }
   };
 
@@ -88,28 +88,39 @@ const Search = () => {
     <style.SearchContainer>
       <style.SearchBar>
         <style.SearchBarContainer>
-          {/*<GoArrowLeft size={22} color="black" onClick={() => nav("/")} />*/}
+          arrow_back
+          {/* <span
+            class='material-symbols-outlined'
+            style={{
+              fontSize: 22,
+              cursor: 'pointer',
+              fontVariationSettings: "'wght' 200",
+            }}
+            onClick={() => nav('/')}
+          >
+            arrow_back
+          </span> */}
           <style.SearchInput
-            placeholder="어떤 맛집을 찾으세요?"
+            placeholder='어떤 맛집을 찾으세요?'
             value={searchQuery}
             onChange={handleChangeQuery}
             onKeyDown={(e) => {
-              if (searchQuery !== "" && e.key === "Enter") {
+              if (searchQuery !== '' && e.key === 'Enter') {
                 nav(`/search/total?keyword=${searchQuery}`);
               }
             }}
           ></style.SearchInput>
-          {searchQuery === "" ? null : (
-              <div>hi</div>
-            // <IoCloseCircle
-            //   size={18.5}
-            //   color="#b3b3b3"
-            //   style={{ position: "absolute", right: "40px" }}
-            //   onClick={() => {
-            //     setSearchQuery("");
-            //   }}
-            // />
-          )}
+          {searchQuery === ''
+            ? null
+            : // <IoCloseCircle
+              //   size={18.5}
+              //   color="#b3b3b3"
+              //   style={{ position: "absolute", right: "40px" }}
+              //   onClick={() => {
+              //     setSearchQuery("");
+              //   }}
+              // />
+              null}
         </style.SearchBarContainer>
       </style.SearchBar>
 

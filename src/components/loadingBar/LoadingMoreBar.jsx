@@ -1,10 +1,10 @@
-import styled from "styled-components";
-import ClipLoader from "react-spinners/ClipLoader";
+import styled from 'styled-components';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const LoadingMoreBar = () => {
   return (
     <LoadingMoreBarContainer>
-      <ClipLoader color="#fc8383" size={30} />
+      <ClipLoader color='#fc8383' size={30} />
     </LoadingMoreBarContainer>
   );
 };
