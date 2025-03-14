@@ -66,9 +66,9 @@ const TotalRestItem = ({
               isLiked={saved}
               width={'25px'}
               height={'25px'}
-              size={13}
+              size={17}
               border={'#E4E4E4'}
-              iconcolor={'E4E4E4'}
+              iconcolor={'#E4E4E4'}
             />
           </SaveButtonContainer>
         </NameSaveContainer>
