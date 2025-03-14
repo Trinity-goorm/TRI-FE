@@ -13,12 +13,14 @@ globalThis.importMeta = {
 };
 
 
-
-
 vi.mock('react-router-dom', () => {
     const actual = require('react-router-dom');
     return {
         ...actual,
         useNavigate: vi.fn(),
     };
+});
+
+beforeEach(() => {
+  navigateFn.mockReset();
 });
