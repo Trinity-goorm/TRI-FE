@@ -1,14 +1,14 @@
-import styled from "styled-components";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import SaveButton from "../save/SaveButton";
-import PostLike from "../../api/save/post/PostLike.js";
-import DeleLike from "../../api/save/delete/DeleteLike.js";
-import { formatPrice } from "../../util/formatPrice.js";
-import { formatRating } from "../../util/formatRating.js";
+import styled from 'styled-components';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import SaveButton from '../save/SaveButton';
+import PostLike from '../../api/save/post/PostLike.js';
+import DeleLike from '../../api/save/delete/DeleteLike.js';
+import { formatPrice } from '../../util/formatPrice.js';
+import { formatRating } from '../../util/formatRating.js';
 
 const defaultImage =
-  "https://us.123rf.com/450wm/mathier/mathier1905/mathier190500002/134557216-%EC%8D%B8%EB%84%A4%EC%9D%BC-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%97%86%EC%9D%8C-%ED%8F%AC%EB%9F%BC-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%B0%8F-%EC%9B%B9%EC%82%AC%EC%9D%B4%ED%8A%B8%EC%9A%A9-%EC%9E%90%EB%A6%AC-%ED%91%9C%EC%8B%9C%EC%9E%90.jpg";
+  'https://us.123rf.com/450wm/mathier/mathier1905/mathier190500002/134557216-%EC%8D%B8%EB%84%A4%EC%9D%BC-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%97%86%EC%9D%8C-%ED%8F%AC%EB%9F%BC-%EB%B8%94%EB%A1%9C%EA%B7%B8-%EB%B0%8F-%EC%9B%B9%EC%82%AC%EC%9D%B4%ED%8A%B8%EC%9A%A9-%EC%9E%90%EB%A6%AC-%ED%91%9C%EC%8B%9C%EC%9E%90.jpg';
 
 const SavedRestaurantItem = ({
   id,
@@ -42,7 +42,7 @@ const SavedRestaurantItem = ({
     try {
       await PostLike(id);
     } catch (error) {
-      console.error("💀좋아요 실패", error);
+      console.error('💀좋아요 실패', error);
     }
   };
 
@@ -51,7 +51,7 @@ const SavedRestaurantItem = ({
       await DeleLike(id);
       deleteLikeItem(id);
     } catch (error) {
-      console.error("좋아요 삭제 실패", error);
+      console.error('좋아요 삭제 실패', error);
     }
   };
 
@@ -68,10 +68,9 @@ const SavedRestaurantItem = ({
       <InfoContainer>
         <RestNameWrapper>{name}</RestNameWrapper>
         <RatingContainer>
-          {/*<FaStar size={13} color={"#FFD700"} style={{ marginBottom: "3px" }} />*/}
-          <span className="material-icons" style={{ fontSize: "25px" }} >star. </span>
+          <StarIcon className='material-icons'>star</StarIcon>
           <RatingWrapper>{formatRating(rating)}</RatingWrapper>
-          <DetailContainer style={{ marginLeft: "5px", marginBottom: "1px" }}>
+          <DetailContainer style={{ marginLeft: '5px', marginBottom: '1px' }}>
             {category}
           </DetailContainer>
         </RatingContainer>
@@ -84,11 +83,11 @@ const SavedRestaurantItem = ({
         <ButtonContainer onClick={onClickSaved}>
           <SaveButton
             isLiked={isSaved}
-            width={"25px"}
-            height={"25px"}
-            size={13}
-            border={"#E4E4E4"}
-            iconcolor={"E4E4E4"}
+            width={'25px'}
+            height={'25px'}
+            size={17}
+            border={'#E4E4E4'}
+            iconcolor={'#E4E4E4'}
           />
         </ButtonContainer>
       </ButtonWrapper>
@@ -146,5 +145,11 @@ const ButtonWrapper = styled.div`
 `;
 
 const ButtonContainer = styled.div``;
+
+const StarIcon = styled.span`
+  font-size: 18px;
+  margin-bottom: 2px;
+  color: gold;
+`;
 
 export default SavedRestaurantItem;
