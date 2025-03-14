@@ -48,7 +48,7 @@ export const InnerContainer = styled.div`
 
 export const BannerContainer = styled.div`
   width: 100%;
-  height: 290px;
+  height: 330px;
   display: flex;
   align-items: center;
   justify-content: center;

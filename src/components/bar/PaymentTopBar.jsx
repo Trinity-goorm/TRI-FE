@@ -1,7 +1,7 @@
 import * as style from './style/PaymentTopBar.js';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaXmark } from 'react-icons/fa6';
+//import {FaXmark} from "react-icons/fa6";
 
 const PaymentTopBar = ({ setIsTimeOver }) => {
   const navigate = useNavigate();
@@ -33,7 +33,7 @@ const PaymentTopBar = ({ setIsTimeOver }) => {
     <style.TopBarContainer>
       <style.RestaurantTitleContainer>
         <style.GoBackButtonContainer>
-          <FaXmark size={25} onClick={onGoBack} />
+          {/*<FaXmark size={25} onClick={onGoBack} />*/}
         </style.GoBackButtonContainer>
         <style.RestaurantTitle></style.RestaurantTitle>
       </style.RestaurantTitleContainer>

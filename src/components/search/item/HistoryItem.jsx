@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { IoClose } from "react-icons/io5";
+//import { IoClose } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import DeleteHistoryItem from "../../../api/search/DeleteHistoryItem";
 
@@ -20,12 +20,12 @@ const HistoryItem = ({ id, keyword, deleteHistory }) => {
   return (
     <ItemContainer onClick={() => nav(`/search/total?keyword=${keyword}`)}>
       <Keyword>{keyword}</Keyword>
-      <IoClose
+{/*      <IoClose
         color={"#a1a1a1"}
         size={15}
         style={{ marginBottom: "1px" }}
         onClick={handleDelete}
-      />
+      />*/}
     </ItemContainer>
   );
 };

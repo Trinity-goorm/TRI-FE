@@ -6,7 +6,7 @@ import GetLikeRestaurants from "../api/save/get/GetLikeRestaurants.js";
 import PostLike from "../api/save/post/PostLike.js";
 import DeleteLike from "../api/save/delete/DeleteLike.js";
 
-const useLike = (userId, restaurantId = null, initialWishCount = 0) => {
+const useLike = ( restaurantId, initialWishCount) => {
     const [likeList, setLikeList] = useRecoilState(likeListState);
     const [likeCount, setLikeCount] = useState(initialWishCount);
     const [isSaved, setIsSaved] = useState(false);
@@ -14,7 +14,7 @@ const useLike = (userId, restaurantId = null, initialWishCount = 0) => {
     // 🛠 좋아요 목록 불러오기
     const fetchLikeRestaurants = async () => {
         try {
-            const response = await GetLikeRestaurants(userId);
+            const response = await GetLikeRestaurants();
             setLikeList(response);
             if (restaurantId) {
                 const isLiked = response.some((item) => item.restaurantId === Number(restaurantId));
@@ -32,13 +32,13 @@ const useLike = (userId, restaurantId = null, initialWishCount = 0) => {
             let updatedWishCount = likeCount;
 
             if (likeSet.has(Number(restaurantId))) {
-                await DeleteLike(userId, restaurantId);
+                await DeleteLike(restaurantId);
                 setLikeList((prev) => prev.filter((item) => item.restaurantId !== Number(restaurantId)));
                 updatedWishCount -= 1;
                 setIsSaved(false);
                 console.log("👍 좋아요 취소 성공");
             } else {
-                await PostLike(userId, restaurantId);
+                await PostLike(restaurantId);
                 setLikeList((prev) => [...prev, { restaurantId: Number(restaurantId) }]);
                 updatedWishCount += 1;
                 setIsSaved(true);

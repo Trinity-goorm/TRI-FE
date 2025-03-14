@@ -2,7 +2,7 @@ import * as style from "./style/MyDiningPage.sub.js";
 import DiningComponent from "../../components/dining/DiningComponent.jsx";
 import GetUserReservations from "../../api/reservation/get/GetUserReservations.js";
 import {useEffect, useState} from "react";
-import { BsBookmarkDash } from "react-icons/bs";
+//import { BsBookmarkDash } from "react-icons/bs";
 
 //API
 import PostReservationCancel from "../../api/reservation/post/PostReservationCancel.js";
@@ -78,7 +78,7 @@ const MyDiningReservation = () => {
                     ) : (
                         <style.NoRestaurantWrapper>
                             <style.NoRestaurantIcon>
-                                <BsBookmarkDash size={60} color={"#dcdcdc"} strokeWidth={0.3}/>
+                                {/*<BsBookmarkDash size={60} color={"#dcdcdc"} strokeWidth={0.3}/>*/}
                             </style.NoRestaurantIcon>
                             <style.NoRestaurantMessageFirst>예약된 레스토랑이 없습니다!</style.NoRestaurantMessageFirst>
                             <style.NoRestaurantMessageSecond>예약한 모든 레스토랑이 여기에 표시됩니다!</style.NoRestaurantMessageSecond>

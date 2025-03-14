@@ -10,9 +10,9 @@ import DetailLocation from "../../pages/detail/DetailPage.Location.jsx";
 import ReservationModal from "../../pages/reservation/Reservation.modal.jsx"
 import DetailRestaurant from "../../assets/dummydata/DetailRestaurant.js";
 //icon
-import {FaStar} from "react-icons/fa";
-import {GoLocation, GoClock} from "react-icons/go";
-import {AiOutlineDollarCircle} from "react-icons/ai";
+//import {FaStar} from "react-icons/fa";
+//import {GoLocation, GoClock} from "react-icons/go";
+//import {AiOutlineDollarCircle} from "react-icons/ai";
 //API
 import getRestaurantDetail from "../../api/detail/get/GetRestaurantDetail.js";
 //Recoil
@@ -29,11 +29,9 @@ const DetailPage = () => {
     const [restaurantDetail, setRestaurantDetail] = useState(null);
     const [menus, setMenus] = useState([]);
     const [images, setImages] = useState([]);
-    const userInfo = useRecoilValue(userState)
     const [averagePrice, setAveragePrice] = useState(0);
-    const [wishCount, setWishCount] = useState(0);
     //Like
-    const { fetchLikeRestaurants, likeCount, isSaved, handleLike } = useLike(userInfo.userId, id, wishCount );
+
     const [remoteSelectDate, setRemoteSelectDate] = useState(null);
 
     const openModal = () => setIsModalOpen(true);
@@ -56,7 +54,6 @@ const DetailPage = () => {
             setImages(makeImageUrls(response.imageUrls));
             setAveragePrice(response.averagePrice.toLocaleString());
             setIsScrolled(false);
-            setWishCount(response.wishCount);
         } catch (error) {
             console.log("💀데이터 로드 실패",error);
         }
@@ -106,8 +103,8 @@ const DetailPage = () => {
                         data-testid="detail-topbar"
                         name={restaurantDetail.name}
                         isScrolled={isScrolled}
-                        isSaved={isSaved}
-                        onClickSave={() => handleLike(id)}
+                        id={id}
+                        wishCount={restaurantDetail.wishCount}
                     />
                 )}
             </style.TopBarContainer>
@@ -129,7 +126,7 @@ const DetailPage = () => {
                         </style.NameContainer>
                         <style.StarScoreContainer>
                             <style.StarContainer>
-                                <FaStar size={17} color={"#FFBD2D"} />
+                                {/*<FaStar size={17} color={"#FFBD2D"} />*/}
                             </style.StarContainer>
                             {restaurantDetail.rating}
                         </style.StarScoreContainer>
@@ -137,19 +134,19 @@ const DetailPage = () => {
                     <style.MainInfoSecondContainer>
                         <style.LocationFirstContainer data-testid="restaurantLocation">
                             <style.LocationIcon>
-                                <GoLocation size={15} />
+                                {/*<GoLocation size={15} />*/}
                             </style.LocationIcon>
                             {restaurantDetail.location}
                         </style.LocationFirstContainer>
                         <style.AveragePriceContainer>
                             <style.PriceIcon>
-                                <AiOutlineDollarCircle size={15} />
+                                {/*<AiOutlineDollarCircle size={15} />*/}
                             </style.PriceIcon>
                             평균 가격 : {averagePrice} 원
                         </style.AveragePriceContainer>
                         <style.TimeContainer>
                             <style.PriceIcon>
-                                <GoClock size={15} />
+                                {/*<GoClock size={15} />*/}
                             </style.PriceIcon>
                             {restaurantDetail.expandedDays === "null" ? "운영일 제공 x" : restaurantDetail.expandedDays }{'\u00A0\u00A0\u00A0'}
                             {restaurantDetail.timeRange === "null" ? "운영시간 제공 x" : restaurantDetail.timeRange}
@@ -180,7 +177,11 @@ const DetailPage = () => {
 
             </style.InnerContentContainer>
             <style.BottomBarContainer>
-                <DetailBottomBar  isSaved={isSaved} onClickSave={() => handleLike(id)} restaurantId={restaurantDetail.restaurantId} openModal={openModal} closeModal={closeModal} wishCount={likeCount} data-testid="bottomBar"  />
+                <DetailBottomBar
+                    id={id}
+                    wishCount={restaurantDetail.wishCount}
+                    openModal={openModal} closeModal={closeModal}
+                    data-testid="bottomBar"  />
             </style.BottomBarContainer>
 
             <ReservationModal isOpen={isModalOpen} closeModal={closeModal} restaurantId={restaurantDetail.restaurantId} remoteSelectDate={remoteSelectDate} data-testid="reservationModal" />

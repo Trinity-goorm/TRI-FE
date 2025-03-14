@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaStar } from "react-icons/fa";
+//import { FaStar } from "react-icons/fa";
 import SaveButton from "../save/SaveButton";
 import PostLike from "../../api/save/post/PostLike.js";
 import DeleLike from "../../api/save/delete/DeleteLike.js";
@@ -69,7 +69,7 @@ const SavedRestaurantItem = ({
       <InfoContainer>
         <RestNameWrapper>{name}</RestNameWrapper>
         <RatingContainer>
-          <FaStar size={13} color={"#FFD700"} style={{ marginBottom: "3px" }} />
+          {/*<FaStar size={13} color={"#FFD700"} style={{ marginBottom: "3px" }} />*/}
           <RatingWrapper>{formatRating(rating)}</RatingWrapper>
           <DetailContainer style={{ marginLeft: "5px", marginBottom: "1px" }}>
             {category}

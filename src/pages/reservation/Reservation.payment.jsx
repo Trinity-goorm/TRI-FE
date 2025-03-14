@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import PaymentTopBar from "../../components/bar/PaymentTopBar.jsx";
 import PaymentBottomBar from "../../components/bar/PaymentBottomBar.jsx";
 import { useEffect, useState } from "react";
-import { FaCheck } from "react-icons/fa";
+// import { FaCheck } from "react-icons/fa";
 //API
 import postPreoccupyCancel from "../../api/reservation/post/PostPreoccupyCancel.js";
 import postReservationComplete from "../../api/reservation/post/PostReservationComplete.js";
@@ -131,7 +131,7 @@ const ReservationPaymentPage = () => {
               isCheck={isAllCheck}
               type="button"
             >
-              <FaCheck size={15} color={"white"} />
+              {/*<FaCheck size={15} color={"white"} />*/}
             </style.CheckButton>
             모두 동의합니다.
           </style.AllAgreeContainer>
@@ -141,7 +141,7 @@ const ReservationPaymentPage = () => {
               isCheck={isFirstCheck}
               type="button"
             >
-              <FaCheck size={15} color={"white"} />
+              {/*<FaCheck size={15} color={"white"} />*/}
             </style.CheckButton>
             취소 및 환불 정책 동의
           </style.RuleContainer>
@@ -157,7 +157,7 @@ const ReservationPaymentPage = () => {
               isCheck={isSecondCheck}
               type="button"
             >
-              <FaCheck size={15} color={"white"} />
+              {/*<FaCheck size={15} color={"white"} />*/}
             </style.CheckButton>
             개인정보 제3자 제공 동의
           </style.RuleContainer>

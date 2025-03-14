@@ -1,11 +1,13 @@
 import * as style from "./style/RecommendFeed.js";
-import { FaStar } from "react-icons/fa";
+//import { FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import SaveButton from "../save/SaveButton.jsx";
 import { useState } from "react";
 import wine from "../../assets/img/wineBar.jpg";
+import useSingleLike from "../../hooks/useSingleLike.js";
 
-const RecommendFeed = ({ item, isLiked, onToggleLike }) => {
+
+const RecommendFeed = ({item}) => {
   const name = item?.name;
   const images = item?.imageUrls || [];
   const mainImage = images.length === 0 || images[0] == null ? wine : images[0];
@@ -13,6 +15,9 @@ const RecommendFeed = ({ item, isLiked, onToggleLike }) => {
   const category = item?.category;
   const location = item?.location;
   const id = item?.restaurantId;
+  const wishlisted = item?.wishlisted;
+  const { isLiked, toggleLike } = useSingleLike(id, wishlisted);
+
   const formatLocation = (location) => {
     return location?.length > 9 ? `${location.slice(0, 10)}...` : location;
   };
@@ -39,7 +44,7 @@ const RecommendFeed = ({ item, isLiked, onToggleLike }) => {
           <style.NameContainer>{formatTitle(name)}</style.NameContainer>
           <style.SubInfoContainer>
             <style.StarContainer>
-              <FaStar size={16} color={"#FFD700"} />
+              {/*<FaStar size={16} color={"#FFD700"} />*/}
               <style.StarScore>{star}</style.StarScore>
             </style.StarContainer>
             <style.CategoryLocation>
@@ -47,7 +52,7 @@ const RecommendFeed = ({ item, isLiked, onToggleLike }) => {
             </style.CategoryLocation>
           </style.SubInfoContainer>
         </style.InfoContainer>
-        <style.LikeContainer onClick={onToggleLike}>
+        <style.LikeContainer onClick={() => toggleLike(id)}>
           <SaveButton
             width={"30px"}
             height={"30px"}

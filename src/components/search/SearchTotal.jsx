@@ -1,6 +1,6 @@
 import * as style from './style/SearchTotal.js';
-import { GoArrowLeft } from 'react-icons/go';
-import { MdKeyboardArrowDown } from 'react-icons/md';
+//import { GoArrowLeft } from 'react-icons/go';
+//import { MdKeyboardArrowDown } from 'react-icons/md';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import TotalRestList from './list/TotalRestList';
 import SortModal from '../modal/SortModal';
@@ -120,16 +120,9 @@ const SearchTotal = ({
 
   return (
     <>
-      <SortModal
-        isOpen={isModalOpen}
-        closeModal={() => setIsModalOpen(false)}
-        sortType={sortType}
-        clickSortHandler={clickSortHandler}
-      />
-
       <style.SearchKeyword onClick={navPath}>
         <style.SearchKeywordContainer>
-          <GoArrowLeft
+          {/*      <GoArrowLeft
             size={22}
             color='black'
             style={{ position: 'absolute', left: '33px', cursor: 'pointer' }}
@@ -142,7 +135,7 @@ const SearchTotal = ({
                 navPath();
               }
             }}
-          />
+          />*/}
           <style.Keyword
             $isCategory={displayText === '찾고 있는 맛집이 있나요?'}
           >
@@ -153,8 +146,14 @@ const SearchTotal = ({
 
       <style.SortButton onClick={() => setIsModalOpen(true)}>
         {type[sortType]}
-        <MdKeyboardArrowDown size={18} style={{ marginRight: '-5' }} />
+        {/*<MdKeyboardArrowDown size={18} style={{ marginRight: '-5' }} />*/}
       </style.SortButton>
+      <SortModal
+        isOpen={isModalOpen}
+        closeModal={() => setIsModalOpen(false)}
+        sortType={sortType}
+        clickSortHandler={clickSortHandler}
+      />
 
       {loading && page === 1 && <LoadingBar />}
       {!loading && restaurantList.length === 0 && <NoResultsFound />}

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { FaStar } from 'react-icons/fa';
-import { MdAccessTimeFilled } from 'react-icons/md';
-import { FaWonSign } from 'react-icons/fa6';
+//import { FaStar } from "react-icons/fa";
+//import { MdAccessTimeFilled } from "react-icons/md";
+//import { FaWonSign } from "react-icons/fa6";
 import SaveButton from '../../save/SaveButton.jsx';
 import SearchReservationList from '../list/SearchReservationList.jsx';
 import { formatRating } from '../../../util/formatRating.js';
@@ -78,11 +78,11 @@ const TotalRestItem = ({
 
         <DetailTopContainer>
           <RatingWrapper>
-            <FaStar
-              size={15}
-              color={'#FFD700'}
-              style={{ marginBottom: '3px' }}
-            />
+            {/*<FaStar*/}
+            {/*  size={15}*/}
+            {/*  color={"#FFD700"}*/}
+            {/*  style={{ marginBottom: "3px" }}*/}
+            {/*/>*/}
             {formatRating(rating)}
           </RatingWrapper>
           <div>&nbsp;· 경기 성남시 분당구</div>
@@ -108,7 +108,7 @@ const TotalRestItem = ({
 
       <BottomContainer>
         <OperatingTimeContainer>
-          <MdAccessTimeFilled style={{ marginBottom: '2px' }} />
+          {/*<MdAccessTimeFilled style={{ marginBottom: "2px" }} />*/}
           {operatingHour === 'null' ? '운영 시간 정보 없음' : operatingHour}
         </OperatingTimeContainer>
         <PriceContainer>
@@ -124,7 +124,7 @@ const TotalRestItem = ({
               marginBottom: '2px',
             }}
           >
-            <FaWonSign size={6} color={'white'} />
+            {/*<FaWonSign size={6} color={"white"} />*/}
           </div>
           평균 {formatPrice(averagePrice)}
         </PriceContainer>

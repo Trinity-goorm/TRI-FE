@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
-import { MdClose } from 'react-icons/md';
-import { IoMdCheckmark } from 'react-icons/io';
+//import { MdClose } from "react-icons/md";
+//import { IoMdCheckmark } from "react-icons/io";
 
 const SortModal = ({ isOpen, closeModal, sortType, clickSortHandler }) => {
   useEffect(() => {
@@ -20,11 +20,11 @@ const SortModal = ({ isOpen, closeModal, sortType, clickSortHandler }) => {
       <ModalContentContainer $isOpen={isOpen}>
         <SortText>
           정렬
-          <MdClose
+          {/*     <MdClose
             onClick={closeModal}
             size={18}
-            style={{ cursor: 'pointer' }}
-          />
+            style={{ cursor: "pointer" }}
+          />*/}
         </SortText>
         <SortComment
           $sortType={sortType === 'highest_rating'}
@@ -33,8 +33,9 @@ const SortModal = ({ isOpen, closeModal, sortType, clickSortHandler }) => {
           }}
         >
           {sortType === 'highest_rating' ? (
-            <IoMdCheckmark strokeWidth={15} />
-          ) : null}
+            <div>highest_rating</div>
+          ) : // <IoMdCheckmark strokeWidth={15} />
+          null}
           별점순
         </SortComment>
         <SortComment
@@ -44,8 +45,9 @@ const SortModal = ({ isOpen, closeModal, sortType, clickSortHandler }) => {
           }}
         >
           {sortType === 'highest_average_price' ? (
-            <IoMdCheckmark strokeWidth={15} />
-          ) : null}
+            <div>highest_average_price</div>
+          ) : /*    <IoMdCheckmark strokeWidth={15} />*/
+          null}
           가격 높은순
         </SortComment>
         <SortComment
@@ -55,8 +57,9 @@ const SortModal = ({ isOpen, closeModal, sortType, clickSortHandler }) => {
           }}
         >
           {sortType === 'lowest_average_price' ? (
-            <IoMdCheckmark strokeWidth={15} />
-          ) : null}
+            <div>lowest_average_price</div>
+          ) : /* <IoMdCheckmark strokeWidth={15} />*/
+          null}
           가격 낮은순
         </SortComment>
       </ModalContentContainer>
