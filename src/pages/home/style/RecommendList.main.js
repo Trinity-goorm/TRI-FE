@@ -2,7 +2,12 @@ import styled from "styled-components";
 
 export const TotalContainer = styled.div`
     width: 100%;
-    height: 100%;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    
 
 
 `;
@@ -12,8 +17,6 @@ export const TitleContainer = styled.div`
     margin-left: 20px;
     display: flex;
     flex-direction: column;
-
-
 
 `;
 export const Title = styled.div`

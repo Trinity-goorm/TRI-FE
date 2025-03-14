@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { GoArrowLeft } from "react-icons/go";
-import { MdKeyboardArrowDown } from "react-icons/md";
+//import { GoArrowLeft } from "react-icons/go";
+//import { MdKeyboardArrowDown } from "react-icons/md";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import TotalRestList from "../../components/search/list/TotalRestList";
@@ -77,15 +77,15 @@ const SearchKeywordTotal = () => {
     <>
       <SearchKeyword onClick={() => nav(`/search?keyword=${keyword}`)}>
         <SearchKeywordContainer>
-          <GoArrowLeft
-            size={22}
-            color="black"
-            style={{ position: "absolute", left: "33px", curson: "pointer" }}
-            onClick={(e) => {
-              e.stopPropagation();
-              nav(`/search?keyword=${keyword}`);
-            }}
-          />
+          {/*<GoArrowLeft*/}
+          {/*  size={22}*/}
+          {/*  color="black"*/}
+          {/*  style={{ position: "absolute", left: "33px", curson: "pointer" }}*/}
+          {/*  onClick={(e) => {*/}
+          {/*    e.stopPropagation();*/}
+          {/*    nav(`/search?keyword=${keyword}`);*/}
+          {/*  }}*/}
+          {/*/>*/}
           <Keyword $keyword={keyword !== ""}>
             {keyword === "" ? "찾고 있는 맛집이 있나요?" : keyword}
           </Keyword>
@@ -94,7 +94,7 @@ const SearchKeywordTotal = () => {
 
       <SortButton onClick={() => setIsModalOpen(true)}>
         {type[sortType]}
-        <MdKeyboardArrowDown size={18} style={{ marginRight: "-5" }} />
+        {/*<MdKeyboardArrowDown size={18} style={{ marginRight: "-5" }} />*/}
       </SortButton>
       <SortModal
         isOpen={isModalOpen}

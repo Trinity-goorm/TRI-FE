@@ -1,7 +1,7 @@
 import * as style from "./style/Search.js";
-import { GoArrowLeft } from "react-icons/go";
-import { FiSearch } from "react-icons/fi";
-import { IoCloseCircle } from "react-icons/io5";
+//import { GoArrowLeft } from "react-icons/go";
+//import { FiSearch } from "react-icons/fi";
+//import { IoCloseCircle } from "react-icons/io5";
 import sushi from "../../assets/img/sushi.png";
 import meat from "../../assets/img/meat.png";
 import cake from "../../assets/img/cake.png";
@@ -88,7 +88,7 @@ const Search = () => {
     <style.SearchContainer>
       <style.SearchBar>
         <style.SearchBarContainer>
-          <GoArrowLeft size={22} color="black" onClick={() => nav("/")} />
+          {/*<GoArrowLeft size={22} color="black" onClick={() => nav("/")} />*/}
           <style.SearchInput
             placeholder="어떤 맛집을 찾으세요?"
             value={searchQuery}
@@ -100,14 +100,15 @@ const Search = () => {
             }}
           ></style.SearchInput>
           {searchQuery === "" ? null : (
-            <IoCloseCircle
-              size={18.5}
-              color="#b3b3b3"
-              style={{ position: "absolute", right: "40px" }}
-              onClick={() => {
-                setSearchQuery("");
-              }}
-            />
+              <div>hi</div>
+            // <IoCloseCircle
+            //   size={18.5}
+            //   color="#b3b3b3"
+            //   style={{ position: "absolute", right: "40px" }}
+            //   onClick={() => {
+            //     setSearchQuery("");
+            //   }}
+            // />
           )}
         </style.SearchBarContainer>
       </style.SearchBar>
@@ -116,7 +117,7 @@ const Search = () => {
         <style.Comment>최근에 검색한</style.Comment>
         {histroyList.length === 0 ? (
           <style.HistoryNoResultComment>
-            <FiSearch />
+            {/*<FiSearch />*/}
             최근 검색어가 없어요.
           </style.HistoryNoResultComment>
         ) : (

@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import { BsShop } from "react-icons/bs";
+//import { BsShop } from "react-icons/bs";
 
 const NoResultsFound = () => {
   return (
     <NoResultsFoundContainer>
       <InfoContainer>
-        <BsShop size={70} color={"#dcdcdc"} />
+       {/* <BsShop size={70} color={"#dcdcdc"} />*/}
         <InfoTitle>앗! 조건에 맞는 매장이 없어요.</InfoTitle>
         <InfoSubTitleContainer>
           <InfoSubTitle>• 더 일반적인 검색어로 검색해 보세요.</InfoSubTitle>
