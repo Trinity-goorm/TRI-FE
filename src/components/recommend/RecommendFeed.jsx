@@ -1,8 +1,6 @@
 import * as style from "./style/RecommendFeed.js";
-//import { FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import SaveButton from "../save/SaveButton.jsx";
-import { useState } from "react";
 import wine from "../../assets/img/wineBar.jpg";
 import useSingleLike from "../../hooks/useSingleLike.js";
 
@@ -44,7 +42,7 @@ const RecommendFeed = ({item}) => {
           <style.NameContainer>{formatTitle(name)}</style.NameContainer>
           <style.SubInfoContainer>
             <style.StarContainer>
-              {/*<FaStar size={16} color={"#FFD700"} />*/}
+              <span className="material-icons" style={{fontSize:"16px", color:"gold"}}>star</span>
               <style.StarScore>{star}</style.StarScore>
             </style.StarContainer>
             <style.CategoryLocation>
@@ -56,10 +54,11 @@ const RecommendFeed = ({item}) => {
           <SaveButton
             width={"30px"}
             height={"30px"}
-            size={18}
+            size={22}
             border={"#E4E4E4"}
-            iconcolor={"E4E4E4"}
+            iconcolor={"#E4E4E4"}
             isLiked={isLiked}
+
           ></SaveButton>
         </style.LikeContainer>
       </style.SubContainer>

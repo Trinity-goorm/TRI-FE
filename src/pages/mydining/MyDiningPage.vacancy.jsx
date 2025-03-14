@@ -4,7 +4,7 @@ import VacancyComponent from "../../components/dining/VacancyComponent.jsx";
 import DeleteVacancySeat from "../../api/vacancy/delete/DeleteVacancySeat.js";
 import Modal from "../../components/modal/Modal.jsx";
 import getVacancySeats from "../../api/vacancy/get/GetVacancySeats.js";
-//import {BsBookmarkDash} from "react-icons/bs";
+
 
 //Recoil
 import {useRecoilValue} from "recoil";
@@ -72,7 +72,7 @@ const MyDiningVacancy = () => {
                     ) : (
                         <style.NoRestaurantWrapper>
                             <style.NoRestaurantIcon>
-                                {/*<BsBookmarkDash size={60} color={"#dcdcdc"} strokeWidth={0.3}/>*/}
+                                <span className="material-icons-outlined" style={{fontSize:"60px", color:"gray"}}>notifications_off</span>
                             </style.NoRestaurantIcon>
                             <style.NoRestaurantMessageFirst>빈자리 알림이 없습니다!</style.NoRestaurantMessageFirst>
                             <style.NoRestaurantMessageSecond>신청한 빈자리 알림이 여기에 표시됩니다!</style.NoRestaurantMessageSecond>

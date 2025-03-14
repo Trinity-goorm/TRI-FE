@@ -1,6 +1,5 @@
 import * as style from "./style/DetailPage.Location.js";
 import KakaoMap from "../../components/map/KakaoMap.jsx";
-//import {GoLocation} from "react-icons/go";
 
 const DetailLocation = ({address, latitude, longitude}) => {
 
@@ -11,7 +10,7 @@ const DetailLocation = ({address, latitude, longitude}) => {
             </style.LocationTitle>
             <KakaoMap address={address} latitude={latitude} longitude={longitude} />
             <style.LocationTextContainer>
-                {/*<GoLocation size={17} color={"gray"}/>*/}
+                <span className="material-icons" style={{fontSize:"18px", color:"gray"}}>location_on</span>
                 <style.LocationText>
                     {address}
                 </style.LocationText>
