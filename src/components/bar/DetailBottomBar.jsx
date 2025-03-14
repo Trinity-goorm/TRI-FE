@@ -15,7 +15,7 @@ const DetailBottomBar = ({id, wishCount, openModal, closeModal, ...props}) => {
     return (
         <style.BottomBarContainer {...props}>
             <style.SaveContainer onClick={() => handleLike(id)} data-testid="likeButton">
-                <SaveButton color={"white"} isLiked={isSaved} />
+                <SaveButton color={"white"} isLiked={isSaved} size={28} />
                 <style.SaveCountContainer data-testid="likeCount">
                     {likeCount}
                 </style.SaveCountContainer>

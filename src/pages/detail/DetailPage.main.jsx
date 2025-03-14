@@ -8,11 +8,6 @@ import DetailInfo from "../detail/DetailPage.DetailInfo.jsx";
 import DetailBottomBar from "../../components/bar/DetailBottomBar.jsx";
 import DetailLocation from "../../pages/detail/DetailPage.Location.jsx";
 import ReservationModal from "../../pages/reservation/Reservation.modal.jsx"
-import DetailRestaurant from "../../assets/dummydata/DetailRestaurant.js";
-//icon
-//import {FaStar} from "react-icons/fa";
-//import {GoLocation, GoClock} from "react-icons/go";
-//import {AiOutlineDollarCircle} from "react-icons/ai";
 //API
 import getRestaurantDetail from "../../api/detail/get/GetRestaurantDetail.js";
 //Recoil
@@ -126,7 +121,7 @@ const DetailPage = () => {
                         </style.NameContainer>
                         <style.StarScoreContainer>
                             <style.StarContainer>
-                                {/*<FaStar size={17} color={"#FFBD2D"} />*/}
+                                <span className="material-icons" style={{fontSize:"18px", color: "gold"}}>star</span>
                             </style.StarContainer>
                             {restaurantDetail.rating}
                         </style.StarScoreContainer>
@@ -134,19 +129,19 @@ const DetailPage = () => {
                     <style.MainInfoSecondContainer>
                         <style.LocationFirstContainer data-testid="restaurantLocation">
                             <style.LocationIcon>
-                                {/*<GoLocation size={15} />*/}
+                                <span className="material-icons-outlined" style={{fontSize:"19px"}}>location_on</span>
                             </style.LocationIcon>
                             {restaurantDetail.location}
                         </style.LocationFirstContainer>
                         <style.AveragePriceContainer>
                             <style.PriceIcon>
-                                {/*<AiOutlineDollarCircle size={15} />*/}
+                                <span className="material-icons-outlined" style={{fontSize: "17px"}}>paid</span>
                             </style.PriceIcon>
                             평균 가격 : {averagePrice} 원
                         </style.AveragePriceContainer>
                         <style.TimeContainer>
                             <style.PriceIcon>
-                                {/*<GoClock size={15} />*/}
+                                <span className="material-icons" style={{fontSize: "17px"}}>schedule</span>
                             </style.PriceIcon>
                             {restaurantDetail.expandedDays === "null" ? "운영일 제공 x" : restaurantDetail.expandedDays }{'\u00A0\u00A0\u00A0'}
                             {restaurantDetail.timeRange === "null" ? "운영시간 제공 x" : restaurantDetail.timeRange}

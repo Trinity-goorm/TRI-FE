@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import PaymentTopBar from "../../components/bar/PaymentTopBar.jsx";
 import PaymentBottomBar from "../../components/bar/PaymentBottomBar.jsx";
 import { useEffect, useState } from "react";
-// import { FaCheck } from "react-icons/fa";
 //API
 import postPreoccupyCancel from "../../api/reservation/post/PostPreoccupyCancel.js";
 import postReservationComplete from "../../api/reservation/post/PostReservationComplete.js";
@@ -127,21 +126,21 @@ const ReservationPaymentPage = () => {
         <style.AgreeContainer>
           <style.AllAgreeContainer>
             <style.CheckButton
-              onClick={onClickAllCheck}
-              isCheck={isAllCheck}
-              type="button"
+                onClick={onClickAllCheck}
+                isCheck={isAllCheck}
+                type="button"
             >
-              {/*<FaCheck size={15} color={"white"} />*/}
+              <span className="material-icons" style={{fontSize: "20px",color: "white", }}>done</span>
             </style.CheckButton>
             모두 동의합니다.
           </style.AllAgreeContainer>
           <style.RuleContainer>
             <style.CheckButton
-              onClick={onClickFirstCheck}
-              isCheck={isFirstCheck}
-              type="button"
+                onClick={onClickFirstCheck}
+                isCheck={isFirstCheck}
+                type="button"
             >
-              {/*<FaCheck size={15} color={"white"} />*/}
+              <span className="material-icons" style={{fontSize: "20px", color: "white",}}>done</span>
             </style.CheckButton>
             취소 및 환불 정책 동의
           </style.RuleContainer>
@@ -153,11 +152,11 @@ const ReservationPaymentPage = () => {
 
           <style.RuleContainer>
             <style.CheckButton
-              onClick={onClickSecondCheck}
-              isCheck={isSecondCheck}
-              type="button"
+                onClick={onClickSecondCheck}
+                isCheck={isSecondCheck}
+                type="button"
             >
-              {/*<FaCheck size={15} color={"white"} />*/}
+              <span className="material-icons" style={{fontSize: "20px", color: "white",}}>done</span>
             </style.CheckButton>
             개인정보 제3자 제공 동의
           </style.RuleContainer>

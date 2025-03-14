@@ -1,17 +1,13 @@
 import styled from "styled-components";
 //import { IoChevronBack } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 
 const ProgressInfo = ({ step, handleBeforeStep }) => {
   return (
     <ProgressInfoWrapper>
       <Header>
         {step === 2 || step === 3 ? (
-            {/*<IoChevronBack
-            size="25px"
-            style={{ position: "absolute", left: "20" }}
-            onClick={() => handleBeforeStep()}
-          />*/}
+            <div>hihi</div>
         ) : null}
         {step !== 0 && <Title>CATCHPING</Title>}
       </Header>

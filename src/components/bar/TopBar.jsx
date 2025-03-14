@@ -9,12 +9,12 @@ const TopBar = () => {
       <style.Logo>P</style.Logo>
       <style.SearchBarContainer role='goSearch' onClick={() => nav("/search")}>
         <style.SearchBar>
-            <span class="material-icons" style={{ fontSize: "25px", color: "gray" }} >search</span>
+            <span className="material-icons" style={{ fontSize: "25px", color: "gray" }} >search</span>
         </style.SearchBar>
       </style.SearchBarContainer>
-      <style.MovetoSaveButton>
-
-      </style.MovetoSaveButton>
+        <style.MovetoSaveButton>
+            <span className="material-icons" style={{ fontSize: "30px", color: "gray" }} >bookmark_border</span>
+        </style.MovetoSaveButton>
     </style.TopBarContainer>
   );
 };

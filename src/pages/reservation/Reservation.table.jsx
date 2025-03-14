@@ -2,7 +2,6 @@ import * as style from "./style/Reservation.table.js";
 import { useEffect, useState } from "react";
 import Modal from "../../components/modal/Modal.jsx";
 import { useNavigate } from "react-router-dom";
-//import { FaBell } from "react-icons/fa";
 import { ModalContainer } from "../../components/modal/style/Modal.js";
 //API
 import PostVacancySeat from "../../api/vacancy/post/PostVacancySeat.js";
@@ -109,7 +108,7 @@ const ReservationTable = ({
                   {seat.minCapacity}~{seat.maxCapacity}인 좌석
                 </style.NoSeatEachTitle>
                 <style.NoSeatCountContainer>
-                  {/*<FaBell size={15} color={"#717171"} />*/}
+                  <span className="material-icons-outlined">notifications</span>
                   빈자리 알람
                 </style.NoSeatCountContainer>
               </style.NoSeatEachContainer>

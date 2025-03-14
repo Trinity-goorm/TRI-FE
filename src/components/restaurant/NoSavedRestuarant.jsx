@@ -1,21 +1,21 @@
 import styled from "styled-components";
-//import { BsBookmarkDash } from "react-icons/bs";
+
 
 const NoSavedRestaurant = () => {
   return (
     <NoSavedRestaurantContainer>
-      <InfoContainer>
-        {/*<BsBookmarkDash size={40} color={"#dcdcdc"} strokeWidth={0.3} />*/}
-        <Title>아직 저장한 레스토랑이 없어요.</Title>
-        <SubTitle>저장하는 모든 레스토랑이 여기에 표시됩니다.</SubTitle>
-      </InfoContainer>
+        <InfoContainer>
+            <span className="material-icons-outlined" style={{fontSize: "60px", color: "gray"}}>notifications_off</span>
+            <Title>아직 저장한 레스토랑이 없어요.</Title>
+            <SubTitle>저장하는 모든 레스토랑이 여기에 표시됩니다.</SubTitle>
+        </InfoContainer>
     </NoSavedRestaurantContainer>
   );
 };
 
 const NoSavedRestaurantContainer = styled.div`
-  flex: 1;
-  display: flex;
+    flex: 1;
+    display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;

@@ -3,7 +3,6 @@ import * as style from "./style/Banner.js";
 import banner1 from "../../assets/img/banner1.webp"; // 기본 이미지
 
 const bannerImports = [
-
     () => import("../../assets/img/banner2.webp"),
     () => import("../../assets/img/banner3.webp"),
     () => import("../../assets/img/banner4.webp"),
@@ -11,34 +10,39 @@ const bannerImports = [
     () => import("../../assets/img/banner6.webp"),
     () => import("../../assets/img/banner7.webp"),
     () => import("../../assets/img/banner8.webp"),
-
 ];
 
 const Banner = memo(() => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [loadedBanners, setLoadedBanners] = useState([banner1]);
 
-    // ✅ 이미지 동적 로딩
+    // ✅ Lazy Loading 적용
     useEffect(() => {
-        Promise.all(bannerImports.map((load) => load().then((mod) => mod.default)))
-            .then((images) => setLoadedBanners([banner1,  ...images]))
-            .catch((error) => console.error("Failed to load images", error));
-    }, []);
+        const loadNextImage = async () => {
+            if (loadedBanners.length < bannerImports.length + 1) {
+                try {
+                    const nextImage = await bannerImports[loadedBanners.length - 1]();
+                    setLoadedBanners((prevBanners) => [...prevBanners, nextImage.default]);
+                } catch (error) {
+                    console.error("Failed to load image", error);
+                }
+            }
+        };
 
-    // ✅ 자동 슬라이드 기능
-    useEffect(() => {
         const interval = setInterval(() => {
-            setCurrentIndex((prevIndex) => (prevIndex + 1) % loadedBanners.length);
+            setCurrentIndex((prevIndex) => (prevIndex + 1) % (loadedBanners.length));
+            loadNextImage(); // ✅ 다음 배너 이미지를 필요할 때만 로드
         }, 4000);
+
         return () => clearInterval(interval);
-    }, [loadedBanners]); // 이미지가 로드된 후에만 실행되도록 변경
+    }, [currentIndex, loadedBanners]);
 
     return (
         <style.SliderContainer>
             <Suspense fallback={<div>Loading Banner...</div>}>
                 {loadedBanners.map((image, index) => (
                     <style.Slide key={index} active={index === currentIndex}>
-                        <img key={index} src={image} alt={`Banner ${index + 1}`} />
+                        <img src={image} alt={`Banner ${index + 1}`} />
                     </style.Slide>
                 ))}
             </Suspense>
