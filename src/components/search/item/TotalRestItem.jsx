@@ -1,16 +1,16 @@
-import styled from "styled-components";
-import { FaStar } from "react-icons/fa";
-import { MdAccessTimeFilled } from "react-icons/md";
-import { FaWonSign } from "react-icons/fa6";
-import SaveButton from "../../save/SaveButton.jsx";
-import SearchReservationList from "../list/SearchReservationList.jsx";
-import { formatRating } from "../../../util/formatRating.js";
-import { formatPrice } from "../../../util/formatPrice.js";
-import { useState } from "react";
-import PostLike from "../../../api/save/post/PostLike.js";
-import DeleLike from "../../../api/save/delete/DeleteLike.js";
-import { useNavigate } from "react-router-dom";
-import wine from "../../../assets/img/wine1.jpg";
+import styled from 'styled-components';
+import { FaStar } from 'react-icons/fa';
+import { MdAccessTimeFilled } from 'react-icons/md';
+import { FaWonSign } from 'react-icons/fa6';
+import SaveButton from '../../save/SaveButton.jsx';
+import SearchReservationList from '../list/SearchReservationList.jsx';
+import { formatRating } from '../../../util/formatRating.js';
+import { formatPrice } from '../../../util/formatPrice.js';
+import { useState } from 'react';
+import PostLike from '../../../api/save/post/PostLike.js';
+import DeleLike from '../../../api/save/delete/DeleteLike.js';
+import { useNavigate } from 'react-router-dom';
+import wine from '../../../assets/img/wine1.jpg';
 
 const TotalRestItem = ({
   id,
@@ -43,7 +43,7 @@ const TotalRestItem = ({
     try {
       await PostLike(id);
     } catch (error) {
-      console.error("💀좋아요 실패", error);
+      console.error('💀좋아요 실패', error);
     }
   };
 
@@ -51,7 +51,7 @@ const TotalRestItem = ({
     try {
       await DeleLike(id);
     } catch (error) {
-      console.error("좋아요 삭제 실패", error);
+      console.error('좋아요 삭제 실패', error);
     }
   };
 
@@ -67,11 +67,11 @@ const TotalRestItem = ({
           <SaveButtonContainer onClick={onClickSave}>
             <SaveButton
               isLiked={saved}
-              width={"25px"}
-              height={"25px"}
+              width={'25px'}
+              height={'25px'}
               size={13}
-              border={"#E4E4E4"}
-              iconcolor={"E4E4E4"}
+              border={'#E4E4E4'}
+              iconcolor={'E4E4E4'}
             />
           </SaveButtonContainer>
         </NameSaveContainer>
@@ -80,8 +80,8 @@ const TotalRestItem = ({
           <RatingWrapper>
             <FaStar
               size={15}
-              color={"#FFD700"}
-              style={{ marginBottom: "3px" }}
+              color={'#FFD700'}
+              style={{ marginBottom: '3px' }}
             />
             {formatRating(rating)}
           </RatingWrapper>
@@ -91,7 +91,7 @@ const TotalRestItem = ({
       </TopContainer>
 
       <ImgWrapper>
-        {imgUrls === "이미지 정보 없음" ? (
+        {imgUrls === '이미지 정보 없음' ? (
           <ImgDiv $imgUrl={wine} $isSingle={true} />
         ) : (
           imgUrls.map((imgUrl, index) => (
@@ -108,23 +108,23 @@ const TotalRestItem = ({
 
       <BottomContainer>
         <OperatingTimeContainer>
-          <MdAccessTimeFilled style={{ marginBottom: "2px" }} />
-          {operatingHour === "null" ? "운영 시간 정보 없음" : operatingHour}
+          <MdAccessTimeFilled style={{ marginBottom: '2px' }} />
+          {operatingHour === 'null' ? '운영 시간 정보 없음' : operatingHour}
         </OperatingTimeContainer>
         <PriceContainer>
           <div
             style={{
-              width: "12px",
-              height: "12px",
-              borderRadius: "50%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "black",
-              marginBottom: "2px",
+              width: '12px',
+              height: '12px',
+              borderRadius: '50%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'black',
+              marginBottom: '2px',
             }}
           >
-            <FaWonSign size={6} color={"white"} />
+            <FaWonSign size={6} color={'white'} />
           </div>
           평균 {formatPrice(averagePrice)}
         </PriceContainer>
@@ -199,13 +199,13 @@ const ImgDiv = styled.div`
 
   border-radius: ${({ $isFirst, $isLast, $isSingle }) => {
     if ($isSingle) {
-      return "8px";
+      return '8px';
     } else if ($isFirst) {
-      return "8px 0 0 8px";
+      return '8px 0 0 8px';
     } else if ($isLast) {
-      return "0 8px 8px 0";
+      return '0 8px 8px 0';
     } else {
-      return "0";
+      return '0';
     }
   }};
 `;

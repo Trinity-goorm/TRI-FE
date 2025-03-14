@@ -1,61 +1,60 @@
-import styled from "styled-components";
-import { useState, useEffect } from "react";
-import { MdClose } from "react-icons/md";
-import { IoMdCheckmark } from "react-icons/io";
+import styled from 'styled-components';
+import { useState, useEffect } from 'react';
+import { MdClose } from 'react-icons/md';
+import { IoMdCheckmark } from 'react-icons/io';
 
 const SortModal = ({ isOpen, closeModal, sortType, clickSortHandler }) => {
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = 'auto';
     }
     return () => {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = 'auto';
     };
   }, [isOpen]);
 
   return (
-    <SortModalContainer $isOpen={isOpen}>
-      <ModalBack onClick={closeModal} />
+    <SortModalContainer $isOpen={isOpen} onClick={closeModal}>
       <ModalContentContainer $isOpen={isOpen}>
         <SortText>
           정렬
           <MdClose
             onClick={closeModal}
             size={18}
-            style={{ cursor: "pointer" }}
+            style={{ cursor: 'pointer' }}
           />
         </SortText>
         <SortComment
-          $sortType={sortType === "highest_rating"}
+          $sortType={sortType === 'highest_rating'}
           onClick={() => {
-            clickSortHandler("highest_rating");
+            clickSortHandler('highest_rating');
           }}
         >
-          {sortType === "highest_rating" ? (
+          {sortType === 'highest_rating' ? (
             <IoMdCheckmark strokeWidth={15} />
           ) : null}
           별점순
         </SortComment>
         <SortComment
-          $sortType={sortType === "highest_average_price"}
+          $sortType={sortType === 'highest_average_price'}
           onClick={() => {
-            clickSortHandler("highest_average_price");
+            clickSortHandler('highest_average_price');
           }}
         >
-          {sortType === "highest_average_price" ? (
+          {sortType === 'highest_average_price' ? (
             <IoMdCheckmark strokeWidth={15} />
           ) : null}
           가격 높은순
         </SortComment>
         <SortComment
-          $sortType={sortType === "lowest_average_price"}
+          $sortType={sortType === 'lowest_average_price'}
           onClick={() => {
-            clickSortHandler("lowest_average_price");
+            clickSortHandler('lowest_average_price');
           }}
         >
-          {sortType === "lowest_average_price" ? (
+          {sortType === 'lowest_average_price' ? (
             <IoMdCheckmark strokeWidth={15} />
           ) : null}
           가격 낮은순
@@ -66,18 +65,20 @@ const SortModal = ({ isOpen, closeModal, sortType, clickSortHandler }) => {
 };
 
 const SortModalContainer = styled.div`
-  opacity: ${({ $isOpen }) => ($isOpen ? "1" : "0")};
-  visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
-  transition: opacity 0.2s ease, visibility 0.2s ease;
-`;
-
-const ModalBack = styled.div`
   position: fixed;
+  z-index: 20;
+  opacity: ${({ $isOpen }) => ($isOpen ? '1' : '0')};
+  visibility: ${({ $isOpen }) => ($isOpen ? 'visible' : 'hidden')};
+  transition: opacity 0.3s ease, visibility 0.3s ease;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.65);
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 `;
 
 const SortText = styled.div`
@@ -97,13 +98,11 @@ const SortComment = styled.div`
   align-items: center;
   gap: 15px;
   cursor: pointer;
-  font-weight: ${({ $sortType }) => ($sortType ? "700" : "none")};
+  font-weight: ${({ $sortType }) => ($sortType ? '700' : 'none')};
   height: 100%;
 `;
 
 const ModalContentContainer = styled.div`
-  position: absolute;
-  bottom: 0;
   width: 480px;
   height: 30%;
   background-color: white;
@@ -114,7 +113,7 @@ const ModalContentContainer = styled.div`
   padding: 0px 22px 13px 22px;
   box-sizing: border-box;
 
-  animation: ${({ $isOpen }) => ($isOpen ? "fade_up 0.2s" : "fade_down 0.2s")};
+  animation: ${({ $isOpen }) => ($isOpen ? 'fade_up 0.3s' : 'fade_down 0.3s')};
 
   @keyframes fade_up {
     0% {

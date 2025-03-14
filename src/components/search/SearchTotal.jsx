@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import * as style from './style/SearchTotal.js';
 import { GoArrowLeft } from 'react-icons/go';
 import { MdKeyboardArrowDown } from 'react-icons/md';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import TotalRestList from './list/TotalRestList';
 import SortModal from '../modal/SortModal';
 import LoadingBar from '../loadingBar/LoadingBar';
@@ -13,6 +13,9 @@ const type = {
   highest_average_price: '가격 높은순',
   lowest_average_price: '가격 낮은순',
 };
+
+const ITEM_HEIGHT = 310;
+const NODE_PADDING = 1;
 
 const SearchTotal = ({
   fetchDataFn,
@@ -27,45 +30,105 @@ const SearchTotal = ({
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
 
+  // 가상 스크롤
+  const [scrollState, setScrollState] = useState({
+    visibleList: [],
+    offsetY: 0,
+  });
+  const isThrottle = useRef(false);
+
+  const updateVisibleItemsWithList = useCallback((list) => {
+    const totalItems = list.length;
+    let startNode = Math.floor(window.scrollY / ITEM_HEIGHT) - NODE_PADDING;
+    startNode = Math.max(0, startNode);
+
+    let visibleNodesCount =
+      Math.ceil(window.innerHeight / ITEM_HEIGHT) + 2 * NODE_PADDING;
+    visibleNodesCount = Math.min(visibleNodesCount, totalItems - startNode);
+
+    const visibleChildren = list.slice(
+      startNode,
+      startNode + visibleNodesCount
+    );
+    const offsetY = startNode * ITEM_HEIGHT;
+
+    setScrollState((prevState) => {
+      const isVisibleListSame =
+        prevState.visibleList.length === visibleChildren.length &&
+        prevState.visibleList.every((item, i) => item === visibleChildren[i]);
+      const isOffsetYSame = prevState.offsetY === offsetY;
+
+      if (isVisibleListSame && isOffsetYSame) return prevState;
+      return { visibleList: visibleChildren, offsetY };
+    });
+  }, []);
+
+  const updateVisibleItems = () => updateVisibleItemsWithList(restaurantList);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isThrottle.current) return;
+
+      isThrottle.current = true;
+      setTimeout(() => {
+        isThrottle.current = false;
+        updateVisibleItems();
+      }, 150);
+
+      if (
+        !loading &&
+        window.innerHeight + window.scrollY >= document.body.offsetHeight
+      ) {
+        setPage((prevPage) => prevPage + 1);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [restaurantList]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await fetchDataFn(searchValue, page, sortType);
+        const newList =
+          page === 1 ? response : [...restaurantList, ...response];
+        setRestaurantList(newList);
+        updateVisibleItemsWithList(newList);
+
+        if (response.length < 30) {
+          setLoading(null);
+        } else {
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error('💀데이터 로드 실패', error);
+      }
+    };
+
+    if (loading !== null) {
+      fetchData();
+    }
+  }, [page, sortType]);
+
   const clickSortHandler = (type) => {
     setSortType(type);
     setIsModalOpen(false);
     setPage(1);
   };
 
-  useEffect(() => {
-    fetchData();
-  }, [page, sortType]);
-
-  useEffect(() => {
-    if (loading) return;
-    const handleScroll = () => {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-        setPage((prevPage) => prevPage + 1);
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [loading]);
-
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const response = await fetchDataFn(searchValue, page, sortType);
-      setRestaurantList((prevList) =>
-        page === 1 ? response : [...prevList, ...response]
-      );
-    } catch (error) {
-      console.error('💀데이터 로드 실패', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <>
-      <SearchKeyword onClick={navPath}>
-        <SearchKeywordContainer>
+      <SortModal
+        isOpen={isModalOpen}
+        closeModal={() => setIsModalOpen(false)}
+        sortType={sortType}
+        clickSortHandler={clickSortHandler}
+      />
+
+      <style.SearchKeyword onClick={navPath}>
+        <style.SearchKeywordContainer>
           <GoArrowLeft
             size={22}
             color='black'
@@ -80,80 +143,50 @@ const SearchTotal = ({
               }
             }}
           />
-          <Keyword $isCategory={displayText === '찾고 있는 맛집이 있나요?'}>
+          <style.Keyword
+            $isCategory={displayText === '찾고 있는 맛집이 있나요?'}
+          >
             {displayText}
-          </Keyword>
-        </SearchKeywordContainer>
-      </SearchKeyword>
+          </style.Keyword>
+        </style.SearchKeywordContainer>
+      </style.SearchKeyword>
 
-      <SortButton onClick={() => setIsModalOpen(true)}>
+      <style.SortButton onClick={() => setIsModalOpen(true)}>
         {type[sortType]}
         <MdKeyboardArrowDown size={18} style={{ marginRight: '-5' }} />
-      </SortButton>
-      <SortModal
-        isOpen={isModalOpen}
-        closeModal={() => setIsModalOpen(false)}
-        sortType={sortType}
-        clickSortHandler={clickSortHandler}
-      />
+      </style.SortButton>
 
       {loading && page === 1 && <LoadingBar />}
       {!loading && restaurantList.length === 0 && <NoResultsFound />}
       {!loading && restaurantList.length > 0 && (
-        <TotalRestList restaurantList={restaurantList} />
+        <style.RestListWrapper
+          $listSize={restaurantList?.length}
+          $itemHeight={ITEM_HEIGHT}
+          $isLodingMore={false}
+        >
+          <TotalRestList
+            restaurantList={scrollState.visibleList}
+            offsetY={scrollState.offsetY}
+          />
+        </style.RestListWrapper>
       )}
       {loading && restaurantList.length > 0 && (
         <>
-          <TotalRestList restaurantList={restaurantList} />
-          {loading && page > 1 && <LoadingMoreBar />}
+          <style.RestListWrapper
+            $listSize={restaurantList?.length}
+            $itemHeight={ITEM_HEIGHT}
+            $isLodingMore={true}
+          >
+            <TotalRestList
+              restaurantList={scrollState.visibleList}
+              offsetY={scrollState.offsetY}
+            />
+          </style.RestListWrapper>
+          <LoadingMoreBar />
         </>
       )}
     </>
   );
 };
-
-const SearchKeyword = styled.div`
-  position: fixed;
-  top: 0;
-  width: 480px;
-  height: 70px;
-  background-color: white;
-`;
-
-const SearchKeywordContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  position: relative;
-  height: 100%;
-`;
-
-const Keyword = styled.div`
-  width: 90%;
-  height: 52px;
-  border-radius: 12px;
-  font-size: 16px;
-  box-sizing: border-box;
-  padding: 0 15px 0 40px;
-  border: 1px solid #d6d6d6;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  color: ${({ $isCategory }) => ($isCategory ? '#b3b3b3' : 'black')};
-`;
-
-const SortButton = styled.button`
-  background-color: white;
-  border: 1px solid #d6d6d6;
-  border-radius: 20px;
-  padding: 9px 13px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 2px;
-  margin: 75px 0px 0px 20px;
-  cursor: pointer;
-`;
 
 export default SearchTotal;
