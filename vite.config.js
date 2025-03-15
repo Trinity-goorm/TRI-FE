@@ -4,6 +4,9 @@ import { configDefaults } from 'vitest/config';
 
 export default defineConfig({
   plugins: [react()],
+  preview: {
+    allowedHosts: ['catch-ping.com'],
+  },
   test: {
     globals: true,
     environment: 'jsdom',
