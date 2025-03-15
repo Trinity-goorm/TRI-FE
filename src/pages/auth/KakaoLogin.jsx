@@ -4,9 +4,8 @@ import { useState, useEffect } from "react";
 
 const Login = () => {
   const Rest_api_key = import.meta.env.VITE_APP_API_KEY;
-  // const redirect_uri = "https://catch-ping.com/kakao/callback";
-  const redirect_uri = "https://catch-ping.com/kakao/callback";
-  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`;
+  const redirect_uri = import.meta.env.VITE_REDIRECT_URI;
+  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code&prompt=login`;
   const [permission, setPermission] = useState(null);
   const [showWarning, setShowWarning] = useState(false);
 
@@ -26,22 +25,22 @@ const Login = () => {
   };
 
   return (
-    <LoginContainer>
-      <LogoWrapper>
-        <h1>CATCHPING</h1>
-        <Info>편안한 식사 문화를 위한 새로운 시작</Info>
-      </LogoWrapper>
-      <WarningButtonContainer>
-        {showWarning && (
-          <WarningComment>
-            캐치핑은 예약과 빈자리 정보를 알림으로 안내해 드려요. <br />
-            설정 &gt; 개인 정보 보호 및 보안 &gt; 사이트 설정에서 권한을 재설정
-            해주세요.
-          </WarningComment>
-        )}
-        <SocialKakaoButton handleLogin={handleLogin} />
-      </WarningButtonContainer>
-    </LoginContainer>
+      <LoginContainer>
+        <LogoWrapper>
+          <h1>CATCHPING</h1>
+          <Info>편안한 식사 문화를 위한 새로운 시작</Info>
+        </LogoWrapper>
+        <WarningButtonContainer>
+          {showWarning && (
+              <WarningComment>
+                캐치핑은 예약과 빈자리 정보를 알림으로 안내해 드려요. <br />
+                설정 &gt; 개인 정보 보호 및 보안 &gt; 사이트 설정에서 권한을 재설정
+                해주세요.
+              </WarningComment>
+          )}
+          <SocialKakaoButton handleLogin={handleLogin} />
+        </WarningButtonContainer>
+      </LoginContainer>
   );
 };
 
