@@ -9,7 +9,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         target:
-          'http://internal-trinity-be-alb-619775524.ap-northeast-2.elb.amazonaws.com',
+          'https://internal-trinity-be-alb-1194042235.ap-northeast-2.elb.amazonaws.com',
         changeOrigin: true,
         secure: false,
       },
