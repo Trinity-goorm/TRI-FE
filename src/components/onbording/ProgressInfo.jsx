@@ -6,14 +6,14 @@ const ProgressInfo = ({ step, handleBeforeStep }) => {
   return (
     <ProgressInfoWrapper>
       <Header>
-        {step === 2 || step === 3
-          ? /*<IoChevronBack
-            size="25px"
-            style={{ position: "absolute", left: "20" }}
+        {step === 2 || step === 3 ? (
+          <BackIcon
+            className='material-icons'
             onClick={() => handleBeforeStep()}
-          />*/
-            null
-          : null}
+          >
+            arrow_back_ios
+          </BackIcon>
+        ) : null}
         {step !== 0 && <Title>CATCHPING</Title>}
       </Header>
       <ProgressBarWrapper>
@@ -67,4 +67,10 @@ const Title = styled.div`
   font-weight: 800;
   font-size: 18px;
   text-align: center;
+`;
+
+const BackIcon = styled.span`
+  font-size: 25px;
+  position: absolute;
+  left: 20px;
 `;
