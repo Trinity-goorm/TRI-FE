@@ -127,7 +127,7 @@ export const NoSeatCountContainer = styled.div`
     width: 65%;
     height: 40%;
     display: flex;
-    align-items: center;
+    align-items: center;   
     justify-content: space-around;
     font-size: 14px;
     font-weight: 600;

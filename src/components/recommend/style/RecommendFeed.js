@@ -9,7 +9,7 @@ export const TotalContainer = styled.div`
 
     margin-right: 3px;
     flex: 0 0 auto;
-   
+    
     
     
 `;
@@ -17,6 +17,11 @@ export const TotalContainer = styled.div`
 export const ImageContainer = styled.div`
     width: 190px;
     height: 190px;
+    &:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease;
+    }
+
 `;
 
 export const Image = styled.img`
