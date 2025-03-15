@@ -16,7 +16,7 @@ const refreshAccessToken = async () => {
       throw new Error('Refresh token not found');
     }
 
-    const response = await axios.post(`${BASE_URL}/api/token/reissue`, {
+    const response = await axios.post(`${BASE_URL}/token/reissue`, {
       refresh: refreshToken,
     });
 
