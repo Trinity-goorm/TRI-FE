@@ -1,4 +1,3 @@
-
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import PostLogin from "../../api/auth/PostLogin";
@@ -9,7 +8,7 @@ import LoadingBar from "../../components/loadingBar/LoadingBar";
 // fcm
 import { getMessaging, getToken } from "firebase/messaging";
 import { initializeApp } from "firebase/app";
-import PostFcmToken from "../../api/auth/PostFcmToken.js";
+import PostFcmToken from "../../api/fcm/PostFcmToken.js";
 
 const config = {
   apiKey: import.meta.env.VITE_API_KEY,

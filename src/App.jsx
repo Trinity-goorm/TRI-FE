@@ -9,7 +9,6 @@ import GetUserDetail from "./api/userInfo/GetUserDetail.js";
 import LoadingBar from "./components/loadingBar/LoadingBar.jsx";
 
 // fcm 알림
-import PostFcmRenew from "./api/fcm/PostFcmRenew.js";
 import { formatLocalDate } from "./util/formatLocalDate.js";
 import NotificationHandler from "./service/foregroundMessage.js";
 import NotificationModal from "./components/modal/NotificationModal.jsx";
