@@ -4,17 +4,6 @@ import { configDefaults } from 'vitest/config';
 
 export default defineConfig({
   plugins: [react()],
-  preview: {
-    allowedHosts: ['catch-ping.com'],
-    proxy: {
-      '/api': {
-        target:
-          'https://internal-trinity-be-alb-1194042235.ap-northeast-2.elb.amazonaws.com',
-        changeOrigin: true,
-        secure: false,
-      },
-    },
-  },
   test: {
     globals: true,
     environment: 'jsdom',
