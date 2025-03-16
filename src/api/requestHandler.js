@@ -84,7 +84,7 @@ const requestHandler = async ({
       window.location.href = '/login';
       localStorage.clear();
 
-      // const originalRequest = error.config;
+     /* // const originalRequest = error.config;
       // originalRequest._retry = true;
 
       // if (isRefreshing) {
@@ -110,7 +110,7 @@ const requestHandler = async ({
       //   isRefreshing = false;
       //   processQueue(refreshError, null);
       //   throw refreshError;
-      // }
+      // }*/
     }
 
     if (errorMessage) {
