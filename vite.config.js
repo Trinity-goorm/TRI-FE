@@ -18,7 +18,14 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      plugins: [visualizer({ open: true })],
+      plugins: [
+        visualizer({
+          open: true, // 자동으로 분석 결과를 브라우저에서 열기
+          filename: 'bundle-report.html', // 번들 분석 HTML 저장 파일
+          gzipSize: true, // gzip 압축된 크기 표시
+          brotliSize: true // brotli 압축된 크기 표시
+        })
+      ],
     },
   }
 });
