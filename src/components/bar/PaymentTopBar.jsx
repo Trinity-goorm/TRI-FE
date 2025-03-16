@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const PaymentTopBar = ({setIsTimeOver}) => {
 
     const navigate = useNavigate();
-    const [timeLeft, setTimeLeft] = useState(30);
+    const [timeLeft, setTimeLeft] = useState(15);
     const [isTimeOk, setIsTimeOk] = useState(true);
 
     useEffect(() => {
@@ -26,13 +26,13 @@ const PaymentTopBar = ({setIsTimeOver}) => {
         return `0${minutes}:${secs < 10 ? "0": ""}${secs}`;
     }
     const onGoBack = () => {
-        navigate(-1);
+        navigate("/");
     }
 
     return (
         <style.TopBarContainer>
             <style.RestaurantTitleContainer>
-                <style.GoBackButtonContainer>
+                <style.GoBackButtonContainer onClick={onGoBack}>
                     <span className="material-icons">close</span>
                 </style.GoBackButtonContainer>
                 <style.RestaurantTitle>

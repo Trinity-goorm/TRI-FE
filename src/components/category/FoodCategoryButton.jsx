@@ -1,4 +1,4 @@
-import * as style from "./style/CategoryButton.js";
+import * as style from "./style/FoodCategoryButton.js";
 import { useNavigate } from "react-router-dom";
 import {useEffect, useRef} from "react";
 
