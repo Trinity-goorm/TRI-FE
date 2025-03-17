@@ -1,7 +1,7 @@
 import * as style from "./style/RecommendComponent.main.js";
 import { useState, useEffect } from "react";
 import RecommendFeed from "../../components/recommend/RecommendFeed.jsx";
-import RecommendedList from "../../assets/dummydata/RecommendedList.js";
+import ProfilerTableLogWrapper from "../../components/search/ProfilerTableLogWrapper.jsx";
 //API
 import GetLikeRestaurants from "../../api/save/get/GetLikeRestaurants.js";
 import GetRecommendList from "../../api/recommend/get/GetRecommendList.js";
@@ -56,16 +56,17 @@ const RecommendComponent = () => {
   }, [likeList]);
 
   const handleLike = async (restaurantId) => {
+    console.log("hihi",restaurantId, likeSet);
     try {
       if (likeSet.has(restaurantId)) {
-        await DeleteLike(userId, restaurantId);
+        await DeleteLike(restaurantId);
         fetchLikeRestaurants();
         setLikeList((prev) =>
           prev.filter((item) => item.restaurantId !== restaurantId)
         );
         console.log("👍 좋아요 취소 성공");
       } else {
-        await PostLike(userId, restaurantId);
+        await PostLike(restaurantId);
         fetchLikeRestaurants();
         setLikeList((prev) => [...prev, restaurantId]);
         console.log("👍 좋아요 성공");
@@ -76,24 +77,27 @@ const RecommendComponent = () => {
   };
 
   return (
-    <style.TotalContainer>
-      <style.TitleContainer>
-        <style.Title>
-          ✨ {userName} 님이 좋아할 매장 ✨
-        </style.Title>
-        <style.TitleExplain>마음에 들 만한 곳을 모아봤어요!</style.TitleExplain>
-      </style.TitleContainer>
-      <style.ContentSlider>
-        {recommendList.map((item, index) => (
-          <RecommendFeed
-            item={item}
-            key={index}
-            isLiked={likeSet.has(item.restaurantId)}
-            onToggleLike={() => handleLike(item.restaurantId)}
-          />
-        ))}
-      </style.ContentSlider>
-    </style.TotalContainer>
+      <ProfilerTableLogWrapper id="recommend-list">
+        <style.TotalContainer>
+          <style.TitleContainer>
+            <style.Title>
+              ✨ {userName} 님이 좋아할 매장 ✨
+            </style.Title>
+            <style.TitleExplain>마음에 들 만한 곳을 모아봤어요!</style.TitleExplain>
+          </style.TitleContainer>
+          <style.ContentSlider>
+            {recommendList.map((item, index) => (
+                <RecommendFeed
+                    item={item}
+                    key={index}
+                    isLiked={likeSet.has(item.restaurantId)}
+                    onToggleLike={() => handleLike(item.restaurantId)}
+                />
+            ))}
+          </style.ContentSlider>
+        </style.TotalContainer>
+      </ProfilerTableLogWrapper>
+
   );
 };
 export default RecommendComponent;
