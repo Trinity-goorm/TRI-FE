@@ -1,42 +1,53 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo, Suspense } from "react";
 import * as style from "./style/Banner.js";
-import banner1 from "../../assets/img/banner1.webp";
-import banner2 from "../../assets/img/banner2.webp";
-import banner3 from "../../assets/img/banner3.webp";
-import banner4 from "../../assets/img/banner4.webp";
-import banner5 from "../../assets/img/banner5.webp";
-import banner6 from "../../assets/img/banner6.webp";
-import banner7 from "../../assets/img/banner7.webp";
+import banner1 from "../../assets/img/banner1.webp"; // 기본 이미지
 
-const banners = [
-    banner1,
-    banner2,
-    banner3,
-    banner4,
-    banner5,
-    banner6,
-    banner7
+const bannerImports = [
+    () => import("../../assets/img/banner2.webp"),
+    () => import("../../assets/img/banner3.webp"),
+    () => import("../../assets/img/banner4.webp"),
+    () => import("../../assets/img/banner5.webp"),
+    () => import("../../assets/img/banner6.webp"),
+    () => import("../../assets/img/banner7.webp"),
+    () => import("../../assets/img/banner8.webp"),
 ];
 
-const Banner = () => {
+const Banner = memo(() => {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [loadedBanners, setLoadedBanners] = useState([banner1]);
 
+    // ✅ Lazy Loading 적용
     useEffect(() => {
+        const loadNextImage = async () => {
+            if (loadedBanners.length < bannerImports.length + 1) {
+                try {
+                    const nextImage = await bannerImports[loadedBanners.length - 1]();
+                    setLoadedBanners((prevBanners) => [...prevBanners, nextImage.default]);
+                } catch (error) {
+                    console.error("Failed to load image", error);
+                }
+            }
+        };
+
         const interval = setInterval(() => {
-            setCurrentIndex((prevIndex) => (prevIndex + 1) % banners.length);
+            setCurrentIndex((prevIndex) => (prevIndex + 1) % (loadedBanners.length));
+            loadNextImage(); // ✅ 다음 배너 이미지를 필요할 때만 로드
         }, 4000);
+
         return () => clearInterval(interval);
-    }, [currentIndex]); // ✅ `currentIndex` 변경될 때만 실행
+    }, [currentIndex, loadedBanners]);
 
     return (
         <style.SliderContainer>
-            {banners.map((image, index) => (
-                <style.Slide key={index} active={index === currentIndex}>
-                    <img src={image} alt={`Banner ${index + 1}`} />
-                </style.Slide>
-            ))}
+            <Suspense fallback={<div>Loading Banner...</div>}>
+                {loadedBanners.map((image, index) => (
+                    <style.Slide key={index} active={index === currentIndex}>
+                        <img src={image} alt={`Banner ${index + 1}`} />
+                    </style.Slide>
+                ))}
+            </Suspense>
         </style.SliderContainer>
     );
-};
+});
 
 export default Banner;
