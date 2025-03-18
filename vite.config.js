@@ -13,6 +13,11 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
+      '/login': {
+        target: 'http://10.0.133.177:8080',
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
   test: {
