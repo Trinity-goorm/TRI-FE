@@ -8,8 +8,7 @@ export default defineConfig({
     allowedHosts: ['catch-ping.com'],
     proxy: {
       '/api': {
-        target:
-          'https://internal-trinity-be-alb-1194042235.ap-northeast-2.elb.amazonaws.com',
+        target: 'http://10.0.133.177:8080',
         changeOrigin: true,
         secure: false,
       },
