@@ -108,8 +108,8 @@ const ReservationTable = ({
                   {seat.minCapacity}~{seat.maxCapacity}인 좌석
                 </style.NoSeatEachTitle>
                 <style.NoSeatCountContainer>
-                  <span className="material-icons-outlined">notifications</span>
-                  빈자리 알람
+                  <span className="material-icons-outlined" style={{fontSize:"20px"}}>notifications</span>
+                  빈자리 알림
                 </style.NoSeatCountContainer>
               </style.NoSeatEachContainer>
             )

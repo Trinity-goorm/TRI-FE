@@ -64,13 +64,13 @@ const requestHandler = async ({
     // 요청 보내기
     const response = await axios({
       method,
-      url: `${BASE_URL}/api${endpoint}`,
+      url: `http://10.0.133.177:8080/api${endpoint}`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
       data: ['POST', 'PUT'].includes(method) ? data : undefined, // 데이터는 POST/PUT 요청에만 포함
-      timeout: 60000,
+      timeout: 100000,
     });
 
     // 성공 메시지 로그
@@ -80,11 +80,12 @@ const requestHandler = async ({
 
     return response.data; // 성공 데이터 반환
   } catch (error) {
+    console.log(error);
     if (error.response?.status === 401) {
       window.location.href = '/login';
       localStorage.clear();
 
-      // const originalRequest = error.config;
+     /* // const originalRequest = error.config;
       // originalRequest._retry = true;
 
       // if (isRefreshing) {
@@ -110,7 +111,7 @@ const requestHandler = async ({
       //   isRefreshing = false;
       //   processQueue(refreshError, null);
       //   throw refreshError;
-      // }
+      // }*/
     }
 
     if (errorMessage) {

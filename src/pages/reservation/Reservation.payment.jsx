@@ -37,6 +37,20 @@ const ReservationPaymentPage = () => {
   };
 
   //useEffect
+
+  useEffect(() => {
+    // 현재 페이지에서 뒤로 가기를 막음
+    window.history.pushState(null, "", window.location.href);
+    const handleBack = () => {
+      window.history.pushState(null, "", window.location.href);
+    };
+
+    window.addEventListener("popstate", handleBack);
+    return () => {
+      window.removeEventListener("popstate", handleBack);
+    };
+  }, []);
+
   useEffect(() => {
     if (isAllCheck && isFirstCheck && isSecondCheck && isClick) {
       setIsReservation(true);
@@ -55,9 +69,6 @@ const ReservationPaymentPage = () => {
         const response = await postPreoccupyCancel(reservationId);
         console.log("☕ 예약 선점 취소 성공:", response);
 
-        setTimeout(() => {
-          navigate(-1);
-        }, 3000);
       } catch (error) {
         console.error("💀예약 선점 실패", error);
       }

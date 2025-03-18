@@ -1,11 +1,12 @@
 import styled from "styled-components";
 
 export const SliderContainer = styled.div`
-    width: 92%;
-    height: 290px;
+    width: 95%;
+    height: 280px;
     overflow: hidden;
     position: relative;
     border-radius: 10px;
+    background: pink;
 
 `;
 

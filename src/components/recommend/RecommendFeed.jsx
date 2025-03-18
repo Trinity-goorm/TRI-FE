@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import SaveButton from "../save/SaveButton.jsx";
 import wine from "../../assets/img/wineBar.jpg";
 import useSingleLike from "../../hooks/useSingleLike.js";
+import ProfileComponent from "../../components/search/ProfilerTableLogWrapper.jsx";
 
 
 const RecommendFeed = ({item}) => {

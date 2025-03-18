@@ -48,7 +48,7 @@ export const InnerContainer = styled.div`
 
 export const BannerContainer = styled.div`
   width: 100%;
-  height: 330px;
+  height: 320px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,16 +57,15 @@ export const BannerContainer = styled.div`
 `;
 export const CategoryContainer = styled.div`
   width: 100%;
-  height: 380px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+
   
 
 
 `;
 export const RecommendContainer = styled.div`
   width: 100%;
-
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 
   overflow: hidden;
 

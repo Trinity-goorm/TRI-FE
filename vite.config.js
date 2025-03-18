@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { configDefaults } from 'vitest/config';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 export default defineConfig({
   plugins: [react()],
@@ -28,4 +29,12 @@ export default defineConfig({
       exclude: ['node_modules/**', 'test/**', 'src/test/**'], // 📌 개선된 exclude 설정
     },
   },
+
+  build: {
+    rollupOptions: {
+      plugins: [visualizer({ open: true })],
+
+    },
+
+  }
 });
