@@ -64,7 +64,7 @@ const requestHandler = async ({
     // 요청 보내기
     const response = await axios({
       method,
-      url: `${BASE_URL}/api${endpoint}`,
+      url: `http://10.0.133.177:8080/api${endpoint}`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
