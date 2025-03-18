@@ -6,8 +6,8 @@ export const TotalContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: center;
-    
+    justify-content: flex-start;
+
 
 
 `;
@@ -23,21 +23,16 @@ export const Title = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: bold;
   
     
 `;
-export const WatchAll = styled.div`
-    font-size: 13px;
-    font-weight: 400;
-    margin-right: 3px;
-    
-    
-`
+
 export const TitleExplain = styled.span`
     font-size: 15px;
     margin-top: 5px;
+    color: gray;
 `;
 export const ContentSlider = styled.div`
     display: flex;
@@ -47,10 +42,12 @@ export const ContentSlider = styled.div`
     white-space: nowrap;
     width: 100%;
     margin-left: 13px;
+    margin-top: 10px;
   
     padding: 10px 0px;
     &::-webkit-scrollbar {
         display: none;
-    }
+    };
+    
 `;
 

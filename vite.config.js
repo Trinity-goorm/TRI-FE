@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { configDefaults } from 'vitest/config';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 export default defineConfig({
   plugins: [react()],
@@ -9,7 +10,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         target:
-          'https://internal-trinity-be-alb-1194042235.ap-northeast-2.elb.amazonaws.com',
+          '10.0.133.177',
         changeOrigin: true,
         secure: false,
       },
@@ -29,4 +30,12 @@ export default defineConfig({
       exclude: ['node_modules/**', 'test/**', 'src/test/**'], // 📌 개선된 exclude 설정
     },
   },
+
+  build: {
+    rollupOptions: {
+      plugins: [visualizer({ open: true })],
+
+    },
+
+  }
 });

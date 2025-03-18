@@ -5,13 +5,16 @@ export const TotalContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 25%;
-  height: 85px;
-  background-color: lightgray;
+  width: 26%;
+  height: 90px;
   border-radius: 10px;
   position: relative;
   overflow: hidden;
-  margin: 5px;
+  margin: 10px;
+    &:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease;
+    }
 `;
 export const ImageContainer = styled.div`
   width: 100%;
@@ -23,6 +26,7 @@ export const Image = styled.img`
   height: 100%;
   border-radius: 10px;
   opacity: 0.7;
+    object-fit: cover;
 `;
 
 export const Title = styled.div`
@@ -41,8 +45,13 @@ export const Title = styled.div`
 
   color: white;
   border-radius: 5px;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
-  background: rgba(0, 0, 0, 0.4);
-  padding: 34px 8px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 40px 8px;
+
+    &:hover {
+        background: rgba(0, 0, 0, 0.3);
+        transition: background 0.3s ease;
+    }
 `;
