@@ -58,19 +58,19 @@ const requestHandler = async ({
     // 토큰 가져오기
     const token = localStorage.getItem('ACCESS_TOKEN');
     if (!token) {
-      window.location.href = '/login';
+      window.location.href = '/loginTest';
     }
 
     // 요청 보내기
     const response = await axios({
       method,
-      url: `http://10.0.133.177:8080/api${endpoint}`,
+      url: `${BASE_URL}/api${endpoint}`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
       data: ['POST', 'PUT'].includes(method) ? data : undefined, // 데이터는 POST/PUT 요청에만 포함
-      timeout: 100000,
+      timeout: 60000,
     });
 
     // 성공 메시지 로그
@@ -80,10 +80,9 @@ const requestHandler = async ({
 
     return response.data; // 성공 데이터 반환
   } catch (error) {
-    console.log(error);
     if (error.response?.status === 401) {
-      //window.location.href = '/login';
-      //localStorage.clear();
+      window.location.href = '/loginTest';
+      localStorage.clear();
 
       // const originalRequest = error.config;
       // originalRequest._retry = true;
