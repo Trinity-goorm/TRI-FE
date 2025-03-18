@@ -8,7 +8,7 @@ import ProfileComponent from "../../components/search/ProfilerTableLogWrapper.js
 
 const HomePage = () => {
   return (
-      <ProfileComponent id="home-page">
+
           <style.TotalContainer>
               <style.TopBarContainer>
                   <TopBar/>
@@ -19,9 +19,7 @@ const HomePage = () => {
                   </style.BannerContainer>
                   <style.RecommendContainer>
                       <ProfileComponent>
-                          <ProfileComponent id="RecommendList" className="home-page">
-                              <RecommendComponent/>
-                          </ProfileComponent>
+                          <RecommendComponent/>
                       </ProfileComponent>
                   </style.RecommendContainer>
                   <style.CategoryContainer>
@@ -32,7 +30,6 @@ const HomePage = () => {
                   <BottomBar/>
               </style.BottomBarContainer>
           </style.TotalContainer>
-      </ProfileComponent>
 
   );
 };
