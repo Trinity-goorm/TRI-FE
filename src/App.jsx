@@ -36,7 +36,7 @@ function App() {
             <Routes>
               <Route path="*" element={<HomePage />} />
               <Route path="/" element={<HomePage />} />
-              <Route path="/login" element={<KakaoLogin />} />
+              <Route path="/login/page" element={<KakaoLogin />} />
               <Route path="/kakao/callback" element={<KakaoCallback />} />
               <Route path="/onboarding" element={<Onboarding />} />
               <Route path="/mydining" element={<MyDiningPage />} />
