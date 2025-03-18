@@ -7,20 +7,6 @@ export default defineConfig({
   plugins: [react()],
   preview: {
     allowedHosts: ['catch-ping.com'],
-    proxy: {
-      '/api': {
-        target: 'http://10.0.133.177:8080', // 서버 인스턴스
-        changeOrigin: true,
-        secure: false,
-      },
-     proxy: {
-      '/login': {
-        target: 'http://10.0.133.177:8080',
-        changeOrigin: true,
-        secure: false,
-      },
-    },
-    },
   },
   test: {
     globals: true,
