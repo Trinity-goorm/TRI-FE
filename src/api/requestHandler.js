@@ -70,7 +70,7 @@ const requestHandler = async ({
         Authorization: `Bearer ${token}`,
       },
       data: ['POST', 'PUT'].includes(method) ? data : undefined, // 데이터는 POST/PUT 요청에만 포함
-      timeout: 60000,
+      timeout: 100000,
     });
 
     // 성공 메시지 로그
