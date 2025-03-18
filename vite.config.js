@@ -33,8 +33,6 @@ export default defineConfig({
   build: {
     rollupOptions: {
       plugins: [visualizer({ open: true })],
-
     },
-
-  }
+  },
 });

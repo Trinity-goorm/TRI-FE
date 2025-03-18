@@ -64,7 +64,7 @@ const requestHandler = async ({
     // 요청 보내기
     const response = await axios({
       method,
-      url: `http://10.0.133.177:8080/api${endpoint}`,
+      url: `${BASE_URL}/api${endpoint}`,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
@@ -85,7 +85,7 @@ const requestHandler = async ({
       window.location.href = '/login';
       localStorage.clear();
 
-     /* // const originalRequest = error.config;
+      /* // const originalRequest = error.config;
       // originalRequest._retry = true;
 
       // if (isRefreshing) {
