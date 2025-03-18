@@ -58,7 +58,7 @@ const requestHandler = async ({
     // 토큰 가져오기
     const token = localStorage.getItem('ACCESS_TOKEN');
     if (!token) {
-      window.location.href = '/loginTest';
+      window.location.href = '/login';
     }
 
     // 요청 보내기
@@ -81,7 +81,7 @@ const requestHandler = async ({
     return response.data; // 성공 데이터 반환
   } catch (error) {
     if (error.response?.status === 401) {
-      window.location.href = '/loginTest';
+      window.location.href = '/login';
       localStorage.clear();
 
       // const originalRequest = error.config;
