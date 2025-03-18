@@ -16,7 +16,7 @@ const refreshAccessToken = async () => {
       throw new Error('Refresh token not found');
     }
 
-    const response = await axios.post(`${BASE_URL}/token/reissue`, {
+    const response = await axios.post(`${BASE_URL}/api/token/reissue`, {
       refresh: refreshToken,
     });
 
@@ -84,7 +84,7 @@ const requestHandler = async ({
       window.location.href = '/login';
       localStorage.clear();
 
-      // const originalRequest = error.config;
+      /* // const originalRequest = error.config;
       // originalRequest._retry = true;
 
       // if (isRefreshing) {
@@ -110,7 +110,7 @@ const requestHandler = async ({
       //   isRefreshing = false;
       //   processQueue(refreshError, null);
       //   throw refreshError;
-      // }
+      // }*/
     }
 
     if (errorMessage) {

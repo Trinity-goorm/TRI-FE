@@ -36,7 +36,7 @@ const SearchTotal = ({
   });
   const isThrottle = useRef(false);
 
-  const updateVisibleItemsWithList = useCallback((list) => {
+  const updateVisibleItemsWithList = (list) => {
     const totalItems = list.length;
     let startNode = Math.floor(window.scrollY / ITEM_HEIGHT) - NODE_PADDING;
     startNode = Math.max(0, startNode);
@@ -51,16 +51,18 @@ const SearchTotal = ({
     );
     const offsetY = startNode * ITEM_HEIGHT;
 
-    setScrollState((prevState) => {
-      const isVisibleListSame =
-        prevState.visibleList.length === visibleChildren.length &&
-        prevState.visibleList.every((item, i) => item === visibleChildren[i]);
-      const isOffsetYSame = prevState.offsetY === offsetY;
+    setScrollState({ visibleList: visibleChildren, offsetY });
 
-      if (isVisibleListSame && isOffsetYSame) return prevState;
-      return { visibleList: visibleChildren, offsetY };
-    });
-  }, []);
+    // setScrollState((prevState) => {
+    //   const isVisibleListSame =
+    //     prevState.visibleList.length === visibleChildren.length &&
+    //     prevState.visibleList.every((item, i) => item === visibleChildren[i]);
+    //   const isOffsetYSame = prevState.offsetY === offsetY;
+
+    //   if (isVisibleListSame && isOffsetYSame) return prevState;
+    //   return { visibleList: visibleChildren, offsetY };
+    // });
+  };
 
   const updateVisibleItems = () => updateVisibleItemsWithList(restaurantList);
 
@@ -72,7 +74,7 @@ const SearchTotal = ({
       setTimeout(() => {
         isThrottle.current = false;
         updateVisibleItems();
-      }, 150);
+      }, 100);
 
       if (
         !loading &&

@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import TotalRestItem from '../item/TotalRestItem';
-import React from 'react';
+import React, { useCallback } from 'react';
 
-const TotalRestList = React.memo(({ restaurantList, offsetY }) => {
+const TotalRestList = ({ restaurantList, offsetY }) => {
   return (
     <TotalRestListContainer $offsetY={offsetY}>
       {restaurantList?.map((item, index) => (
@@ -22,7 +22,29 @@ const TotalRestList = React.memo(({ restaurantList, offsetY }) => {
       ))}
     </TotalRestListContainer>
   );
-});
+};
+
+// const TotalRestList = React.memo(({ restaurantList, offsetY }) => {
+//   return (
+//     <TotalRestListContainer $offsetY={offsetY}>
+//       {restaurantList?.map((item, index) => (
+//         <TotalRestItem
+//           key={`${item.restaurantId}-${index}`}
+//           id={item.restaurantId}
+//           name={item.name}
+//           imgUrls={item.imageUrls}
+//           category={item.category}
+//           location={item.location}
+//           rating={item.rating}
+//           operatingHour={item.operatingHours}
+//           averagePrice={item.averagePrice}
+//           isSaved={item.wishlisted}
+//           reservation={item.reservation}
+//         />
+//       ))}
+//     </TotalRestListContainer>
+//   );
+// });
 
 const TotalRestListContainer = styled.div`
   background-color: #eeeeee;

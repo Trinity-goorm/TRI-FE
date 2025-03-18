@@ -3,7 +3,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const PostLogin = async (authCode) => {
   try {
-    const response = await axios.post(`http://10.0.133.177:8080/login`, {
+    const response = await axios.post(`${BASE_URL}/api/login`, {
       authCode,
     });
 

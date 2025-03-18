@@ -4,7 +4,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const PostLogout = async (refreshToken) => {
   try {
-    const response = await axios.post(`${BASE_URL}/logout`, null, {
+    const response = await axios.post(`${BASE_URL}/api/logout`, null, {
       headers: {
         refresh: refreshToken,
       },
