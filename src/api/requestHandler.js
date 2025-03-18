@@ -80,9 +80,10 @@ const requestHandler = async ({
 
     return response.data; // 성공 데이터 반환
   } catch (error) {
+    console.log(error);
     if (error.response?.status === 401) {
-      window.location.href = '/login';
-      localStorage.clear();
+      //window.location.href = '/login';
+      //localStorage.clear();
 
       // const originalRequest = error.config;
       // originalRequest._retry = true;
