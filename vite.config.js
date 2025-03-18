@@ -9,7 +9,7 @@ export default defineConfig({
     allowedHosts: ['catch-ping.com'],
     proxy: {
       '/api': {
-        target: 'http://10.0.133.177',
+        target: 'http://10.0.133.177:8080',
         changeOrigin: true,
         secure: false,
       },
