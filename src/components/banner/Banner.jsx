@@ -4,12 +4,12 @@ import banner1 from "../../assets/img/banner1.webp"; // 기본 이미지
 
 const bannerImports = [
     () => import("../../assets/img/banner2.webp"),
-    () => import("../../assets/img/banner3.webp"),
-    () => import("../../assets/img/banner4.webp"),
-    () => import("../../assets/img/banner5.webp"),
+    //() => import("../../assets/img/banner3.webp"),
+   // () => import("../../assets/img/banner4.webp"),
+  /*  () => import("../../assets/img/banner5.webp"),
     () => import("../../assets/img/banner6.webp"),
     () => import("../../assets/img/banner7.webp"),
-    () => import("../../assets/img/banner8.webp"),
+    () => import("../../assets/img/banner8.webp"),*/
 ];
 
 const Banner = memo(() => {
