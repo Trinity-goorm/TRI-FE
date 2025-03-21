@@ -2,14 +2,17 @@ import * as style from "./style/DetailTopBar.js";
 import {useNavigate} from "react-router-dom";
 import SaveButton from "../save/SaveButton.jsx";
 import useLike from "../../hooks/useLike.js";
+import {useState} from "react";
+import {useScroll} from "../../util/ScrollContext.jsx";
 
 // eslint-disable-next-line react/prop-types
-const DetailTopBar = ({name, isScrolled, id, wishCount, ...props}) => {
+const DetailTopBar = ({name, id, wishCount, ...props}) => {
+    const { isScrolled } = useScroll();
     const nav = useNavigate();
     const { likeCount, isSaved, handleLike } = useLike(id, wishCount);
 
     return (
-        <style.TopBarContainer>
+        <style.TopBarContainer isScroll = {isScrolled}>
             <style.ReturnButtonContainer onClick={() => {
                 nav(-1)
             }}>

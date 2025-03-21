@@ -6,6 +6,8 @@ export const TopBarContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: ${({isScroll}) => (isScroll ? "white": "transparent")};
+    transition: background 0.3s ease-in-out;
 
 `;
 

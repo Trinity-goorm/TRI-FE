@@ -7,7 +7,7 @@ export const TotalContainer = styled.div`
     justify-content: center;
     width: 200px;
 
-    margin-right: 3px;
+    margin-right: 10px;
     flex: 0 0 auto;
     
     
