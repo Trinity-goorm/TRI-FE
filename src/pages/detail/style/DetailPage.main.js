@@ -17,7 +17,6 @@ export const TopBarContainer = styled.div`
     position:fixed;
     top: 0;
     z-index: 1000;
-    background-color: ${({isScrolled}) => (isScrolled ? "white": "transparent")};
     transition: background 0.3s ease-in-out;
 `;
 
