@@ -2,8 +2,7 @@ import * as style from "./style/DetailTopBar.js";
 import {useNavigate} from "react-router-dom";
 import SaveButton from "../save/SaveButton.jsx";
 import useLike from "../../hooks/useLike.js";
-import {useState} from "react";
-import {useScroll} from "../../util/ScrollContext.jsx";
+import { useScroll } from "../../context/ScrollContext.jsx";
 
 // eslint-disable-next-line react/prop-types
 const DetailTopBar = ({name, id, wishCount, ...props}) => {
