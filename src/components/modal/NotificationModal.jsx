@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { notificationState } from '../../atoms/notificationState';
-import logo from '/logo.png';
+import logo from '/logo.jpg';
+import logo_webp from '/logo.webp';
 import { useEffect, useRef } from 'react';
 
 // title: "",
@@ -12,6 +13,8 @@ const NotificationModal = () => {
   const nav = useNavigate();
   const [notification, setNotification] = useRecoilState(notificationState);
   const modalRef = useRef(null);
+
+  console.log(notification);
 
   const handleClose = () => {
     setNotification({ ...notification, isModalOpen: false });
@@ -44,7 +47,10 @@ const NotificationModal = () => {
           handleClose();
         }}
       >
-        <LogoIcon src={logo} />
+        <LogoIcon>
+          <source srcSet={logo_webp} type='image/webp' />
+          <img src={logo} alt='logo' width={45} height={45} />
+        </LogoIcon>
         <ContentContainer>
           <TitleWrapper>{notification.title}</TitleWrapper>
           <BodyWrapper>{notification.body}</BodyWrapper>
@@ -133,7 +139,7 @@ const ContentContainer = styled.div`
   line-height: 1.45;
 `;
 
-const LogoIcon = styled.img`
+const LogoIcon = styled.picture`
   width: 45px;
   height: 45px;
   border-radius: 10px;

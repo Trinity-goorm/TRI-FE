@@ -1,8 +1,8 @@
-import { getMessaging, onMessage } from "firebase/messaging";
-import { initializeApp } from "firebase/app";
-import { notificationState } from "../atoms/notificationState";
-import { useRecoilState } from "recoil";
-import { useEffect } from "react";
+import { getMessaging, onMessage } from 'firebase/messaging';
+import { initializeApp } from 'firebase/app';
+import { notificationState } from '../atoms/notificationState';
+import { useRecoilState } from 'recoil';
+import { useEffect } from 'react';
 
 const config = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -22,9 +22,9 @@ const NotificationHandler = () => {
     const handleMessage = (payload) => {
       setNotification({
         isModalOpen: true,
-        title: payload.data.title || "",
-        body: payload.data.body || "",
-        redirectUrl: payload.data.redirectUrl || "",
+        title: payload.data.title || '',
+        body: payload.data.body || '',
+        redirectUrl: payload.data.redirectUrl || '',
       });
     };
 

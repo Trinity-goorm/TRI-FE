@@ -5,7 +5,6 @@ import SortModal from '../modal/SortModal';
 import LoadingBar from '../loadingBar/LoadingBar';
 import LoadingMoreBar from '../loadingBar/LoadingMoreBar';
 import NoResultsFound from './NoResultsFound';
-import ProfilerTableLogWrapper from './ProfilerTableLogWrapper.jsx';
 
 const type = {
   highest_rating: '별점순',

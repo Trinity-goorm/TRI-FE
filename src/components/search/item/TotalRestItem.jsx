@@ -8,6 +8,7 @@ import PostLike from '../../../api/save/post/PostLike.js';
 import DeleLike from '../../../api/save/delete/DeleteLike.js';
 import { useNavigate } from 'react-router-dom';
 import wine from '../../../assets/img/wine1.jpg';
+import { changeParametersForKakaoCDN } from '../../../util/imageUtils.js';
 
 const TotalRestItem = ({
   id,
@@ -85,6 +86,48 @@ const TotalRestItem = ({
 
       <ImgWrapper>
         {imgUrls === '이미지 정보 없음' ? (
+          <Image src={wine} $isSingle={true} width={200} height={150} />
+        ) : (
+          imgUrls.map((imgUrl, index) => {
+            const widthMap = {
+              1: 440,
+              2: 220,
+              3: 200,
+            };
+            const imgWidth = widthMap[imgUrls.length] || 200;
+
+            return (
+              <Image
+                key={index}
+                src={
+                  imgUrl
+                    ? `https://${changeParametersForKakaoCDN({
+                        width: imgWidth,
+                        height: 150,
+                        quality: 100,
+                        url: imgUrl,
+                      })}`
+                    : wine
+                }
+                $isFirst={index === 0}
+                $isLast={index === imgUrls.length - 1}
+                $isSingle={imgUrls.length === 1}
+                width={200}
+                height={150}
+              />
+            );
+          })
+        )}
+      </ImgWrapper>
+      {/*
+        이미지 1개: 440 x 150
+        이미지 2개: 220 x 150
+        이미지 3개: 200 x 150
+      */}
+
+      {/* 
+      <ImgWrapper>
+        {imgUrls === '이미지 정보 없음' ? (
           <ImgDiv $imgUrl={wine} $isSingle={true} />
         ) : (
           imgUrls.map((imgUrl, index) => (
@@ -97,7 +140,7 @@ const TotalRestItem = ({
             />
           ))
         )}
-      </ImgWrapper>
+      </ImgWrapper> */}
 
       <BottomContainer>
         <OperatingTimeContainer>
@@ -180,6 +223,27 @@ const ImgWrapper = styled.div`
   scrollbar-width: none;
   padding: 0 20px;
   margin: 7px 0px;
+`;
+
+const Image = styled.img`
+  flex: 1 0 200px;
+  height: 150px;
+  object-fit: cover;
+  /* background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat; */
+
+  border-radius: ${({ $isFirst, $isLast, $isSingle }) => {
+    if ($isSingle) {
+      return '8px';
+    } else if ($isFirst) {
+      return '8px 0 0 8px';
+    } else if ($isLast) {
+      return '0 8px 8px 0';
+    } else {
+      return '0';
+    }
+  }};
 `;
 
 const ImgDiv = styled.div`
