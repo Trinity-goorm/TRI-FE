@@ -23,6 +23,8 @@ const ReservationModal = ({name, isOpen, closeModal, children, restaurantId, rem
     const userId = userInfo.userId;
     const [selectDate, setSelectDate] = useState(formatDate(new Date()));
     const [isToday, setIsToday] = useState(true);
+    const [isVisible, setIsVisible] = useState(false);
+
     const [reservation, setReservation] = useState({
         userId: userId,
         restaurantId: restaurantId,
@@ -72,6 +74,7 @@ const ReservationModal = ({name, isOpen, closeModal, children, restaurantId, rem
     }, [remoteSelectDate]);
 
 
+
     const onSelectDateChange = (date) => {
         const formattedDate = formatDate(date);
         setReservation((prev) => (
@@ -116,7 +119,7 @@ const ReservationModal = ({name, isOpen, closeModal, children, restaurantId, rem
 
     return (
         <style.Background>
-            <style.TotalContainer {...props}>
+            <style.TotalContainer {...props} isOpen={isOpen}>
                 <style.CalendarContainer>
                     <CustomCalendar onSelectDate={onSelectDateChange} selectedDate={selectDate} />
                 </style.CalendarContainer>
@@ -138,3 +141,4 @@ const ReservationModal = ({name, isOpen, closeModal, children, restaurantId, rem
 
 
 export default ReservationModal;
+
