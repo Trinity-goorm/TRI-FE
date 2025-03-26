@@ -10,7 +10,7 @@ const DetailLocation = ({address, latitude, longitude}) => {
             </style.LocationTitle>
             <KakaoMap address={address} latitude={latitude} longitude={longitude} />
             <style.LocationTextContainer>
-                <span className="material-icons" style={{fontSize:"18px", color:"gray"}}>location_on</span>
+            {/*    <span className="material-icons" style={{fontSize:"18px", color:"gray"}}>location_on</span>*/}
                 <style.LocationText>
                     {address}
                 </style.LocationText>

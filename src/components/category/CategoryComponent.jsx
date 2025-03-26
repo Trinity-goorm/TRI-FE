@@ -1,5 +1,4 @@
 import * as style from "./style/CategoryComponent.js";
-import FoodCategoryButton from "./FoodCategoryButton.jsx";
 import CategoryButton from "./CategoryButton.jsx";
 import Category from "../../assets/dummydata/Category.js";
 

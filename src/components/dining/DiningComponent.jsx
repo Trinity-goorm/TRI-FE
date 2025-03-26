@@ -1,13 +1,19 @@
 import * as style from "./style/DiningComponent.js";
 import wine from "../../assets/img/wineBar.jpg";
+import {useNavigate} from "react-router-dom";
 
 const DiningComponent = ({tagText, reservation, onCancel}) => {
     const images = reservation?.restaurantImages || [];
+    console.log(reservation);
     const mainImage = images.length === 0 || images[0] == null ? wine : images[0];
     const makeImageUrls = (image) =>{
         if (!image || image === wine) return image;
         return image.startsWith("http") ? image : `https://${image}`;
     };
+    const nav = useNavigate();
+    const onClickContainer = () => {
+        nav(`/detail/${reservation.id}`);
+    }
 
     return (
         <style.TotalContainer>

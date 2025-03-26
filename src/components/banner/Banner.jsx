@@ -1,28 +1,28 @@
 import { useState, useEffect, memo, Suspense } from "react";
 import * as style from "./style/Banner.js";
-import banner1 from "../../assets/img/banner1.webp"; // 기본 이미지
-
+import banner1 from "../../assets/img/banner1.webp"
 const bannerImports = [
-    () => import("../../assets/img/banner2.webp"),
-    //() => import("../../assets/img/banner3.webp"),
-   // () => import("../../assets/img/banner4.webp"),
-  /*  () => import("../../assets/img/banner5.webp"),
-    () => import("../../assets/img/banner6.webp"),
-    () => import("../../assets/img/banner7.webp"),
-    () => import("../../assets/img/banner8.webp"),*/
+   "https://cdn.catch-ping.com/banner/banner2.webp",
+    "https://cdn.catch-ping.com/banner/banner3.webp",
+    "https://cdn.catch-ping.com/banner/banner4.webp",
+    "https://cdn.catch-ping.com/banner/banner5.webp",
+    "https://cdn.catch-ping.com/banner/banner6.webp",
+    "https://cdn.catch-ping.com/banner/banner7.webp",
+    "https://cdn.catch-ping.com/banner/banner8.webp",
 ];
 
 const Banner = memo(() => {
+    const bannerCDN1 = "https://d332q83ui14xyg.cloudfront.net/banner/banner1.webp";
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [loadedBanners, setLoadedBanners] = useState([banner1]);
+    const [loadedBanners, setLoadedBanners] = useState([bannerCDN1]);
 
     // ✅ Lazy Loading 적용
     useEffect(() => {
-        const loadNextImage = async () => {
+        const loadNextImage =  () => {
             if (loadedBanners.length < bannerImports.length + 1) {
                 try {
-                    const nextImage = await bannerImports[loadedBanners.length - 1]();
-                    setLoadedBanners((prevBanners) => [...prevBanners, nextImage.default]);
+                    const nextImage = bannerImports[loadedBanners.length - 1];
+                    setLoadedBanners((prevBanners) => [...prevBanners, nextImage]);
                 } catch (error) {
                     console.error("Failed to load image", error);
                 }
@@ -40,11 +40,14 @@ const Banner = memo(() => {
     return (
         <style.SliderContainer>
             <Suspense fallback={<div>Loading Banner...</div>}>
-                {loadedBanners.map((image, index) => (
-                    <style.Slide key={index} active={index === currentIndex}>
-                        <img src={image} alt={`Banner ${index + 1}`} />
-                    </style.Slide>
-                ))}
+                {loadedBanners.map((image, index) => {
+                    return (
+                        <style.Slide key={index} active={index === currentIndex}>
+                            <img src={image} alt={`Banner ${index + 1}`}/>
+                        </style.Slide>
+
+                    )}
+                )}
             </Suspense>
         </style.SliderContainer>
     );
