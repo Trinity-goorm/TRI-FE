@@ -22,4 +22,30 @@ export const Slide = styled.div`
         height: 100%;
         object-fit: cover;
     }
-`
+`;
+
+export const PrevButton = styled.button`
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+    opacity: 0.8;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+    color: white;
+`;
+
+export const NextButton = styled.button`
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+    opacity: 0.8;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+    color: white;
+`;

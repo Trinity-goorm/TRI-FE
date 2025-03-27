@@ -8,7 +8,8 @@ import NotificationHandler from "./service/foregroundMessage.js";
 import NotificationModal from "./components/modal/NotificationModal.jsx";
 
 // ✅ 페이지별 코드 스플리팅 (lazy 로드)
-const HomePage = lazy(() => import("./pages/home/HomePage.main.jsx"));
+//const HomePage = lazy(() => import("./pages/home/HomePage.main.jsx"));
+import HomePage from "./pages/home/HomePage.main.jsx";
 const MyDiningPage = lazy(() => import("./pages/mydining/MyDiningPage.main.jsx"));
 const MyPage = lazy(() => import("./pages/mypage/MyPage.main.jsx"));
 const ReservationMainPage = lazy(() => import("./pages/reservation/Reservation.modal.jsx"));
