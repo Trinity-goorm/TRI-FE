@@ -11,11 +11,12 @@ import ReservationModal from "../../pages/reservation/Reservation.modal.jsx";
 
 //API
 import getRestaurantDetail from "../../api/detail/get/GetRestaurantDetail.js";
-import { ScrollProvider } from "../../context/ScrollContext.jsx";
+
 import ProfilerTableLogWrapper from "../../components/search/ProfilerTableLogWrapper.jsx";
 
 //Context
-import {LikeProvider} from "../../context/LikeContext.jsx";
+import { LikeProvider } from "../../context/LikeContext.jsx";
+import { ScrollProvider } from "../../context/ScrollContext.jsx";
 
 
 const DetailPage = () => {

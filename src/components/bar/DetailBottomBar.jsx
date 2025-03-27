@@ -5,7 +5,6 @@ import ReservationButton from "../button/ReservationButton.jsx";
 import useLike from "../../hooks/useLike.js";
 
 import { useLikeContext } from "../../context/LikeContext.jsx";
-import {useScroll} from "../../util/ScrollContext.jsx";
 
 
 const DetailBottomBar = ({id, wishCount, openModal, closeModal, ...props}) => {
