@@ -1,14 +1,19 @@
-import "./App.css";
-import React, { lazy, Suspense } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { RecoilRoot } from "recoil";
+import './App.css';
+import React, { lazy, Suspense } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 // ✅ 전역 컴포넌트는 미리 로드 (초기 로딩 최적화)
-import NotificationHandler from "./service/foregroundMessage.js";
-import NotificationModal from "./components/modal/NotificationModal.jsx";
+import NotificationHandler from './service/foregroundMessage.js';
+import NotificationModal from './components/modal/NotificationModal.jsx';
+
+const queryClient = new QueryClient();
 
 // ✅ 페이지별 코드 스플리팅 (lazy 로드)
-const HomePage = lazy(() => import("./pages/home/HomePage.main.jsx"));
+//const HomePage = lazy(() => import("./pages/home/HomePage.main.jsx"));
+import HomePage from "./pages/home/HomePage.main.jsx";
 const MyDiningPage = lazy(() => import("./pages/mydining/MyDiningPage.main.jsx"));
 const MyPage = lazy(() => import("./pages/mypage/MyPage.main.jsx"));
 const ReservationMainPage = lazy(() => import("./pages/reservation/Reservation.modal.jsx"));
@@ -26,13 +31,13 @@ const Onboarding = lazy(() => import("./pages/onboarding/Onboarding.jsx"));
 
 function App() {
   return (
-      <RecoilRoot>
+    <RecoilRoot>
+      <QueryClientProvider client={queryClient}>
         <Router>
-          <NotificationHandler />
-          <NotificationModal />
-
           {/* ✅ Suspense로 코드 스플리팅된 컴포넌트 감싸기 */}
           <Suspense fallback={<div>Loading...</div>}>
+            <NotificationHandler />
+            <NotificationModal />
             <Routes>
               <Route path="*" element={<HomePage />} />
               <Route path="/" element={<HomePage />} />
@@ -47,13 +52,15 @@ function App() {
               <Route path="/search/total" element={<SearchKeywordTotal />} />
               <Route path="/reservation/:id" element={<ReservationMainPage />} />
               <Route path="/reservation/confirm/:id" element={<ReservationConfirm />} />
-              <Route path="/reservation/payment" element={<ReservationPaymentPage />} />
+              <Route path="/reservation/payment/:id" element={<ReservationPaymentPage />} />
               <Route path="/mydining/reservation" element={<MyDiningReservation />} />
               <Route path="/mydining/vacancy" element={<MyDiningVacancy />} />
             </Routes>
           </Suspense>
         </Router>
-      </RecoilRoot>
+        <ReactQueryDevtools />
+      </QueryClientProvider>
+    </RecoilRoot>
   );
 }
 

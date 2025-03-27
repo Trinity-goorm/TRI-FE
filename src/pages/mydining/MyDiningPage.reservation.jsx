@@ -2,41 +2,48 @@ import * as style from "./style/MyDiningPage.sub.js";
 import DiningComponent from "../../components/dining/DiningComponent.jsx";
 import GetUserReservations from "../../api/reservation/get/GetUserReservations.js";
 import {useEffect, useState} from "react";
-
-
 //API
 import PostReservationCancel from "../../api/reservation/post/PostReservationCancel.js";
 import Modal from "../../components/modal/Modal.jsx";
 import NoSavedRestaurant from "../../components/restaurant/NoSavedRestuarant.jsx";
 
-//Recoil
-import {useRecoilValue} from "recoil";
-import {userState} from "../../atoms/userState.js";
-
 const MyDiningReservation = () => {
     const [isCancel, setIsCancel] = useState(false);
     const [selectedReservation, setSelectedReservation] = useState(null);
-    const userInfo = useRecoilValue(userState);
-    const userId = userInfo.userId;
     const [reservations, setReservations] = useState([]);
+    const [pageSize, setPageSize] = useState(30);
+    const today = new Date();
 
     const fetchUserReservations = async () => {
         try{
-            const response = await GetUserReservations(userId);
+            const response = await GetUserReservations(pageSize);
             console.log("사용자 예약 정보 불러오기 성공", response);
-            setReservations(response.reservations?.filter((res) =>
-                res.status === "COMPLETED"
-            ));
+            const filteredReservations = response.reservations.filter((reservation) => {
+                return reservation.status === "COMPLETED";
+            }).map((reservation) => {
+                const isFuture = new Date(reservation.reservationDate) >= today;
+                return {
+                    ...reservation,
+                    tag: isFuture ? "방문 예정" : "방문 완료",
+                }
+            });
+            setReservations(filteredReservations);
+            if (response.hasNext){
+                setPageSize((prev) => prev + prev + 30);
+            }
 
         }catch(error){
             console.log("사용자 예약 정보 불러오기 실패",error);
         }
     }
 
+
     useEffect(() => {
         fetchUserReservations();
-    },[]);
+    },[pageSize]);
 
+
+    // 취소 기능
     const cancelReservation = async () => {
 
 
@@ -56,12 +63,12 @@ const MyDiningReservation = () => {
 
         }
 
-    }
+    };
 
     const onClickCancel = async (reservationId) => {
         await setSelectedReservation(reservationId);
         setIsCancel(true);
-    }
+    };
 
 
     return (
@@ -70,10 +77,11 @@ const MyDiningReservation = () => {
                 {
                     reservations.length > 0 ? (
                         reservations.map((reservation, index) => (
-                                <DiningComponent key={index} tagText={"방문 예정"}
-                                                 reservation={reservation}
-                                                 onCancel={() => onClickCancel(reservation.reservationId)}
-                                />
+                            <DiningComponent key={index} tagText={reservation.tag}
+                                                reservation={reservation}
+                                             onCancel={() => onClickCancel(reservation.reservationId)}/>
+
+
                             ))
                     ) : (
                         <style.NoRestaurantWrapper>

@@ -28,3 +28,4 @@ dist-ssr
 /public/firebase-messaging-sw.js
 /src/test
 setupTests.js
+stats.html

@@ -23,7 +23,7 @@ const HomePage = () => {
                       </ProfileComponent>
                   </style.RecommendContainer>
                   <style.CategoryContainer>
-                      <CategoryComponent/>
+                    <CategoryComponent/>
                   </style.CategoryContainer>
               </style.InnerContainer>
               <style.BottomBarContainer>

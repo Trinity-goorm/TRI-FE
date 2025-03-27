@@ -1,6 +1,6 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import SearchTotal from '../../components/search/SearchTotal';
-import GetCategoryRestList from '../../api/search/GetCategoryRestList';
+import { useGetCatRestaurant } from '../../api/queries/restaurantQueries';
 
 const SearchCategoryTotal = () => {
   const nav = useNavigate();
@@ -9,7 +9,7 @@ const SearchCategoryTotal = () => {
 
   return (
     <SearchTotal
-      fetchDataFn={GetCategoryRestList}
+      fetchQueryFn={useGetCatRestaurant}
       searchValue={category}
       navPath={() => nav('/search')}
       backPath={() => nav('/')}

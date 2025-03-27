@@ -1,6 +1,6 @@
 
 const ConvenienceIcon = ({convenience}) => {
-    if (convenience === "WIFI") {
+/*    if (convenience === "WIFI") {
         return <span className="material-icons" style={{fontSize: "30px"}}>wifi</span>
     } else if (convenience === "동물출입") {
         return <span className="material-icons" style={{fontSize: "30px"}}>pets</span>
@@ -14,7 +14,7 @@ const ConvenienceIcon = ({convenience}) => {
         return <span className="material-icons" style={{fontSize: "30px"}}>smart_toy</span>
     } else{
         return null;
-    }
+    }*/
 
 }
 export default ConvenienceIcon;

@@ -10,7 +10,7 @@ const BottomBar = () => {
         <style.BottomBarContainer>
             <style.BarContainer>
                 <style.ButtonContainer data-testid="homeButton" onClick={() => navigate("/")}>
-                    <span className="material-symbols-outlined" style={{fontSize: "28px", color: "gray"}}>home</span>
+                    <span className="material-icons-outlined" style={{fontSize: "28px", color: "gray"}}>home</span>
                 </style.ButtonContainer>
                 <style.ButtonContainer data-testid="myDiningButton" onClick={() => navigate("/mydining")}>
                     <span className="material-icons-outlined" style={{fontSize: "25px", color: "gray"}}>calendar_today</span>

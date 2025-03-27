@@ -1,6 +1,6 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import SearchTotal from '../../components/search/SearchTotal';
-import GetKeywordRestList from '../../api/search/GetKeywordRestList';
+import { useGetKeyRestaurant } from '../../api/queries/restaurantQueries';
 
 const SearchKeywordTotal = () => {
   const nav = useNavigate();
@@ -9,7 +9,7 @@ const SearchKeywordTotal = () => {
 
   return (
     <SearchTotal
-      fetchDataFn={GetKeywordRestList}
+      fetchQueryFn={useGetKeyRestaurant}
       searchValue={keyword}
       navPath={() => nav(`/search?keyword=${keyword}`)}
       displayText={keyword === '' ? '찾고 있는 맛집이 있나요?' : keyword}

@@ -49,6 +49,7 @@ export const ImageSliderContainer = styled.div`
   width: 480px;
   height: 270px;
   overflow-x: auto;
+  overflow-y: hidden;
   white-space: nowrap;
   display: flex;
   flex-direction: row;

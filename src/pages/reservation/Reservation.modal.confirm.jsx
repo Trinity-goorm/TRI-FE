@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import * as style from "./style/Reservation.modal.confirm.js";
 import ReservationButton from "../../components/button/ReservationButton.jsx";
 import Modal from "../../components/modal/Modal.jsx";
@@ -9,25 +9,21 @@ import postPreoccupy from "../../api/reservation/post/PostPreoccupy.js";
 import { useEffect } from "react";
 
 const ReservationConfirm = () => {
+  const restaurantId = useParams().id;
+  console.log(restaurantId);
   const location = useLocation();
   const reservation = location.state;
   const [isTicketLack, setIsTicketLack] = useState(false);
-
   const [reservationId, setReservationId] = useState(null);
+
+
   const [preoccupyData, setPreoccupyData] = useState({
-    restaurantId: reservation.restaurantId,
+    restaurantId: restaurantId,
     seatTypeId: reservation.seatTypeId,
     seatType: reservation.seatType,
     selectedDate: reservation.selectedDate,
     reservationTime: reservation.reservationTime,
-  });
-  const [reservationData, setReservationData] = useState({
-    restaurantId: 2,
-    seatTypeId: 2,
-    seatType: reservation.seatType,
-    selectedDate: "2025-02-26",
-    reservationTime: "10:00",
-    reservationId: null,
+    reservationId: null
   });
 
   const navigate = useNavigate();
@@ -36,8 +32,8 @@ const ReservationConfirm = () => {
     navigate("/");
   };
   const onMovetoPayment = () => {
-    navigate("/reservation/payment", {
-      state: reservationData,
+    navigate(`/reservation/payment/${reservation.restaurantId}`, {
+      state: preoccupyData,
     });
   };
 
@@ -46,16 +42,20 @@ const ReservationConfirm = () => {
     try {
       const response = await postPreoccupy(data);
       console.log("☕️예약 선점 성공", response);
-      setReservationData((prevData) => ({
+      setReservationId(response.reservationId);
+      setPreoccupyData((prevData) => ({
         ...prevData,
         reservationId: response.reservationId,
       }));
+
     } catch (error) {
       console.error("💀예약 선점 실패", error);
       if (error.response.data.code === "NOT_ENOUGH_REMAINING_TICKETS") {
+        console.log("티켓 부족");
         setIsTicketLack(true);
       }
     }
+    console.log(preoccupyData);
   };
 
   const handleSubmit = async () => {
@@ -63,10 +63,10 @@ const ReservationConfirm = () => {
   };
 
   useEffect(() => {
-    if (reservationData.reservationId) {
+    if (reservationId) {
       onMovetoPayment();
     }
-  }, [reservationData.reservationId]);
+  }, [reservationId]);
 
   return (
     <>
