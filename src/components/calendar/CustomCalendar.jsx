@@ -27,6 +27,7 @@ const CustomCalendar = ({ onSelectDate, selectedDate }) => {
                 value={date}
                 calendarType="gregory"
                 view="month"
+                maxDetail="month"
                 prev2Label={null}
                 next2Label={null}
                 showNeighboringMonth={false}

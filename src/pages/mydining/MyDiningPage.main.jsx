@@ -3,7 +3,7 @@ import BottomBar from "../../components/bar/BottomBar.jsx";
 import {useEffect, useState} from "react";
 import MyDiningReservation from "../../pages/mydining/MyDiningPage.reservation.jsx";
 import MyDiningVacancy from "./MyDiningPage.vacancy.jsx";
-import myReservation from "../../assets/dummydata/MyReservation.js";
+
 
 
 const MyDiningPage = () => {

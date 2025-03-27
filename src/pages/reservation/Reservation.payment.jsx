@@ -1,44 +1,28 @@
 import * as style from "./style/Reservation.payment.js";
-import { useLocation, useNavigate } from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import PaymentTopBar from "../../components/bar/PaymentTopBar.jsx";
 import PaymentBottomBar from "../../components/bar/PaymentBottomBar.jsx";
+import PaymentTicket from "./Reservation.payment.ticket.jsx";
+import PaymentAgree from "./Reservation.payment.agree.jsx";
 import { useEffect, useState } from "react";
 //API
 import postPreoccupyCancel from "../../api/reservation/post/PostPreoccupyCancel.js";
 import postReservationComplete from "../../api/reservation/post/PostReservationComplete.js";
+//Context
+import { PaymentProvider } from "../../context/PaymentContext.jsx";
+import { PaymentTicketProvider } from "../../context/PaymentTicketContext.jsx";
 
 const ReservationPaymentPage = () => {
+  const restaurantId = useParams().id;
   const location = useLocation();
   const navigate = useNavigate();
-  const reservation = location.state;
-  const reservationId = reservation.reservationId;
-  console.log("전달된 예약 정보 🤝", reservationId);
-
-  const [isClick, setIsClick] = useState(false);
-  const [isAllCheck, setIsAllCheck] = useState(false);
-  const [isFirstCheck, setIsFirstCheck] = useState(false);
-  const [isSecondCheck, setIsSecondCheck] = useState(false);
-  const [isReservation, setIsReservation] = useState(false);
+  const preoccupyData = location.state;
+  const reservationId = preoccupyData.reservationId;
   const [isTimeOver, setIsTimeOver] = useState(false);
 
-  const onClickTicketUse = () => {
-    setIsClick((prev) => !prev);
-  };
-  const onClickAllCheck = () => {
-    setIsAllCheck((prev) => !prev);
-    setIsFirstCheck((prev) => !prev);
-    setIsSecondCheck((prev) => !prev);
-  };
-  const onClickFirstCheck = () => {
-    setIsFirstCheck((prev) => !prev);
-  };
-  const onClickSecondCheck = () => {
-    setIsSecondCheck((prev) => !prev);
-  };
+  console.log(reservationId, "reservationId", preoccupyData);
 
-  //useEffect
-
-  useEffect(() => {
+    useEffect(() => {
     // 현재 페이지에서 뒤로 가기를 막음
     window.history.pushState(null, "", window.location.href);
     const handleBack = () => {
@@ -51,11 +35,6 @@ const ReservationPaymentPage = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (isAllCheck && isFirstCheck && isSecondCheck && isClick) {
-      setIsReservation(true);
-    }
-  }, [isAllCheck, isFirstCheck, isSecondCheck, isClick]);
 
   useEffect(() => {
     const preoccupyCancel = async () => {
@@ -77,7 +56,10 @@ const ReservationPaymentPage = () => {
   }, [isTimeOver, reservationId]);
 
   const reservationComplete = async () => {
-    if (!isReservation || !reservationId) return;
+    if (!reservationId) {
+      console.log("예약 번호가 유효하지 않습니다");
+      return
+    };
     try {
       const response = await postReservationComplete(reservationId);
       console.log("☕ 예약 결제 성공:", response);
@@ -92,95 +74,44 @@ const ReservationPaymentPage = () => {
   };
 
   return (
-    <style.TotalContainer>
-      <style.TopBarContainer>
-        <PaymentTopBar setIsTimeOver={setIsTimeOver} />
-      </style.TopBarContainer>
-      <style.InnerContentContainer>
-        <style.ReservationInfoContainer>
-          <style.TitleContainer>예약 정보</style.TitleContainer>
-          <style.InfoContainer>
-            <style.InfoContext>
-              <style.InfoTitle>날짜</style.InfoTitle>
-              {reservation.selectedDate}
-            </style.InfoContext>
-            <style.InfoContext>
-              <style.InfoTitle>시간</style.InfoTitle>
-              {reservation.reservationTime}
-            </style.InfoContext>
-            <style.InfoContext>
-              <style.InfoTitle>좌석 유형</style.InfoTitle>
-              {reservation.seatType.minCapacity} ~{" "}
-              {reservation.seatType.maxCapacity} 인석
-            </style.InfoContext>
-          </style.InfoContainer>
-        </style.ReservationInfoContainer>
-        <style.ReservationInfoContainer>
-          <style.TitleContainer>예약금 결제 방법</style.TitleContainer>
-          <style.TicketUseContainer>
-            <style.TicketUse>
-              <style.TicketUseButton
-                onClick={onClickTicketUse}
-                isClick={isClick}
-                type="button"
-              >
-                <style.TicketUseButtonInside></style.TicketUseButtonInside>
-              </style.TicketUseButton>
-              티켓 사용
-            </style.TicketUse>
-            <style.TicketExplain>티켓 10개 차감</style.TicketExplain>
-            <style.TicketRefundExplain>
-              💵 티켓 사용 금액은 매장에서 결제시 반환해 드려요!
-            </style.TicketRefundExplain>
-          </style.TicketUseContainer>
-        </style.ReservationInfoContainer>
-        <style.AgreeContainer>
-          <style.AllAgreeContainer>
-            <style.CheckButton
-                onClick={onClickAllCheck}
-                isCheck={isAllCheck}
-                type="button"
-            >
-              <span className="material-icons" style={{fontSize: "20px",color: "white", }}>done</span>
-            </style.CheckButton>
-            모두 동의합니다.
-          </style.AllAgreeContainer>
-          <style.RuleContainer>
-            <style.CheckButton
-                onClick={onClickFirstCheck}
-                isCheck={isFirstCheck}
-                type="button"
-            >
-              <span className="material-icons" style={{fontSize: "20px", color: "white",}}>done</span>
-            </style.CheckButton>
-            취소 및 환불 정책 동의
-          </style.RuleContainer>
-          <style.RefundRuleContainer>
-            - 노쇼 시: 사용 티켓 환불 불가 <br />
-            - 당일 취소: 사용 티켓 환불 불가 <br />- 3일 전까지 취소: 사용 티켓
-            100% 환불
-          </style.RefundRuleContainer>
+      <PaymentProvider>
+        <PaymentTicketProvider>
+          <style.TotalContainer>
+            <style.TopBarContainer>
+              <PaymentTopBar setIsTimeOver={setIsTimeOver}/>
+            </style.TopBarContainer>
+            <style.InnerContentContainer>
+              <style.ReservationInfoContainer>
+                <style.TitleContainer>예약 정보</style.TitleContainer>
+                <style.InfoContainer>
+                  <style.InfoContext>
+                    <style.InfoTitle>날짜</style.InfoTitle>
+                    {preoccupyData.selectedDate}
+                  </style.InfoContext>
+                  <style.InfoContext>
+                    <style.InfoTitle>시간</style.InfoTitle>
+                    {preoccupyData.reservationTime}
+                  </style.InfoContext>
+                  <style.InfoContext>
+                    <style.InfoTitle>좌석 유형</style.InfoTitle>
+                    {preoccupyData.seatType.minCapacity} ~{" "}
+                    {preoccupyData.seatType.maxCapacity} 인석
+                  </style.InfoContext>
+                </style.InfoContainer>
+              </style.ReservationInfoContainer>
+              <PaymentTicket/>
+              <PaymentAgree/>
+            </style.InnerContentContainer>
 
-          <style.RuleContainer>
-            <style.CheckButton
-                onClick={onClickSecondCheck}
-                isCheck={isSecondCheck}
-                type="button"
-            >
-              <span className="material-icons" style={{fontSize: "20px", color: "white",}}>done</span>
-            </style.CheckButton>
-            개인정보 제3자 제공 동의
-          </style.RuleContainer>
-        </style.AgreeContainer>
-      </style.InnerContentContainer>
-      <style.BottomBarContainer>
-        <PaymentBottomBar
-          reservation={reservation}
-          isReservation={isReservation}
-          onClickPayment={onClickPayment}
-        />
-      </style.BottomBarContainer>
-    </style.TotalContainer>
+            <style.BottomBarContainer>
+              <PaymentBottomBar
+                  reservation={preoccupyData}
+                  onClickPayment={onClickPayment}
+              />
+            </style.BottomBarContainer>
+          </style.TotalContainer>
+        </PaymentTicketProvider>
+      </PaymentProvider>
   );
 };
 export default ReservationPaymentPage;

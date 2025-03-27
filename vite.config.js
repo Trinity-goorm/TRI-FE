@@ -32,7 +32,13 @@ export default defineConfig({
 
   build: {
     rollupOptions: {
-      plugins: [visualizer({ open: true })],
+      plugins: [visualizer({
+        template: 'sunburst',
+        gzipSize: true,
+        brotliSize: true,
+        filename: 'dist/stats.html',
+        open: true
+      })],
     },
   },
 });

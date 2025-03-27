@@ -23,6 +23,7 @@ export const TotalContainer = styled.div`
     background-color: white; /* 모달 내용 */
     border-radius: 20px 20px 0px 0px;
     padding: 15px;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
 `;
 

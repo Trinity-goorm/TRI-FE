@@ -7,9 +7,16 @@ import MenuComponent from "../../components/menu/MenuComponent.jsx";
 import DetailInfo from "../detail/DetailPage.DetailInfo.jsx";
 import DetailBottomBar from "../../components/bar/DetailBottomBar.jsx";
 import DetailLocation from "../../pages/detail/DetailPage.Location.jsx";
-import ReservationModal from "../../pages/reservation/Reservation.modal.jsx"
+import ReservationModal from "../../pages/reservation/Reservation.modal.jsx";
+
 //API
 import getRestaurantDetail from "../../api/detail/get/GetRestaurantDetail.js";
+import { ScrollProvider } from "../../context/ScrollContext.jsx";
+import ProfilerTableLogWrapper from "../../components/search/ProfilerTableLogWrapper.jsx";
+
+//Context
+import {LikeProvider} from "../../context/LikeContext.jsx";
+
 
 const DetailPage = () => {
     const {id} = useParams();
@@ -28,7 +35,7 @@ const DetailPage = () => {
 
     const makeImageUrls = (imageUrls) =>{
         return imageUrls.map((url, index) => (
-                `https://${url}`
+            `https://${url}`
         ));
     };
 
@@ -86,102 +93,106 @@ const DetailPage = () => {
 
 
     return (
-        <style.TotalContainer>
-            <style.TopBarContainer isScrolled={isScrolled}>
-                {restaurantDetail && (
-                    <DetailTopBar
-                        isScrolled={isScrolled}
-                        data-testid="detail-topbar"
-                        name={restaurantDetail.name}
-                        id={id}
-                        wishCount={restaurantDetail.wishCount}
-                    />
-                )}
-            </style.TopBarContainer>
-            <style.InnerContentContainer>
-                <style.ImageSliderContainer>
-                    {images.map((image, index) => {
-                        return <style.ImgDiv key={`${image.id}-${index}`} $imgUrl={image} data-testid="imgEach"/>;
-                    })}
+        <LikeProvider restaurantId={id} initialWishCount={restaurantDetail.wishCount}>
+            <ProfilerTableLogWrapper id="DetailPage">
+                <ScrollProvider>
+                    <style.TotalContainer>
+                        <style.TopBarContainer>
+                            {restaurantDetail && (
+                                <DetailTopBar
+                                    data-testid="detail-topbar"
+                                    name={restaurantDetail.name}
+                                    id={id}
+                                />
+                            )}
+                        </style.TopBarContainer>
+                        <style.InnerContentContainer>
+                            <style.ImageSliderContainer>
+                                {images.map((image, index) => {
+                                    return <style.ImgDiv key={`${image.id}-${index}`} $imgUrl={image} data-testid="imgEach"/>;
+                                })}
 
-                </style.ImageSliderContainer>
-                <style.MainInfoContainer>
-                    <style.MainInfoFirstContainer>
-                        <style.CategoryContainer data-testid="restaurantCategory">
-                            {restaurantDetail.category}
-                        </style.CategoryContainer>
-                        <style.NameContainer data-testid="restaurantName">
-                            {restaurantDetail.name}
-                        </style.NameContainer>
-                        <style.StarScoreContainer>
-                            <style.StarContainer>
-                                    <span className="material-icons"
-                                          style={{fontSize: "18px", color: "gold"}}>star</span>
-                            </style.StarContainer>
-                            {restaurantDetail.rating}
-                        </style.StarScoreContainer>
-                    </style.MainInfoFirstContainer>
-                    <style.MainInfoSecondContainer>
-                        <style.LocationFirstContainer data-testid="restaurantLocation">
-                            <style.LocationIcon>
-                                    <span className="material-icons-outlined"
-                                          style={{fontSize: "19px"}}>location_on</span>
-                            </style.LocationIcon>
-                            {restaurantDetail.location}
-                        </style.LocationFirstContainer>
-                        <style.AveragePriceContainer>
-                            <style.PriceIcon>
-                                <span className="material-icons-outlined" style={{fontSize: "17px"}}>paid</span>
-                            </style.PriceIcon>
-                            평균 가격 : {averagePrice} 원
-                        </style.AveragePriceContainer>
-                        <style.TimeContainer>
-                            <style.PriceIcon>
-                                <span className="material-icons" style={{fontSize: "17px"}}>schedule</span>
-                            </style.PriceIcon>
-                            {restaurantDetail.expandedDays === "null" ? "운영일 제공 x" : restaurantDetail.expandedDays}{'\u00A0\u00A0\u00A0'}
-                            {restaurantDetail.timeRange === "null" ? "운영시간 제공 x" : restaurantDetail.timeRange}
-                        </style.TimeContainer>
+                            </style.ImageSliderContainer>
+                            <style.MainInfoContainer>
+                                <style.MainInfoFirstContainer>
+                                    <style.CategoryContainer data-testid="restaurantCategory">
+                                        {restaurantDetail.category}
+                                    </style.CategoryContainer>
+                                    <style.NameContainer data-testid="restaurantName">
+                                        {restaurantDetail.name}
+                                    </style.NameContainer>
+                                    <style.StarScoreContainer>
+                                        <style.StarContainer>
+                                            {/*         <span className="material-icons"
+                                          style={{fontSize: "18px", color: "gold"}}>star</span>*/}
+                                        </style.StarContainer>
+                                        {restaurantDetail.rating}
+                                    </style.StarScoreContainer>
+                                </style.MainInfoFirstContainer>
+                                <style.MainInfoSecondContainer>
+                                    <style.LocationFirstContainer data-testid="restaurantLocation">
+                                        <style.LocationIcon>
+                                            {/*      <span className="material-icons-outlined"
+                                          style={{fontSize: "19px"}}>location_on</span>*/}
+                                        </style.LocationIcon>
+                                        {restaurantDetail.location}
+                                    </style.LocationFirstContainer>
+                                    <style.AveragePriceContainer>
+                                        <style.PriceIcon>
+                                            {/*        <span className="material-icons-outlined" style={{fontSize: "17px"}}>paid</span>*/}
+                                        </style.PriceIcon>
+                                        평균 가격 : {averagePrice} 원
+                                    </style.AveragePriceContainer>
+                                    <style.TimeContainer>
+                                        <style.PriceIcon>
+                                            {/*    <span className="material-icons" style={{fontSize: "17px"}}>schedule</span>*/}
+                                        </style.PriceIcon>
+                                        {restaurantDetail.expandedDays === "null" ? "운영일 제공 x" : restaurantDetail.expandedDays}{'\u00A0\u00A0\u00A0'}
+                                        {restaurantDetail.timeRange === "null" ? "운영시간 제공 x" : restaurantDetail.timeRange}
+                                    </style.TimeContainer>
 
-                    </style.MainInfoSecondContainer>
-                </style.MainInfoContainer>
+                                </style.MainInfoSecondContainer>
+                            </style.MainInfoContainer>
 
 
-                <style.MenuContainer>
-                    <style.MenuTitle>
-                        메뉴
-                        <style.MenuButton>
-                            메뉴판
-                        </style.MenuButton>
-                    </style.MenuTitle>
-                    {menus.map((item, index) => (
-                        <MenuComponent key={`${item.id}+${item.name}`} name={item.name} price={item.price}
-                                       data-testid="restaurantMenu"/>
-                    ))}
-                </style.MenuContainer>
-                <style.LocationContainer>
-                    <DetailLocation address={restaurantDetail.location}/>
+                            <style.MenuContainer>
+                                <style.MenuTitle>
+                                    메뉴
+                                    <style.MenuButton>
+                                        메뉴판
+                                    </style.MenuButton>
+                                </style.MenuTitle>
+                                {menus.map((item, index) => (
+                                    <MenuComponent key={`${item.id}+${item.name}`} name={item.name} price={item.price}
+                                                   data-testid="restaurantMenu"/>
+                                ))}
+                            </style.MenuContainer>
+                            <style.LocationContainer>
+                                <DetailLocation address={restaurantDetail.location}/>
 
-                </style.LocationContainer>
-                <style.DetailInfoContainer>
-                    <DetailInfo cautions={restaurantDetail.cautions} convenience={restaurantDetail.facilities}
-                                number={restaurantDetail.phone_number}/>
-                </style.DetailInfoContainer>
+                            </style.LocationContainer>
+                            <style.DetailInfoContainer>
+                                <DetailInfo cautions={restaurantDetail.cautions} convenience={restaurantDetail.facilities}
+                                            number={restaurantDetail.phone_number}/>
+                            </style.DetailInfoContainer>
 
-            </style.InnerContentContainer>
-            <style.BottomBarContainer>
-                <DetailBottomBar
-                    id={id}
-                    wishCount={restaurantDetail.wishCount}
-                    openModal={openModal} closeModal={closeModal}
-                    data-testid="bottomBar"/>
-            </style.BottomBarContainer>
+                        </style.InnerContentContainer>
+                        <style.BottomBarContainer>
+                            <DetailBottomBar
+                                id={id}
+                                wishCount={restaurantDetail.wishCount}
+                                openModal={openModal} closeModal={closeModal}
+                                data-testid="bottomBar"/>
+                        </style.BottomBarContainer>
 
-            <ReservationModal isOpen={isModalOpen} closeModal={closeModal}
-                              restaurantId={restaurantDetail.restaurantId} remoteSelectDate={remoteSelectDate}
-                              data-testid="reservationModal"/>
+                        <ReservationModal isOpen={isModalOpen} closeModal={closeModal}
+                                          restaurantId={restaurantDetail.restaurantId} remoteSelectDate={remoteSelectDate}
+                                          data-testid="reservationModal"/>
 
-        </style.TotalContainer>
+                    </style.TotalContainer>
+                </ScrollProvider>
+            </ProfilerTableLogWrapper>
+        </LikeProvider>
 
     )
 };

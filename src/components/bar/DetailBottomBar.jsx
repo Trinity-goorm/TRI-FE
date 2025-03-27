@@ -4,18 +4,21 @@ import SaveButton from "../save/SaveButton.jsx";
 import ReservationButton from "../button/ReservationButton.jsx";
 import useLike from "../../hooks/useLike.js";
 
+import { useLikeContext } from "../../context/LikeContext.jsx";
+import {useScroll} from "../../util/ScrollContext.jsx";
+
+
 const DetailBottomBar = ({id, wishCount, openModal, closeModal, ...props}) => {
 
     const navigate = useNavigate();
     const onClickMove = () => {
         navigate(`/reservation/${restaurantId}`);
-    };
-
-    const { likeCount, isSaved, handleLike } = useLike(id, wishCount);
+    }
+    const { likeCount, isSaved, handleLike } = useLikeContext();
     return (
         <style.BottomBarContainer {...props}>
             <style.SaveContainer onClick={() => handleLike(id)} data-testid="likeButton">
-                <SaveButton color={"white"} isLiked={isSaved} size={28} />
+               <SaveButton color={"white"} isLiked={isSaved} size={28} />
                 <style.SaveCountContainer data-testid="likeCount">
                     {likeCount}
                 </style.SaveCountContainer>

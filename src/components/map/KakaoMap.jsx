@@ -4,6 +4,7 @@ import * as style from '../../pages/detail/style/DetailPage.Location.js';
 const DetailLocation = ({ address }) => {
   const KAKAO_REST_KEY = import.meta.env.VITE_REST_KEY;
   const KAKAO_JS_KEY = import.meta.env.VITE_JS_KEY;
+  console.log(KAKAO_REST_KEY, KAKAO_JS_KEY);
   const [coords, setCoords] = useState({ latitude: null, longitude: null });
   const [isScriptLoaded, setIsScriptLoaded] = useState(false);
 

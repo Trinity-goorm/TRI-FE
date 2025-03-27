@@ -12,7 +12,7 @@ const TopBar = () => {
             <span className="material-icons" style={{ fontSize: "25px", color: "gray" }} >search</span>
         </style.SearchBar>
       </style.SearchBarContainer>
-        <style.MovetoSaveButton>
+        <style.MovetoSaveButton onClick={() => nav("/mypage")}>
             <span className="material-icons" style={{ fontSize: "30px", color: "gray" }} >bookmark_border</span>
         </style.MovetoSaveButton>
     </style.TopBarContainer>

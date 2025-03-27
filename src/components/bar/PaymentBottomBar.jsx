@@ -1,9 +1,12 @@
 import * as style from "./style/PaymentBottomBar.js";
 import ReservationButton from "../button/ReservationButton.jsx";
 
-const PaymentBottomBar = ({reservation, isReservation, onClickPayment}) => {
+//Context
+import { usePaymentContext } from "../../context/PaymentContext.jsx";
 
+const PaymentBottomBar = ({reservation,onClickPayment}) => {
 
+    const { isReservation, setIsReservation } = usePaymentContext();
     return (
         <style.BottomBarContainer>
             <style.BottomBarLine>
