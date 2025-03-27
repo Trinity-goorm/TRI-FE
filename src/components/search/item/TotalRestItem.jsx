@@ -3,67 +3,58 @@ import SaveButton from '../../save/SaveButton.jsx';
 import SearchReservationList from '../list/SearchReservationList.jsx';
 import { formatRating } from '../../../util/formatRating.js';
 import { formatPrice } from '../../../util/formatPrice.js';
-import { useState } from 'react';
-import PostLike from '../../../api/save/post/PostLike.js';
-import DeleLike from '../../../api/save/delete/DeleteLike.js';
 import { useNavigate } from 'react-router-dom';
 import wine from '../../../assets/img/wine1.jpg';
+import wine_webp from '../../../assets/img/wine1.webp';
+import { changeParametersForKakaoCDN } from '../../../util/imageUtils.js';
+import {
+  usePostLike,
+  useDeleteLike,
+} from '../../../api/queries/userLikeQueries.js';
+import Skeleton from '../../loadingBar/Skeleton.jsx';
+import { useState } from 'react';
 
-const TotalRestItem = ({
-  id,
-  name,
-  imgUrls,
-  category,
-  location,
-  rating,
-  operatingHour,
-  averagePrice,
-  isSaved,
-  reservation,
-}) => {
-  const [saved, setSaved] = useState(isSaved);
+const widthMap = {
+  1: 440,
+  2: 220,
+  3: 200,
+};
+
+const TotalRestItem = ({ restaurant, isSaved }) => {
   const nav = useNavigate();
+  const { mutate: postLike } = usePostLike();
+  const { mutate: deleLike } = useDeleteLike();
+  const [loadedImages, setLoadedImages] = useState(
+    new Array(restaurant.imageUrls.length).fill(false)
+  );
 
   const onClickSave = (e) => {
     e.stopPropagation();
-    setSaved((prev) => {
-      const newSaved = !prev;
 
-      if (newSaved) fetchPostLike();
-      else fetchDeleteLike();
+    if (!isSaved) postLike(restaurant);
+    else deleLike(restaurant.restaurantId);
+  };
 
-      return newSaved;
+  const handleImageLoad = (index) => {
+    setLoadedImages((prev) => {
+      const newLoadedImages = [...prev];
+      newLoadedImages[index] = true;
+      return newLoadedImages;
     });
-  };
-
-  const fetchPostLike = async () => {
-    try {
-      await PostLike(id);
-    } catch (error) {
-      console.error('💀좋아요 실패', error);
-    }
-  };
-
-  const fetchDeleteLike = async () => {
-    try {
-      await DeleLike(id);
-    } catch (error) {
-      console.error('좋아요 삭제 실패', error);
-    }
   };
 
   return (
     <TotalRestItemContainer
       onClick={() => {
-        nav(`/detail/${id}`);
+        nav(`/detail/${restaurant.restuarantId}`);
       }}
     >
       <TopContainer>
         <NameSaveContainer>
-          <NameWrapper>{name}</NameWrapper>
+          <NameWrapper>{restaurant.name}</NameWrapper>
           <SaveButtonContainer onClick={onClickSave}>
             <SaveButton
-              isLiked={saved}
+              isLiked={isSaved}
               width={'25px'}
               height={'25px'}
               size={17}
@@ -76,33 +67,85 @@ const TotalRestItem = ({
         <DetailTopContainer>
           <RatingWrapper>
             <StarIcon className='material-icons'>star</StarIcon>
-            {formatRating(rating)}
+            {formatRating(restaurant.rating)}
           </RatingWrapper>
           <div>&nbsp;· 경기 성남시 분당구</div>
-          <div>&nbsp;· {category}</div>
+          <div>&nbsp;· {restaurant.category}</div>
         </DetailTopContainer>
       </TopContainer>
 
       <ImgWrapper>
-        {imgUrls === '이미지 정보 없음' ? (
-          <ImgDiv $imgUrl={wine} $isSingle={true} />
-        ) : (
-          imgUrls.map((imgUrl, index) => (
-            <ImgDiv
-              key={index}
-              $imgUrl={imgUrl ? `https://${imgUrl}` : wine}
-              $isFirst={index === 0}
-              $isLast={index === imgUrls.length - 1}
-              $isSingle={imgUrls.length === 1}
-            />
-          ))
-        )}
+        {restaurant.imageUrls.map((imgUrl, index) => {
+          const imgWidth = widthMap[restaurant.imageUrls.length] || 200;
+          const imgSrc = `https://${changeParametersForKakaoCDN({
+            width: imgWidth,
+            height: 150,
+            quality: 100,
+            url: imgUrl || '',
+          })}`;
+
+          return (
+            <div key={index}>
+              {!loadedImages[index] && (
+                <Skeleton.Content
+                  style={{
+                    width: `${imgWidth}px`,
+                    height: '150px',
+                    borderRadius:
+                      index === 0
+                        ? '8px 0 0 8px'
+                        : index === restaurant.imageUrls.length - 1
+                        ? '0 8px 8px 0'
+                        : '0',
+                  }}
+                />
+              )}
+              {restaurant.imageUrls[0] === null ? (
+                <picture>
+                  <source srcSet={wine_webp} type='image/webp' />
+                  <img
+                    src={wine}
+                    width={440}
+                    height={150}
+                    style={{
+                      borderRadius: '8px',
+                      objectFit: 'cover',
+                      display: loadedImages[index] ? 'block' : 'none',
+                    }}
+                    onLoad={() => handleImageLoad(index)}
+                  />
+                </picture>
+              ) : (
+                <Image
+                  src={imgSrc}
+                  alt={`restaurant-${index}`}
+                  onLoad={() => handleImageLoad(index)}
+                  $isLoaded={loadedImages[index]}
+                  $isFirst={index === 0}
+                  $isLast={index === restaurant.imageUrls.length - 1}
+                  $isSingle={restaurant.imageUrls.length === 1}
+                  width={imgWidth}
+                  height={150}
+                  $loadedImages={loadedImages[index]}
+                />
+              )}
+            </div>
+          );
+        })}
       </ImgWrapper>
+
+      {/*
+        이미지 1개: 440 x 150
+        이미지 2개: 220 x 150
+        이미지 3개: 200 x 150
+      */}
 
       <BottomContainer>
         <OperatingTimeContainer>
           <ClockIcon className='material-icons'>schedule</ClockIcon>
-          {operatingHour === 'null' ? '운영 시간 정보 없음' : operatingHour}
+          {restaurant.operatingHours === 'null'
+            ? '운영 시간 정보 없음'
+            : restaurant.operatingHours}
         </OperatingTimeContainer>
         <PriceContainer>
           <div
@@ -119,11 +162,11 @@ const TotalRestItem = ({
           >
             <MoneyIcon className='material-icons'>attach_money</MoneyIcon>
           </div>
-          평균 {formatPrice(averagePrice)}
+          평균 {formatPrice(restaurant.averagePrice)}
         </PriceContainer>
       </BottomContainer>
 
-      <SearchReservationList reservation={reservation} />
+      <SearchReservationList reservation={restaurant.reservation} />
     </TotalRestItemContainer>
   );
 };
@@ -182,13 +225,10 @@ const ImgWrapper = styled.div`
   margin: 7px 0px;
 `;
 
-const ImgDiv = styled.div`
+const Image = styled.img`
   flex: 1 0 200px;
   height: 150px;
-  background-image: ${({ $imgUrl }) => `url(${$imgUrl})`};
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  object-fit: cover;
 
   border-radius: ${({ $isFirst, $isLast, $isSingle }) => {
     if ($isSingle) {
@@ -201,6 +241,8 @@ const ImgDiv = styled.div`
       return '0';
     }
   }};
+
+  display: ${({ $loadedImages }) => ($loadedImages ? 'block' : 'none')};
 `;
 
 const BottomContainer = styled.div`
