@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 
 const CautionIcon = ({caution}) => {
-    if (caution === "예약가능") {
+/*    if (caution === "예약가능") {
        return <span className="material-icons">phone_enabled</span>
     } else if (caution === "예약불가") {
         return <span className="material-icons">phone_disabled</span>
@@ -16,7 +16,7 @@ const CautionIcon = ({caution}) => {
         return <span className="material-icons">no_encryption_gmailerrorred</span>
     } else {
         return null;
-    }
+    }*/
 
 }
 export default CautionIcon;

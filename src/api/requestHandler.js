@@ -70,7 +70,7 @@ const requestHandler = async ({
         Authorization: `Bearer ${token}`,
       },
       data: ['POST', 'PUT'].includes(method) ? data : undefined, // 데이터는 POST/PUT 요청에만 포함
-      timeout: 100000,
+      timeout: 60000,
     });
 
     // 성공 메시지 로그
@@ -80,7 +80,6 @@ const requestHandler = async ({
 
     return response.data; // 성공 데이터 반환
   } catch (error) {
-    console.log(error);
     if (error.response?.status === 401) {
       window.location.href = '/login';
       localStorage.clear();

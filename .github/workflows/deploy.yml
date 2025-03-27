@@ -1,0 +1,165 @@
+name: Build and Deploy FE to ECR
+
+on:
+ push:
+   branches:
+     - main  # main 브랜치에 푸시할 때 실행
+
+jobs:
+ build-and-deploy:
+   runs-on: ubuntu-latest
+
+   steps:
+     - name: Checkout repository
+       uses: actions/checkout@v3
+
+     - name: Configure AWS credentials
+       uses: aws-actions/configure-aws-credentials@v2
+       with:
+         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+         aws-region: ${{ secrets.AWS_REGION }}
+
+     - name: Login to Amazon ECR
+       id: login-ecr
+       uses: aws-actions/amazon-ecr-login@v1
+
+     - name: Build, tag, and push Docker image
+       env:
+         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+         ECR_REPOSITORY: trinity-repo 
+         IMAGE_TAG: ${{ github.sha }}
+         VITE_APP_API_KEY: ${{ secrets.VITE_APP_API_KEY }}
+         VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
+         VITE_AUTH_DOMAIN: ${{ secrets.VITE_AUTH_DOMAIN }}
+         VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
+         VITE_STORAGE_BUCKET: ${{ secrets.VITE_STORAGE_BUCKET }}
+         VITE_MESSAGING_SENDID: ${{ secrets.VITE_MESSAGING_SENDID }}
+         VITE_APP_ID: ${{ secrets.VITE_APP_ID }}
+         VITE_VAPID_KEY: ${{ secrets.VITE_VAPID_KEY }}
+         VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
+         VITE_REDIRECT_URI: ${{ secrets.VITE_REDIRECT_URI }}
+       run: |
+         docker build \
+           --build-arg VITE_APP_API_KEY="${VITE_APP_API_KEY}" \
+           --build-arg VITE_API_KEY="${VITE_API_KEY}" \
+           --build-arg VITE_AUTH_DOMAIN="${VITE_AUTH_DOMAIN}" \
+           --build-arg VITE_PROJECT_ID="${VITE_PROJECT_ID}" \
+           --build-arg VITE_STORAGE_BUCKET="${VITE_STORAGE_BUCKET}" \
+           --build-arg VITE_MESSAGING_SENDID="${VITE_MESSAGING_SENDID}" \
+           --build-arg VITE_APP_ID="${VITE_APP_ID}" \
+           --build-arg VITE_VAPID_KEY="${VITE_VAPID_KEY}" \
+           --build-arg VITE_BASE_URL="${VITE_BASE_URL}" \
+           --build-arg VITE_REDIRECT_URI="${VITE_REDIRECT_URI}" \
+           -t $ECR_REPOSITORY:$IMAGE_TAG .
+         docker tag $ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+     - name: Setup SSH config
+       run: |
+         mkdir -p ~/.ssh
+         echo "Host bastion
+           HostName 13.124.67.16
+           User ec2-user
+           IdentityFile ~/.ssh/toby-instance-key.pem" > ~/.ssh/config
+         
+         echo "Host frontend
+           HostName 10.0.15.154
+           User ec2-user
+           ProxyJump bastion
+           IdentityFile ~/.ssh/toby-instance-key.pem" >> ~/.ssh/config
+         chmod 600 ~/.ssh/config
+
+     - name: Set SSH key
+       run: |
+         echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/toby-instance-key.pem
+         chmod 600 ~/.ssh/toby-instance-key.pem
+
+     - name: Deploy to EC2 via SSH
+       uses: appleboy/ssh-action@v0.1.6
+       env:
+         VITE_APP_API_KEY: ${{ secrets.VITE_APP_API_KEY }}
+         VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
+         VITE_AUTH_DOMAIN: ${{ secrets.VITE_AUTH_DOMAIN }}
+         VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
+         VITE_STORAGE_BUCKET: ${{ secrets.VITE_STORAGE_BUCKET }}
+         VITE_MESSAGING_SENDID: ${{ secrets.VITE_MESSAGING_SENDID }}
+         VITE_APP_ID: ${{ secrets.VITE_APP_ID }}
+         VITE_VAPID_KEY: ${{ secrets.VITE_VAPID_KEY }}
+         VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
+         VITE_REDIRECT_URI: ${{ secrets.VITE_REDIRECT_URI }}
+       with:
+         host: '10.0.15.154'
+         username: ec2-user
+         key: ${{ secrets.DEPLOY_SSH_KEY }}
+         proxy_host: '13.124.67.16'
+         proxy_username: ec2-user
+         proxy_key: ${{ secrets.DEPLOY_SSH_KEY }}
+         envs: VITE_APP_API_KEY,VITE_API_KEY,VITE_AUTH_DOMAIN,VITE_PROJECT_ID,VITE_STORAGE_BUCKET,VITE_MESSAGING_SENDID,VITE_APP_ID,VITE_VAPID_KEY,VITE_BASE_URL,VITE_REDIRECT_URI
+         script: |
+           # .env 파일 생성 및 디렉토리 생성
+           mkdir -p /home/ec2-user/TRI-FE
+           cat > /home/ec2-user/TRI-FE/.env << EOF
+           VITE_APP_API_KEY="${VITE_APP_API_KEY}"
+           VITE_API_KEY="${VITE_API_KEY}"
+           VITE_AUTH_DOMAIN="${VITE_AUTH_DOMAIN}"
+           VITE_PROJECT_ID="${VITE_PROJECT_ID}"
+           VITE_STORAGE_BUCKET="${VITE_STORAGE_BUCKET}"
+           VITE_MESSAGING_SENDID="${VITE_MESSAGING_SENDID}"
+           VITE_APP_ID="${VITE_APP_ID}"
+           VITE_VAPID_KEY="${VITE_VAPID_KEY}"
+           VITE_BASE_URL="${VITE_BASE_URL}"
+           VITE_REDIRECT_URI="${VITE_REDIRECT_URI}"
+           EOF
+
+           # 파일 권한 설정
+           chmod 600 /home/ec2-user/TRI-FE/.env
+           chown ec2-user:ec2-user /home/ec2-user/TRI-FE/.env
+
+           # Docker 배포
+           aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}
+           docker pull ${{ steps.login-ecr.outputs.registry }}/trinity-repo:${{ github.sha }}
+
+           # 컨테이너 중지 및 삭제
+           docker stop trinity-container || true
+           docker rm trinity-container || true
+           
+           # 새 컨테이너 시작
+           docker run -d --name trinity-container \
+             -p 5173:5173 \
+             --restart unless-stopped \
+             --env-file /home/ec2-user/TRI-FE/.env \
+             ${{ steps.login-ecr.outputs.registry }}/trinity-repo:${{ github.sha }}
+           
+           # 사용하지 않는 컨테이너 정리
+           docker container prune -f
+           
+           # 사용하지 않는 이미지 정리
+           docker image prune -a -f
+                
+                 
+     - name: Send Discord Notification
+       if: success()
+       uses: sarisia/actions-status-discord@v1
+       with:
+         webhook: ${{ secrets.DISCORD_WEBHOOK }}
+         title: "🚀 배포 완료!"
+         description: |
+           Repository: ${{ github.repository }}
+           Branch: ${{ github.ref_name }}
+           Commit: ${{ github.event.head_commit.message }}
+           배포가 성공적으로 완료되었습니다.
+         color: 0x28A745 
+
+     - name: Send Discord Notification on Failure
+       if: failure()
+       uses: sarisia/actions-status-discord@v1
+       with:
+         webhook: ${{ secrets.DISCORD_WEBHOOK }}
+         title: "❌ 배포 실패!"
+         description: |
+           Repository: ${{ github.repository }}
+           Branch: ${{ github.ref_name }}
+           Commit: ${{ github.event.head_commit.message }}
+           배포 중 오류가 발생했습니다.
+         color: 0xE01E5A

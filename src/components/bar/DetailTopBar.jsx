@@ -2,11 +2,14 @@ import * as style from "./style/DetailTopBar.js";
 import {useNavigate} from "react-router-dom";
 import SaveButton from "../save/SaveButton.jsx";
 import useLike from "../../hooks/useLike.js";
+import { useScroll } from "../../context/ScrollContext.jsx";
+import { useLikeContext } from "../../context/LikeContext.jsx";
+
 
 // eslint-disable-next-line react/prop-types
-const DetailTopBar = ({name, isScrolled, id, wishCount, ...props}) => {
+const DetailTopBar = ({name,isScrolled, id, wishCount, ...props}) => {
     const nav = useNavigate();
-    const { likeCount, isSaved, handleLike } = useLike(id, wishCount);
+    const {isSaved, handleLike}  =  useLikeContext();
 
     return (
         <style.TopBarContainer>
@@ -18,7 +21,7 @@ const DetailTopBar = ({name, isScrolled, id, wishCount, ...props}) => {
             <style.HomeButtonContainer onClick={() => {
                 nav("/")
             }}>
-                <span className="material-symbols-outlined" style={{fontSize: "23px" , color: "black"}} >home</span>
+                <span className="material-icons-outlined" style={{fontSize: "23px" , color: "black"}} >home</span>
             </style.HomeButtonContainer>
             <style.TitleContainer data-testid="detail-topbar-name">
                 {isScrolled ? name : null}

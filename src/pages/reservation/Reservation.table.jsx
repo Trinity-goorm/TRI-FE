@@ -6,6 +6,7 @@ import { ModalContainer } from "../../components/modal/style/Modal.js";
 //API
 import PostVacancySeat from "../../api/vacancy/post/PostVacancySeat.js";
 
+
 const ReservationTable = ({
   dataList,
   onSelectTimeChange,
@@ -13,6 +14,7 @@ const ReservationTable = ({
   openConfirmModal,
   isToday,
 }) => {
+
   const [selectTime, setSelectTime] = useState(null);
   const [selectSeat, setSelectSeat] = useState(null);
   const [vacancySeatId, setVacancySeatId] = useState(null);

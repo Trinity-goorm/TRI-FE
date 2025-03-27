@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const PaymentTopBar = ({setIsTimeOver}) => {
 
     const navigate = useNavigate();
-    const [timeLeft, setTimeLeft] = useState(15);
+    const [timeLeft, setTimeLeft] = useState(60);
     const [isTimeOk, setIsTimeOk] = useState(true);
 
     useEffect(() => {

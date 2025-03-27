@@ -10,6 +10,9 @@ export const TotalContainer = styled.div`
 
 
 
+
+
+
 `;
 export const TitleContainer = styled.div`
     width: 92%;
@@ -34,20 +37,23 @@ export const TitleExplain = styled.span`
     margin-top: 5px;
     color: gray;
 `;
+
 export const ContentSlider = styled.div`
     display: flex;
     flex-direction: row;
     overflow-x: auto;
     scroll-behavior: smooth;
     white-space: nowrap;
-    width: 100%;
+    width: 95%;
     margin-left: 13px;
-    margin-top: 10px;
   
-    padding: 10px 0px;
+    padding: 20px 0px;
     &::-webkit-scrollbar {
         display: none;
     };
+ 
+
+
     
 `;
 

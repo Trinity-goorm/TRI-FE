@@ -23,6 +23,7 @@ export const TotalContainer = styled.div`
     border-radius: 20px 20px 0px 0px;
     padding: 15px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+    
 `;
 export const CalendarContainer = styled.div`
     width: 100%;
