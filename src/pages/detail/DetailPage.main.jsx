@@ -7,7 +7,8 @@ import MenuComponent from "../../components/menu/MenuComponent.jsx";
 import DetailInfo from "../detail/DetailPage.DetailInfo.jsx";
 import DetailBottomBar from "../../components/bar/DetailBottomBar.jsx";
 import DetailLocation from "../../pages/detail/DetailPage.Location.jsx";
-import ReservationModal from "../../pages/reservation/Reservation.modal.jsx"
+import ReservationModal from "../../pages/reservation/Reservation.modal.jsx";
+
 //API
 import getRestaurantDetail from "../../api/detail/get/GetRestaurantDetail.js";
 import { ScrollProvider } from "../../context/ScrollContext.jsx";
@@ -15,6 +16,7 @@ import ProfilerTableLogWrapper from "../../components/search/ProfilerTableLogWra
 
 //Context
 import {LikeProvider} from "../../context/LikeContext.jsx";
+
 
 const DetailPage = () => {
     const {id} = useParams();
@@ -26,6 +28,7 @@ const DetailPage = () => {
     const [averagePrice, setAveragePrice] = useState(0);
 
     const [remoteSelectDate, setRemoteSelectDate] = useState(null);
+    const [isScrolled, setIsScrolled] = useState(false);
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -53,13 +56,12 @@ const DetailPage = () => {
     };
 
 
-
     useEffect(() => {
         const handleScroll = () => {
-            const scrolled = window.scrollY > 200;
-            if (isScrolledRef.current !== scrolled) {
-                isScrolledRef.current = scrolled;
-                setIsScrolled(scrolled); // ✅ 상태 변경으로 하위 컴포넌트 리렌더링 유도
+            if (window.scrollY > 200) {
+                setIsScrolled(true);
+            } else {
+                setIsScrolled(false);
             }
         };
         window.addEventListener("scroll", handleScroll);
@@ -191,7 +193,6 @@ const DetailPage = () => {
                 </ScrollProvider>
             </ProfilerTableLogWrapper>
         </LikeProvider>
-
 
     )
 };
