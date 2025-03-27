@@ -2,17 +2,14 @@ import './App.css';
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 // ✅ 전역 컴포넌트는 미리 로드 (초기 로딩 최적화)
 import NotificationHandler from './service/foregroundMessage.js';
 import NotificationModal from './components/modal/NotificationModal.jsx';
 
-// const NotificationHandler = lazy(() =>
-//   import('./service/foregroundMessage.js')
-// );
-// const NotificationModal = lazy(() =>
-//   import('./components/modal/NotificationModal.jsx')
-// );
+const queryClient = new QueryClient();
 
 // ✅ 페이지별 코드 스플리팅 (lazy 로드)
 const HomePage = lazy(() => import('./pages/home/HomePage.main.jsx'));
@@ -50,43 +47,49 @@ const Onboarding = lazy(() => import('./pages/onboarding/Onboarding.jsx'));
 function App() {
   return (
     <RecoilRoot>
-      <Router>
-        {/* ✅ Suspense로 코드 스플리팅된 컴포넌트 감싸기 */}
-        <Suspense fallback={<div>Loading...</div>}>
-          <NotificationHandler />
-          <NotificationModal />
-          <Routes>
-            <Route path='*' element={<HomePage />} />
-            <Route path='/' element={<HomePage />} />
-            <Route path='/login' element={<KakaoLogin />} />
-            <Route path='/kakao/callback' element={<KakaoCallback />} />
-            <Route path='/onboarding' element={<Onboarding />} />
-            <Route path='/mydining' element={<MyDiningPage />} />
-            <Route path='/mypage' element={<MyPage />} />
-            <Route path='/detail/:id' element={<DetailPage />} />
-            <Route path='/search' element={<Search />} />
-            <Route
-              path='/search/total/category'
-              element={<SearchCategoryTotal />}
-            />
-            <Route path='/search/total' element={<SearchKeywordTotal />} />
-            <Route path='/reservation/:id' element={<ReservationMainPage />} />
-            <Route
-              path='/reservation/confirm/:id'
-              element={<ReservationConfirm />}
-            />
-            <Route
-              path='/reservation/payment'
-              element={<ReservationPaymentPage />}
-            />
-            <Route
-              path='/mydining/reservation'
-              element={<MyDiningReservation />}
-            />
-            <Route path='/mydining/vacancy' element={<MyDiningVacancy />} />
-          </Routes>
-        </Suspense>
-      </Router>
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          {/* ✅ Suspense로 코드 스플리팅된 컴포넌트 감싸기 */}
+          <Suspense fallback={<div>Loading...</div>}>
+            <NotificationHandler />
+            <NotificationModal />
+            <Routes>
+              <Route path='*' element={<HomePage />} />
+              <Route path='/' element={<HomePage />} />
+              <Route path='/login' element={<KakaoLogin />} />
+              <Route path='/kakao/callback' element={<KakaoCallback />} />
+              <Route path='/onboarding' element={<Onboarding />} />
+              <Route path='/mydining' element={<MyDiningPage />} />
+              <Route path='/mypage' element={<MyPage />} />
+              <Route path='/detail/:id' element={<DetailPage />} />
+              <Route path='/search' element={<Search />} />
+              <Route
+                path='/search/total/category'
+                element={<SearchCategoryTotal />}
+              />
+              <Route path='/search/total' element={<SearchKeywordTotal />} />
+              <Route
+                path='/reservation/:id'
+                element={<ReservationMainPage />}
+              />
+              <Route
+                path='/reservation/confirm/:id'
+                element={<ReservationConfirm />}
+              />
+              <Route
+                path='/reservation/payment'
+                element={<ReservationPaymentPage />}
+              />
+              <Route
+                path='/mydining/reservation'
+                element={<MyDiningReservation />}
+              />
+              <Route path='/mydining/vacancy' element={<MyDiningVacancy />} />
+            </Routes>
+          </Suspense>
+        </Router>
+        <ReactQueryDevtools />
+      </QueryClientProvider>
     </RecoilRoot>
   );
 }

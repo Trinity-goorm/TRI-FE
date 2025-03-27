@@ -50,7 +50,6 @@ export const RestListWrapper = styled.div`
     const calculatedHeight = $listSize * $itemHeight;
     return `${calculatedHeight}px`;
   }};
-  margin-bottom: ${({ $isLodingMore }) => ($isLodingMore ? '50px' : '0px')};
 `;
 
 export const ArrowBackIcon = styled.span`

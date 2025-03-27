@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
-//import { MdClose } from "react-icons/md";
-//import { IoMdCheckmark } from "react-icons/io";
 
 const SortModal = ({ isOpen, closeModal, sortType, clickSortHandler }) => {
   useEffect(() => {

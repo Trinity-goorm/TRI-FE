@@ -14,8 +14,6 @@ const NotificationModal = () => {
   const [notification, setNotification] = useRecoilState(notificationState);
   const modalRef = useRef(null);
 
-  console.log(notification);
-
   const handleClose = () => {
     setNotification({ ...notification, isModalOpen: false });
   };

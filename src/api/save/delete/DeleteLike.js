@@ -1,11 +1,11 @@
-import requestHandler from "../../requestHandler.js";
+import requestHandler from '../../requestHandler.js';
 
 const DeleteLike = async (restaurantId) => {
   return requestHandler({
-    method: "DELETE",
+    method: 'DELETE',
     endpoint: `/restaurants/like/${restaurantId}`,
-    successMessage: "찜하기 취소 성공",
-    errorMessage: "찜하기 취소 실패",
+    successMessage: '찜하기 취소 성공',
+    errorMessage: '찜하기 취소 실패',
   });
 };
 
