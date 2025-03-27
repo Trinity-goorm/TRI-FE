@@ -46,7 +46,7 @@ const TotalRestItem = ({ restaurant, isSaved }) => {
   return (
     <TotalRestItemContainer
       onClick={() => {
-        nav(`/detail/${restaurant.restuarantId}`);
+        nav(`/detail/${restaurant.restaurantId}`);
       }}
     >
       <TopContainer>
