@@ -4,7 +4,7 @@ import SaveButton from '../save/SaveButton.jsx';
 import ReservationButton from '../button/ReservationButton.jsx';
 import useLike from '../../hooks/useLike.js';
 
-import { useLikeContext } from '../../context/LikeContext.jsx';
+import { useLikeContext } from "../../context/LikeContext.jsx";
 
 const DetailBottomBar = ({
   id,

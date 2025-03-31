@@ -17,11 +17,10 @@ export const TimeSlotTotalContainer = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    overflow-y: auto;
+    overflow-x: auto;
     white-space: nowrap;
     padding: 5px;
     margin-top: 15px;
-  
     
     &::-webkit-scrollbar {
         display: none;

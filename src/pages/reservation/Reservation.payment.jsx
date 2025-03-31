@@ -13,24 +13,30 @@ import { PaymentProvider } from "../../context/PaymentContext.jsx";
 import { PaymentTicketProvider } from "../../context/PaymentTicketContext.jsx";
 
 const ReservationPaymentPage = () => {
-  const restaurantId = useParams().id;
   const location = useLocation();
   const navigate = useNavigate();
   const preoccupyData = location.state;
   const reservationId = preoccupyData.reservationId;
   const [isTimeOver, setIsTimeOver] = useState(false);
 
-  console.log(reservationId, "reservationId", preoccupyData);
 
     useEffect(() => {
-    // 현재 페이지에서 뒤로 가기를 막음
-    window.history.pushState(null, "", window.location.href);
-    const handleBack = () => {
-      window.history.pushState(null, "", window.location.href);
+      const handleBack = async () => {
+       const confirm = window.confirm("뒤로 가면 예약 선점이 취소됩니다!");
+        if (confirm) {
+          try{
+            const response = await postPreoccupyCancel(reservationId);
+            console.log("☕ 뒤로 가기 눌러서 예약 선점 취소 성공:", response);
+            navigate("/");
+
+           } catch (error){
+            console.error("💀예약 선점 취소 실패", error);
+        }
+      }
     };
 
     window.addEventListener("popstate", handleBack);
-    return () => {
+  return () => {
       window.removeEventListener("popstate", handleBack);
     };
   }, []);
@@ -49,7 +55,7 @@ const ReservationPaymentPage = () => {
         console.log("☕ 예약 선점 취소 성공:", response);
 
       } catch (error) {
-        console.error("💀예약 선점 실패", error);
+        console.error("💀예약 선점 취소 실패", error);
       }
     };
     preoccupyCancel();
@@ -59,7 +65,10 @@ const ReservationPaymentPage = () => {
     if (!reservationId) {
       console.log("예약 번호가 유효하지 않습니다");
       return
-    };
+    }
+    if (isTimeOver){
+      alert("다시 예약을 진행해 주세요!");
+    }
     try {
       const response = await postReservationComplete(reservationId);
       console.log("☕ 예약 결제 성공:", response);
@@ -78,7 +87,7 @@ const ReservationPaymentPage = () => {
         <PaymentTicketProvider>
           <style.TotalContainer>
             <style.TopBarContainer>
-              <PaymentTopBar setIsTimeOver={setIsTimeOver}/>
+              <PaymentTopBar setIsTimeOver={setIsTimeOver} reservationId={reservationId} />
             </style.TopBarContainer>
             <style.InnerContentContainer>
               <style.ReservationInfoContainer>

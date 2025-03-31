@@ -10,7 +10,7 @@ import { useEffect } from "react";
 
 const ReservationConfirm = () => {
   const restaurantId = useParams().id;
-  console.log(restaurantId);
+
   const location = useLocation();
   const reservation = location.state;
   const [isTicketLack, setIsTicketLack] = useState(false);

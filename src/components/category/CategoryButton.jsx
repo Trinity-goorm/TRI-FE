@@ -1,31 +1,24 @@
 import * as style from "./style/CategoryButton.js";
 import { useNavigate } from "react-router-dom";
-import {useEffect, useRef} from "react";
+//hooks
+import useInView from "../../hooks/useInView.js";
 
 const CategoryButton = ({ id, image, name }) => {
   const nav = useNavigate();
-  const imgRef = useRef(null);
-
-  useEffect(() => {
-    const callback = (entries, observer) => {
-      entries.forEach(entry => {
-
-        if(entry.isIntersecting) {
-          entry.target.src = entry.target.dataset.src;
-          observer.unobserve(entry.target);
-        }
-      })
-    };
-
-    const observer = new IntersectionObserver(callback, {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.3});
-    requestAnimationFrame(() => {
-      if (imgRef.current) observer.observe(imgRef.current);
+  const imgRef = useInView((entries, observer)=>{
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.src = entry.target.dataset.src;
+        observer.unobserve(entry.target);
+      }
     });
-    return () => observer.disconnect();
-  })
+  },
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.3,
+      }
+  );
 
   return (
     <style.TotalContainer
