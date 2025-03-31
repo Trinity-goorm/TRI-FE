@@ -7,8 +7,11 @@ import ReservationTable from "../../pages/reservation/Reservation.table.jsx";
 import GetAvailableSeat from "../../api/reservation/get/GetAvailableSeat.js";
 
 //Recoil
-import {useRecoilValue} from "recoil";
+import {useRecoilValue, useSetRecoilState} from "recoil";
 import {userState} from "../../atoms/userState.js";
+import { reservationState } from "../../atoms/reservationState";
+
+
 
 //formatDate 변환 함수
 const formatDate = (date) => {
@@ -19,25 +22,24 @@ const formatDate = (date) => {
 
 const ReservationModal = ({name, isOpen, closeModal, children, restaurantId, remoteSelectDate, ...props}) => {
 
-    const userInfo = useRecoilValue(userState);
-    const userId = userInfo.userId;
+
     const [selectDate, setSelectDate] = useState(formatDate(new Date()));
     const [isToday, setIsToday] = useState(true);
-    const [isVisible, setIsVisible] = useState(false);
 
-    const [reservation, setReservation] = useState({
-        userId: userId,
-        restaurantId: restaurantId,
-        selectedDate: selectDate,
-        reservationTime: null,
-        seatTypeId: null,
-        seatType: null,
+    const setReservation = useSetRecoilState(reservationState);
+    useEffect(() => {
+        if (restaurantId) {
+            setReservation({
+                restaurantId,
+                selectedDate: selectDate,
+                reservationTime: null,
+                seatTypeId: null,
+                seatType: null,
+            });
+        }
+    }, [restaurantId, selectDate]);
 
-    });
     const [availableSeats, setAvailableSeats] = useState([]);
-
-    const navigate = useNavigate();
-
 
     //API 호출
     const fetchReservationData = async (restaurantId, selectDate) => {
@@ -54,14 +56,7 @@ const ReservationModal = ({name, isOpen, closeModal, children, restaurantId, rem
         }
     };
 
-    //useEffect 모음
-    useEffect(() => {
-        console.log("🍎예약 정보", reservation);
-        if (reservation.seatType) {
 
-            openConfirmModal();
-        }
-    }, [reservation.seatType]);
 
     useEffect(() => {
         fetchReservationData(restaurantId, selectDate);
@@ -75,7 +70,7 @@ const ReservationModal = ({name, isOpen, closeModal, children, restaurantId, rem
 
 
 
-    const onSelectDateChange = (date) => {
+  const onSelectDateChange = (date) => {
         const formattedDate = formatDate(date);
         setReservation((prev) => (
             {
@@ -87,29 +82,10 @@ const ReservationModal = ({name, isOpen, closeModal, children, restaurantId, rem
         setIsToday(date.toDateString() === new Date().toDateString());
     };
 
-    const onSelectTimeChange = (time) => {
-        setReservation((prev) => ({
-            ...prev,
-            reservationTime: time,
-        }))
-    };
 
-    const onSelectSeatChange = (seatType) => {
-        setReservation((prev) => ({
-            ...prev,
-            seatType: seatType,
-            seatTypeId: seatType.seatTypeId
-        }))
+    if (!isOpen) {
+        return null
     }
-
-    if (!isOpen) return null;
-
-    const openConfirmModal = () => {
-        navigate(`/reservation/confirm/${restaurantId}`,
-            {
-                state: reservation,
-            });
-    };
 
     const onClickClose = () => {
         closeModal();
@@ -124,9 +100,9 @@ const ReservationModal = ({name, isOpen, closeModal, children, restaurantId, rem
                     <CustomCalendar onSelectDate={onSelectDateChange} selectedDate={selectDate} />
                 </style.CalendarContainer>
                 <style.ReservationContainer>
-                    <ReservationTable dataList = {availableSeats} onSelectTimeChange={onSelectTimeChange}
-                                      onSelectSeatChange={onSelectSeatChange} openConfirmModal={openConfirmModal}
+              <ReservationTable dataList = {availableSeats}
                                       isToday={isToday}
+                                      restaurantId={restaurantId}
                     />
                 </style.ReservationContainer>
                 <style.CloseButtonContainer onClick={onClickClose}>

@@ -1,12 +1,12 @@
 import requestHandler from "../../requestHandler.js";
 
-const PostPreoccupy = async (reservationId) => {
+const PostPreoccupyCancel = async (reservationId) => {
   return requestHandler({
     method: "POST",
     endpoint: `/reservations/preoccupy/cancel?reservationId=${reservationId}`,
-    successMessage: "선점 성공",
-    errorMessage: "선점 실패",
+    successMessage: "선점 취소 성공",
+    errorMessage: "선점 취소 실패",
   });
 };
 
-export default PostPreoccupy;
+export default PostPreoccupyCancel;

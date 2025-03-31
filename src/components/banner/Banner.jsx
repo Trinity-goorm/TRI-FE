@@ -25,7 +25,6 @@ const bannerImports = Object.entries(bannerModules)
         return getNumber(a) - getNumber(b);
     })
     .map(([_, fn]) => fn);
-console.log(bannerImports);
 
 const Banner = memo(() => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -66,7 +65,6 @@ const Banner = memo(() => {
         <style.SliderContainer>
             <Suspense fallback={<div>Loading Banner...</div>}>
                 {loadedBanners.map((image, index) => {
-                    console.log(image);
                     return (
                         <style.Slide key={index} active={index === currentIndex}>
                             <img src={image} alt={`Banner ${index + 1}`}/>
