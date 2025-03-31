@@ -1,11 +1,10 @@
 import * as style from './style/SearchTotal.js';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import TotalRestList from './list/TotalRestList';
-import SortModal from '../modal/SortModal';
 import LoadingBar from '../loadingBar/LoadingBar';
 import LoadingMoreBar from '../loadingBar/LoadingMoreBar';
 import NoResultsFound from './NoResultsFound';
-import ProfilerTableLogWrapper from './ProfilerTableLogWrapper.jsx';
+import { useGetLikeRestId } from '../../api/queries/userLikeQueries.js';
 
 const type = {
   highest_rating: '별점순',
@@ -13,11 +12,11 @@ const type = {
   lowest_average_price: '가격 낮은순',
 };
 
-const ITEM_HEIGHT = 310;
+const ITEM_HEIGHT = 335;
 const NODE_PADDING = 1;
 
 const SearchTotal = ({
-  fetchDataFn,
+  fetchQueryFn,
   searchValue,
   navPath,
   backPath,
@@ -25,9 +24,23 @@ const SearchTotal = ({
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [sortType, setSortType] = useState('highest_rating');
-  const [restaurantList, setRestaurantList] = useState([]);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [SortModalComponent, setSortModalComponent] = useState(null);
+
+  const { data: likeRestIds } = useGetLikeRestId();
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
+    fetchQueryFn(searchValue, sortType);
+
+  // 정렬 모달
+  const handleMouseEnter = async () => {
+    if (!SortModalComponent) {
+      const { default: component } = await import('../modal/SortModal');
+      setSortModalComponent(() => component);
+    }
+  };
+  const clickSortHandler = (type) => {
+    setSortType(type);
+    setIsModalOpen(false);
+  };
 
   // 가상 스크롤
   const [scrollState, setScrollState] = useState({
@@ -36,8 +49,8 @@ const SearchTotal = ({
   });
   const isThrottle = useRef(false);
 
-  const updateVisibleItemsWithList = (list) => {
-    const totalItems = list.length;
+  const updateVisibleItems = () => {
+    const totalItems = data?.allData.length;
     let startNode = Math.floor(window.scrollY / ITEM_HEIGHT) - NODE_PADDING;
     startNode = Math.max(0, startNode);
 
@@ -45,28 +58,17 @@ const SearchTotal = ({
       Math.ceil(window.innerHeight / ITEM_HEIGHT) + 2 * NODE_PADDING;
     visibleNodesCount = Math.min(visibleNodesCount, totalItems - startNode);
 
-    const visibleChildren = list.slice(
+    const visibleChildren = data?.allData.slice(
       startNode,
       startNode + visibleNodesCount
     );
     const offsetY = startNode * ITEM_HEIGHT;
 
     setScrollState({ visibleList: visibleChildren, offsetY });
-
-    // setScrollState((prevState) => {
-    //   const isVisibleListSame =
-    //     prevState.visibleList.length === visibleChildren.length &&
-    //     prevState.visibleList.every((item, i) => item === visibleChildren[i]);
-    //   const isOffsetYSame = prevState.offsetY === offsetY;
-
-    //   if (isVisibleListSame && isOffsetYSame) return prevState;
-    //   return { visibleList: visibleChildren, offsetY };
-    // });
   };
 
-  const updateVisibleItems = () => updateVisibleItemsWithList(restaurantList);
-
   useEffect(() => {
+    updateVisibleItems();
     const handleScroll = () => {
       if (isThrottle.current) return;
 
@@ -77,50 +79,29 @@ const SearchTotal = ({
       }, 100);
 
       if (
-        !loading &&
-        window.innerHeight + window.scrollY >= document.body.offsetHeight
+        !isFetchingNextPage &&
+        hasNextPage &&
+        window.innerHeight + window.scrollY >= document.body.offsetHeight - 150
       ) {
-        setPage((prevPage) => prevPage + 1);
+        fetchNextPage();
       }
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [restaurantList]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const response = await fetchDataFn(searchValue, page, sortType);
-        const newList =
-          page === 1 ? response : [...restaurantList, ...response];
-        setRestaurantList(newList);
-        updateVisibleItemsWithList(newList);
-
-        if (response.length < 30) {
-          setLoading(null);
-        } else {
-          setLoading(false);
-        }
-      } catch (error) {
-        console.error('💀데이터 로드 실패', error);
-      }
-    };
-
-    if (loading !== null) {
-      fetchData();
-    }
-  }, [page, sortType]);
-
-  const clickSortHandler = (type) => {
-    setSortType(type);
-    setIsModalOpen(false);
-    setPage(1);
-  };
+  }, [isFetchingNextPage, hasNextPage, data]);
 
   return (
     <>
+      {SortModalComponent && (
+        <SortModalComponent
+          isOpen={isModalOpen}
+          closeModal={() => setIsModalOpen(false)}
+          sortType={sortType}
+          clickSortHandler={clickSortHandler}
+        />
+      )}
+
       <style.SearchKeyword onClick={navPath}>
         <style.SearchKeywordContainer>
           <style.ArrowBackIcon
@@ -145,48 +126,31 @@ const SearchTotal = ({
         </style.SearchKeywordContainer>
       </style.SearchKeyword>
 
-      <style.SortButton onClick={() => setIsModalOpen(true)}>
+      <style.SortButton
+        onClick={() => setIsModalOpen(true)}
+        onMouseEnter={handleMouseEnter}
+      >
         {type[sortType]}
         <style.ArrowDownIcon className='material-icons'>
           keyboard_arrow_down
         </style.ArrowDownIcon>
       </style.SortButton>
-      <SortModal
-        isOpen={isModalOpen}
-        closeModal={() => setIsModalOpen(false)}
-        sortType={sortType}
-        clickSortHandler={clickSortHandler}
-      />
 
-      {loading && page === 1 && <LoadingBar />}
-      {!loading && restaurantList.length === 0 && <NoResultsFound />}
-      {!loading && restaurantList.length > 0 && (
+      {isLoading && <LoadingBar />}
+      {!isLoading && data?.allData.length === 0 && <NoResultsFound />}
+      {!isLoading && data?.allData.length > 0 && (
         <style.RestListWrapper
-          $listSize={restaurantList?.length}
+          $listSize={data?.allData.length}
           $itemHeight={ITEM_HEIGHT}
-          $isLodingMore={false}
         >
           <TotalRestList
             restaurantList={scrollState.visibleList}
             offsetY={scrollState.offsetY}
+            likeRestIds={likeRestIds}
           />
         </style.RestListWrapper>
       )}
-      {loading && restaurantList.length > 0 && (
-        <>
-          <style.RestListWrapper
-            $listSize={restaurantList?.length}
-            $itemHeight={ITEM_HEIGHT}
-            $isLodingMore={true}
-          >
-            <TotalRestList
-              restaurantList={scrollState.visibleList}
-              offsetY={scrollState.offsetY}
-            />
-          </style.RestListWrapper>
-          <LoadingMoreBar />
-        </>
-      )}
+      {isFetchingNextPage && <LoadingMoreBar />}
     </>
   );
 };

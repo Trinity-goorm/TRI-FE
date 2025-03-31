@@ -1,50 +1,20 @@
 import styled from 'styled-components';
 import TotalRestItem from '../item/TotalRestItem';
-import React, { useCallback } from 'react';
+import React from 'react';
 
-const TotalRestList = ({ restaurantList, offsetY }) => {
+const TotalRestList = ({ restaurantList, offsetY, likeRestIds }) => {
   return (
     <TotalRestListContainer $offsetY={offsetY}>
       {restaurantList?.map((item, index) => (
         <TotalRestItem
           key={`${item.restaurantId}-${index}`}
-          id={item.restaurantId}
-          name={item.name}
-          imgUrls={item.imageUrls}
-          category={item.category}
-          location={item.location}
-          rating={item.rating}
-          operatingHour={item.operatingHours}
-          averagePrice={item.averagePrice}
-          isSaved={item.wishlisted}
-          reservation={item.reservation}
+          restaurant={item}
+          isSaved={likeRestIds?.includes(item.restaurantId)}
         />
       ))}
     </TotalRestListContainer>
   );
 };
-
-// const TotalRestList = React.memo(({ restaurantList, offsetY }) => {
-//   return (
-//     <TotalRestListContainer $offsetY={offsetY}>
-//       {restaurantList?.map((item, index) => (
-//         <TotalRestItem
-//           key={`${item.restaurantId}-${index}`}
-//           id={item.restaurantId}
-//           name={item.name}
-//           imgUrls={item.imageUrls}
-//           category={item.category}
-//           location={item.location}
-//           rating={item.rating}
-//           operatingHour={item.operatingHours}
-//           averagePrice={item.averagePrice}
-//           isSaved={item.wishlisted}
-//           reservation={item.reservation}
-//         />
-//       ))}
-//     </TotalRestListContainer>
-//   );
-// });
 
 const TotalRestListContainer = styled.div`
   background-color: #eeeeee;

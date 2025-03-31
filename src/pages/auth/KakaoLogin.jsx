@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import SocialKakaoButton from "../../components/button/SocialKakaoButton";
-import { useState, useEffect } from "react";
+import styled from 'styled-components';
+import SocialKakaoButton from '../../components/button/SocialKakaoButton';
+import { useState, useEffect } from 'react';
 
 const Login = () => {
   const Rest_api_key = import.meta.env.VITE_APP_API_KEY;
@@ -20,8 +20,8 @@ const Login = () => {
 
   // 로그인 버튼 클릭
   const handleLogin = () => {
-    if (permission === "granted") window.location.href = kakaoURL;
-    else if (permission === "denied") setShowWarning(true);
+    if (permission === 'granted') window.location.href = kakaoURL;
+    else if (permission === 'denied') setShowWarning(true);
   };
 
   return (
