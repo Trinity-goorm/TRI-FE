@@ -32,7 +32,7 @@ const RecommendComponent = () => {
       <ProfileComponent id="recommend-list">
         <style.TotalContainer>
           <style.TitleContainer>
-            <style.Title>✨ {userName} 님이 좋아할 매장 ✨</style.Title>
+            <style.Title>✨ {userName} 님이 좋아할 매장 입니다! ✨</style.Title>
             <style.TitleExplain>마음에 들 만한 곳을 모아봤어요!</style.TitleExplain>
           </style.TitleContainer>
           <style.ContentSlider>
