@@ -24,7 +24,7 @@ export const useDraggable = (scrollRef) => {
     },[])
 
     const onDragStart = (e) => {
-        preventUnexpectedEffects(e);
+        //preventUnexpectedEffects(e);
         setIsDragging(true);
         const x = e.clientX;
         setStartX(x);
@@ -49,7 +49,7 @@ export const useDraggable = (scrollRef) => {
         const dragDiff = Math.abs(startX - endX);
         const childNodes = Array.from(scrollRef.current.childNodes);
 
-        if (dragDiff > 10){
+     /*   if (dragDiff > 10){
             childNodes.forEach((child) => {
                 child.addEventListener('click', preventUnexpectedEffects);
             })
@@ -57,7 +57,7 @@ export const useDraggable = (scrollRef) => {
             childNodes.forEach((child) => {
                 child.removeEventListener('click', preventUnexpectedEffects);
             })
-        }
+        }*/
     };
 
     return {
