@@ -3,6 +3,7 @@ import {useState, useEffect, useMemo, useRef} from 'react';
 import RecommendFeed from '../../components/recommend/RecommendFeed.jsx';
 import GetRecommendList from '../../api/recommend/get/GetRecommendList.js';
 import ProfileComponent from "../../components/search/ProfilerTableLogWrapper.jsx";
+import RecommendContentSlider from "../../components/recommend/RecommendContentSlider.jsx";
 
 //hooks
 import {useDraggable} from "../../hooks/useDraggable.js";
@@ -41,17 +42,7 @@ const RecommendComponent = () => {
             <style.Title>✨ {userName} 님이 좋아할 매장 입니다! ✨</style.Title>
             <style.TitleExplain>마음에 들 만한 곳을 모아봤어요!</style.TitleExplain>
           </style.TitleContainer>
-          <style.ContentSlider
-              ref={scrollRef}
-              onMouseDown={onMouseDown}
-              onMouseMove={onMouseMove}
-              onMouseUp={onMouseUp}
-              onMouseLeave={onMouseLeave}
-          >
-            {recommendList?.map((item, index) => (
-                <RecommendFeed item={item} key={index}/>
-            ))}
-          </style.ContentSlider>
+          <RecommendContentSlider recommendList={recommendList} />
         </style.TotalContainer>
       </ProfileComponent>
   );

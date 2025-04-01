@@ -7,6 +7,7 @@ import ProfileComponent from "../../components/search/ProfilerTableLogWrapper.js
 
 //hooks
 import useInView from "../../hooks/useInView.js";
+import {useState} from "react";
 
 const RecommendFeed = ({item}) => {
   const name = item?.name;
@@ -18,6 +19,7 @@ const RecommendFeed = ({item}) => {
   const id = item?.restaurantId;
   const wishlisted = item?.wishlisted;
   const { isLiked, toggleLike } = useSingleLike(id, wishlisted);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const formatLocation = (location) => {
     return location?.length > 9 ? `${location.slice(0, 10)}...` : location;
@@ -37,8 +39,9 @@ const RecommendFeed = ({item}) => {
 
   const imgRef = useInView((entries, observer) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
+      if (entry.isIntersecting && !isLoaded) {
         entry.target.src = entry.target.dataset.src;
+        setIsLoaded(true);
         observer.unobserve(entry.target);
       }
     });
