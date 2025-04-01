@@ -1,9 +1,13 @@
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import useModal from '../../hooks/useSortModal';
+import { SORT_OPTIONS } from '../../constants/sortOptions';
 
-const SortModal = ({ isOpen, closeModal, sortType, clickSortHandler }) => {
+const SortModal = () => {
+  const { isModalOpen, sortType, closeModal, changeSortType } = useModal();
+
   useEffect(() => {
-    if (isOpen) {
+    if (isModalOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'auto';
@@ -11,48 +15,36 @@ const SortModal = ({ isOpen, closeModal, sortType, clickSortHandler }) => {
     return () => {
       document.body.style.overflow = 'auto';
     };
-  }, [isOpen]);
+  }, [isModalOpen]);
 
   return (
-    <SortModalContainer $isOpen={isOpen} onClick={closeModal}>
-      <ModalContentContainer $isOpen={isOpen}>
+    <SortModalContainer $isOpen={isModalOpen} onClick={closeModal}>
+      <ModalContentContainer
+        $isOpen={isModalOpen}
+        onClick={(e) => e.stopPropagation()}
+      >
         <SortText>
           정렬
-          <CloseIcon className='material-icons'>close</CloseIcon>
+          <CloseIcon className='material-icons' onClick={closeModal}>
+            close
+          </CloseIcon>
         </SortText>
-        <SortComment
-          $sortType={sortType === 'highest_rating'}
-          onClick={() => {
-            clickSortHandler('highest_rating');
-          }}
-        >
-          {sortType === 'highest_rating' ? (
-            <CheckIcon className='material-icons'>check</CheckIcon>
-          ) : null}
-          별점순
-        </SortComment>
-        <SortComment
-          $sortType={sortType === 'highest_average_price'}
-          onClick={() => {
-            clickSortHandler('highest_average_price');
-          }}
-        >
-          {sortType === 'highest_average_price' ? (
-            <CheckIcon className='material-icons'>check</CheckIcon>
-          ) : null}
-          가격 높은순
-        </SortComment>
-        <SortComment
-          $sortType={sortType === 'lowest_average_price'}
-          onClick={() => {
-            clickSortHandler('lowest_average_price');
-          }}
-        >
-          {sortType === 'lowest_average_price' ? (
-            <CheckIcon className='material-icons'>check</CheckIcon>
-          ) : null}
-          가격 낮은순
-        </SortComment>
+
+        {SORT_OPTIONS.map(({ key, label }) => (
+          <SortComment
+            key={key}
+            $sortType={sortType === key}
+            onClick={() => {
+              changeSortType(key);
+              closeModal();
+            }}
+          >
+            {sortType === key && (
+              <CheckIcon className='material-icons'>check</CheckIcon>
+            )}
+            {label}
+          </SortComment>
+        ))}
       </ModalContentContainer>
     </SortModalContainer>
   );

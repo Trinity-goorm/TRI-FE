@@ -34,9 +34,9 @@ export default defineConfig({
     rollupOptions: {
       plugins: [
         visualizer({
-          template: 'sunburst',
-          gzipSize: true,
-          brotliSize: true,
+          // template: 'sunburst',
+          // gzipSize: true,
+          // brotliSize: true,
           filename: 'dist/stats.html',
           open: true,
         }),
