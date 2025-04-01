@@ -1,13 +1,19 @@
 import * as style from './style/RecommendList.main.js';
-import { useState, useEffect, useMemo } from 'react';
+import {useState, useEffect, useMemo, useRef} from 'react';
 import RecommendFeed from '../../components/recommend/RecommendFeed.jsx';
 import GetRecommendList from '../../api/recommend/get/GetRecommendList.js';
 import ProfileComponent from "../../components/search/ProfilerTableLogWrapper.jsx";
+import RecommendContentSlider from "../../components/recommend/RecommendContentSlider.jsx";
 
+//hooks
+import {useDraggable} from "../../hooks/useDraggable.js";
 
 const RecommendComponent = () => {
   const [userName, setUserName] = useState('');
   const [recommendList, setRecommendList] = useState([]);
+
+  const scrollRef = useRef(null);
+  const { onMouseDown, onMouseMove, onMouseUp, onMouseLeave } = useDraggable(scrollRef);
 
   // 추천 리스트 불러오기
   const fetchRecommendList = async () => {
@@ -30,16 +36,13 @@ const RecommendComponent = () => {
 
   return (
       <ProfileComponent id="recommend-list">
-        <style.TotalContainer>
+        <style.TotalContainer
+        >
           <style.TitleContainer>
-            <style.Title>✨ {userName} 님이 좋아할 매장 ✨</style.Title>
+            <style.Title>✨ {userName} 님이 좋아할 매장 입니다! ✨</style.Title>
             <style.TitleExplain>마음에 들 만한 곳을 모아봤어요!</style.TitleExplain>
           </style.TitleContainer>
-          <style.ContentSlider>
-            {recommendList?.map((item, index) => (
-                <RecommendFeed item={item} key={index}/>
-            ))}
-          </style.ContentSlider>
+          <RecommendContentSlider recommendList={recommendList} />
         </style.TotalContainer>
       </ProfileComponent>
   );

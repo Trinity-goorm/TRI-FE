@@ -38,9 +38,12 @@ self.addEventListener('notificationclick', (e) => {
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
+  const { title, body, url } = payload.data;
   console.log('📩 백그라운드 푸시 메시지 수신됨:', payload);
-  self.registration.showNotification(payload.data.title, {
-    body: payload.data.body,
+  self.registration.showNotification(title || '제목 없음', {
+    body: body || '내용 없음',
     icon: '/logo_test.png',
+    data: { url },
   });
 });
+
