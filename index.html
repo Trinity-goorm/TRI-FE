@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="preconnect" href="http://10.0.133.177:8080" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -19,19 +20,19 @@
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
 
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function () {
-      navigator.serviceWorker
-              .register('/firebase-messaging-sw.js')
-              .catch((error) => {
-                console.error(
-                        'Firebase Cloud Messaging service worker registration failed:',
-                        error
-                );
-              });
-    });
-  }
-</script>
-</body>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker
+            .register('/firebase-messaging-sw.js')
+            .catch((error) => {
+              console.error(
+                'Firebase Cloud Messaging service worker registration failed:',
+                error
+              );
+            });
+        });
+      }
+    </script>
+  </body>
 </html>

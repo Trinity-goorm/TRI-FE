@@ -1,15 +1,14 @@
 import styled from 'styled-components';
 import TotalRestItem from '../item/TotalRestItem';
-import React from 'react';
 
-const TotalRestList = ({ restaurantList, offsetY, likeRestIds }) => {
+const TotalRestList = ({ restaurantList, offsetY, likeIds }) => {
   return (
     <TotalRestListContainer $offsetY={offsetY}>
-      {restaurantList?.map((item, index) => (
+      {restaurantList?.map((item) => (
         <TotalRestItem
-          key={`${item.restaurantId}-${index}`}
+          key={`${item.restaurantId}`}
           restaurant={item}
-          isSaved={likeRestIds?.includes(item.restaurantId)}
+          isSaved={likeIds.includes(item.restaurantId)}
         />
       ))}
     </TotalRestListContainer>

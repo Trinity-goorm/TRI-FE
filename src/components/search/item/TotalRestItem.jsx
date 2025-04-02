@@ -13,6 +13,7 @@ import {
 } from '../../../api/queries/userLikeQueries.js';
 import Skeleton from '../../loadingBar/Skeleton.jsx';
 import { useState } from 'react';
+import React from 'react';
 
 const widthMap = {
   1: 440,
@@ -20,10 +21,11 @@ const widthMap = {
   3: 200,
 };
 
-const TotalRestItem = ({ restaurant, isSaved }) => {
+const TotalRestItem = React.memo(({ restaurant, isSaved }) => {
   const nav = useNavigate();
   const { mutate: postLike } = usePostLike();
   const { mutate: deleLike } = useDeleteLike();
+  const [imageLoadTimes, setImageLoadTimes] = useState({});
   const [loadedImages, setLoadedImages] = useState(
     new Array(restaurant.imageUrls.length).fill(false)
   );
@@ -35,12 +37,27 @@ const TotalRestItem = ({ restaurant, isSaved }) => {
     else deleLike(restaurant.restaurantId);
   };
 
+  const handleImageStartLoad = (index) => {
+    setImageLoadTimes((prev) => ({
+      ...prev,
+      [index]: performance.now(),
+    }));
+  };
+
   const handleImageLoad = (index) => {
-    setLoadedImages((prev) => {
-      const newLoadedImages = [...prev];
-      newLoadedImages[index] = true;
-      return newLoadedImages;
-    });
+    const startTime = imageLoadTimes[index];
+    const elapsedTime = performance.now() - startTime;
+
+    setTimeout(
+      () => {
+        setLoadedImages((prev) => {
+          const newLoadedImages = [...prev];
+          newLoadedImages[index] = true;
+          return newLoadedImages;
+        });
+      },
+      elapsedTime < 300 ? 0 : 300 - elapsedTime
+    );
   };
 
   return (
@@ -113,13 +130,14 @@ const TotalRestItem = ({ restaurant, isSaved }) => {
                       display: loadedImages[index] ? 'block' : 'none',
                     }}
                     onLoad={() => handleImageLoad(index)}
+                    onLoadStart={() => handleImageStartLoad(index)}
+                    // fetchPriority='high'
                   />
                 </picture>
               ) : (
                 <Image
                   src={imgSrc}
-                  alt={`restaurant-${index}`}
-                  onLoad={() => handleImageLoad(index)}
+                  alt={`restaurant-${restaurant.restaurantId}`}
                   $isLoaded={loadedImages[index]}
                   $isFirst={index === 0}
                   $isLast={index === restaurant.imageUrls.length - 1}
@@ -127,6 +145,9 @@ const TotalRestItem = ({ restaurant, isSaved }) => {
                   width={imgWidth}
                   height={150}
                   $loadedImages={loadedImages[index]}
+                  onLoad={() => handleImageLoad(index)}
+                  onLoadStart={() => handleImageStartLoad(index)}
+                  // fetchPriority={index === 0 || index === 1 ? 'high' : 'low'}
                 />
               )}
             </div>
@@ -169,7 +190,7 @@ const TotalRestItem = ({ restaurant, isSaved }) => {
       <SearchReservationList reservation={restaurant.reservation} />
     </TotalRestItemContainer>
   );
-};
+});
 
 const TotalRestItemContainer = styled.div`
   display: flex;
