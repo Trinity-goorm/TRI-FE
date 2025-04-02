@@ -41,7 +41,7 @@ const SearchTotal = ({ fetchQueryFn, searchValue }) => {
     setVisibleList((prev) => {
       if (
         prev?.length === visibleChildren?.length &&
-        prev.every((item, index) => item === visibleChildren[index])
+        prev?.every((item, index) => item === visibleChildren[index])
       ) {
         return prev;
       }
